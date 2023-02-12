@@ -1,6 +1,7 @@
 import pygame
 import button
 import crosshair
+import player
 
 # Initialize Pygame
 pygame.init()
@@ -34,16 +35,26 @@ background = pygame.image.load('landscape.jpg').convert_alpha()
 # Scale the background image to fit the screen size
 background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# create button instance
+# create button instances
 start_button = button.Button(SCREEN_WIDTH/5, SCREEN_HEIGHT/2.5, start_img, start_img2)
 quit_button = button.Button(SCREEN_WIDTH/1.8, SCREEN_HEIGHT/2.5, quit_img, quit_img2)
 #################### Main menu Stage END#######################################################
 
 
 #################### Game Stage ###############################################################
+# create a button instance
 quit_button2 = button.Button(SCREEN_WIDTH*0, SCREEN_HEIGHT*0, quit_img, quit_img2)
 
 
+# Player
+# RBG value
+BLACK = (0, 0, 0)
+# Set the font size
+font_size = 30
+# Load the Pygame Serif font
+font = pygame.font.Font(None, font_size)
+# create a player instance
+player1 = player.player("Mark", BLACK)
 
 
 
@@ -57,11 +68,16 @@ def game():
             if event.type == pygame.QUIT:
                 running = False
         ####################################################################
+        # background colour
         screen.fill((79, 129, 189))
 
+        # button
         if quit_button2.draw(screen):
             print('QUIT')
             running = False
+
+        # Display the player's name and score
+        player1.display(screen, font, 50, SCREEN_HEIGHT/4)
 
 
         # crosshair
