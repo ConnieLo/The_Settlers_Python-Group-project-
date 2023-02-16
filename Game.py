@@ -4,6 +4,8 @@ import crosshair
 import dice
 
 # Initialize Pygame
+import draw_board
+
 pygame.init()
 # Set screen size and title
 SCREEN_WIDTH = 1280
@@ -82,7 +84,8 @@ def game():
         
         #display static dice when not rolling
         dice.display(screen)
-        
+
+        draw_board.main(screen)
 
         if quit_button2.draw(screen):
             print('QUIT')
