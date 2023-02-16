@@ -19,14 +19,14 @@ class Dice:
     def num(self):
         return random.randint(1,6), random.randint(1,6) #randomises 2 dice rolls
 
-    def roll(self):
+    def roll(self, screen):
         nums = self.num() #generates the result of a dice roll
-        self.display(nums)
+        self.display(screen, nums)
         self.d1Val = nums[0]
         self.d2Val = nums[1]
         return(nums)
 
-    def display(self, nums = None):   #generate dice roll
+    def display(self, screen, nums = None):   #generate dice roll
         if nums == None:
             nums = [self.d1Val, self.d2Val]
         d1 = pygame.image.load(self.face[nums[0]-1]).convert()  #load dice 1
