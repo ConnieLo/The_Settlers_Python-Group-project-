@@ -1,5 +1,6 @@
 import pygame
 import dice
+import button
 
 # Initialize Pygame
 pygame.init()
@@ -29,12 +30,11 @@ done = False
 pygame.display.update()
 
 #define dice
-dice = dice.Dice()
+dice = dice.Dice(1078, 539)
 diceRolling = False #boolean for event loop
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
-
 
 while not done:
     # --- Main event loop
@@ -52,17 +52,17 @@ while not done:
 
         elif event.type == dice.EVENT:
             if dRollCount == 10: #num of seconds for animation x10
-                dRoll = dice.roll() #gets value of roll
+                dRoll = dice.roll(screen) #gets value of roll
                 pygame.time.set_timer(dice.EVENT, 0)
                 diceRolling = False
                 
             else:
-                dice.display(dice.num()) #temp display of dice while rolling
+                dice.display(screen, dice.num()) #temp display of dice while rolling
                 dRollCount += 1
 
     #display static dice when not rolling
     if diceRolling == False:
-        dice.display()
+        dice.display(screen)
 
 
     # Limit to 60 frames per second
