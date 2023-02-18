@@ -27,6 +27,11 @@ def main(_surface):
         points = hex_grid.get_hex_vertices(*co)
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=3)
 
-    for n, c in itertools.zip_longest(numbers, co_ords):
-        print(n, c)
-        pygame.draw.circle(_surface, (255, 0, 255), [*hex_grid.offset(*c)], 4)
+        # Add a dot at each vertex of the hexagon
+        for point in points:
+            pygame.draw.circle(_surface, (255, 0, 255), point, 4)
+            print(point)
+
+#    for n, c in itertools.zip_longest(numbers, co_ords):
+        #print(n, c)
+        #pygame.draw.circle(_surface, (255, 0, 255), [*hex_grid.offset(*c)], 4)
