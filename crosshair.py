@@ -20,7 +20,7 @@ class crosshair(pygame.sprite.Sprite):
         self.rect.center = pygame.mouse.get_pos()
 
     # collision detection and image switching
-    def switch_image(self, sprites=[], picture_path="cursor_fist.gif", alt_image_path="cursor.gif"):
+    def switch_image(self, sprites=[], picture_path="resources/cursor_fist.gif", alt_image_path="resources/cursor.gif"):
         for sprite in sprites:
             if self.check_collision(sprite):
                 self.image = pygame.image.load(alt_image_path)

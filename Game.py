@@ -13,7 +13,7 @@ SCREEN_HEIGHT = 720
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Catan")
 # load the icon for the game
-icon = pygame.image.load('icon.png').convert_alpha()
+icon = pygame.image.load('resources/icon.png').convert_alpha()
 # add the icon
 pygame.display.set_icon(icon)
 ###################### Universal instances ##################################################
@@ -21,19 +21,19 @@ pygame.display.set_icon(icon)
 # crosshair
 pygame.mouse.set_visible(False)
 # load crosshair image & create a crosshair object and add it to a sprite group
-crosshair = crosshair.crosshair("Resorces/cursor_fist.gif", "Resorces/cursor.gif")
+crosshair = crosshair.crosshair("resources/cursor_fist.gif", "resources/cursor.gif")
 crosshair_group = pygame.sprite.Group(crosshair)
 crosshair_group.add(crosshair)
 
 # load button images
-start_img = pygame.image.load('Play.png').convert_alpha()
-quit_img = pygame.image.load('Quit.png').convert_alpha()
-start_img2 = pygame.image.load('Play2.png').convert_alpha()
-quit_img2 = pygame.image.load('Quit2.png').convert_alpha()
+start_img = pygame.image.load('resources/Play.png').convert_alpha()
+quit_img = pygame.image.load('resources/Quit.png').convert_alpha()
+start_img2 = pygame.image.load('resources/Play2.png').convert_alpha()
+quit_img2 = pygame.image.load('resources/Quit2.png').convert_alpha()
 
 #################### Main menu Stage #####################################################
 # load the background image for the main menu
-background = pygame.image.load('landscape.jpg').convert_alpha()
+background = pygame.image.load('resources/landscape.jpg').convert_alpha()
 # Scale the background image to fit the screen size
 background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
