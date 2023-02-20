@@ -21,7 +21,7 @@ pygame.display.set_icon(icon)
 # crosshair
 pygame.mouse.set_visible(False)
 # load crosshair image & create a crosshair object and add it to a sprite group
-crosshair = crosshair.crosshair("cursor_fist.gif", "cursor.gif")
+crosshair = crosshair.crosshair("Resorces/cursor_fist.gif", "Resorces/cursor.gif")
 crosshair_group = pygame.sprite.Group(crosshair)
 crosshair_group.add(crosshair)
 
