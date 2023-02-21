@@ -1,0 +1,13 @@
+
+class TEXTBOX
+    for now this class only needs very basic functionality:
+    - Should be initialised with text as a field
+    - text field should be able to be changed dynamically
+    - separate method for drawing the textbox
+    for the first prototype, we do not need anything in the way of size/font customisation, set some sensible defaults
+    for these, and we can work on customising them later if we need to
+
+    PUBLIC METHODS/FIELDS
+    param surface:  A Pygame surface object on which the text is to appear
+    param co-ordinates: A Pygame Rect object
+    method draw(surface, co-ordinates)
