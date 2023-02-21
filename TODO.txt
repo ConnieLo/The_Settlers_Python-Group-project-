@@ -1,3 +1,14 @@
+MAIN GAME LOOP
+    As soon as possible, we need to get the whole game wrapped up in a regular cycle of ticks. Doing this right
+    will be the difference between any kind of time sensitive operations (animations, bots taking turns etc.) being
+    a nightmare and being a breeze
+
+    I would suggest 30 in-game ticks per second, but I leave this up to the judgment of whoever implements this
+
+    The sooner we do this, the less we should have to change about what we've already written (hopefully not much)
+
+
+
 
 class TEXTBOX
     for now this class only needs very basic functionality:
@@ -11,3 +22,35 @@ class TEXTBOX
     param surface:  A Pygame surface object on which the text is to appear
     param co-ordinates: A Pygame Rect object
     method draw(surface, co-ordinates)
+
+Once this is done we should be able to place text anywhere on the screen, saying whatever
+
+
+class PLAYER
+    A class for each player in the game.
+    As much of the low level functionality for each player as possible should be kept the same, whether that player
+    is controlled by a bot, or by the user via an interface.
+
+    FIELDS
+    settlements
+    resources
+
+    METHODS
+    new_settlement(vertex)
+        Constructs a new settlement instance, adds it to the board, and saves a reference to it in the players
+        settlements array. Also returns a reference (which we may or may not need).
+        PARAM vertex:   Where the settlement should go
+        RETURNS the instance of the new settlement
+
+
+class SETTLEMENT
+    A class for each settlement in the game
+
+    FIELDS
+    owner
+    location
+    potential_resources
+
+    METHODS
+    grant_resources()
+        gives resources to it's assigned player.
