@@ -2,6 +2,7 @@ import pygame.draw
 import pygame.font
 import hugo_hex
 import itertools
+import random
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
