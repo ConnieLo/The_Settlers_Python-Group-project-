@@ -22,6 +22,9 @@ hex_grid = hugo_hex.HexGrid(65, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 
 
 def main(_surface):
+    # get random numbers
+    numbers = [random.randint(1, 12) for _ in range(len(co_ords))]
+
     # Drawing the hexagons
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
@@ -38,13 +41,19 @@ def main(_surface):
                 pygame.draw.circle(_surface, (0, 255, 94), mid, 4)
                 # print(mid) # prints out the midpoint between each pair of adjacent vertices
 
-        # Add a circle in the center of the hexagon
-        center = hex_grid.offset(*co)
-        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2) # adjust the x and y coordinates
-        pygame.draw.circle(_surface, (255, 255, 0), center, 10)
+        ## Add a circle in the center of the hexagon
+        #center = hex_grid.offset(*co)
+        #center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2) # adjust the x and y coordinates
+        #pygame.draw.circle(_surface, (255, 255, 0), center, 10)
         # print(center) # prints out the coordinates of each vertex in the center of the hexagon
 
-
+        # print random number in the center of each hexagon
+        center = hex_grid.offset(*co)
+        number = numbers[i]
+        font = pygame.font.SysFont(None, 24) #setting up the font
+        text = font.render(str(number), True, (255, 255, 255)) # creating a text instance
+        text_rect = text.get_rect(center=(center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)) # giving coordinates
+        _surface.blit(text, text_rect) # drawing the texts
 
 #    for n, c in itertools.zip_longest(numbers, co_ords):
         #print(n, c)
