@@ -4,6 +4,7 @@ import crosshair
 import dice
 import player
 import draw_board
+import TextBox
 
 # Initialize Pygame
 pygame.init()
