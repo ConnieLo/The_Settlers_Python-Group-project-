@@ -4,6 +4,8 @@ import hugo_hex
 import itertools
 import random
 
+pygame.init()
+
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
@@ -20,6 +22,18 @@ co_ords += [(i, -2) for i in range(0, 3)]
 
 # Creating a new hex grid at the center of the screen
 hex_grid = hugo_hex.HexGrid(65, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+
+
+class SimpleText:
+    font = pygame.font.SysFont(None, 24)  # setting up the font
+
+    def __init__(self, text, surface):
+        self.text = text
+        self._surface = surface
+
+    def draw(self, co_ords):
+        rendered = SimpleText.font.render(self.text, True, (255, 255, 255))
+        self._surface.blit(rendered, co_ords)
 
 
 def main(_surface):
@@ -49,12 +63,15 @@ def main(_surface):
         # print(center) # prints out the coordinates of each vertex in the center of the hexagon
 
         # print random number in the center of each hexagon
-        center = hex_grid.offset(*co)
-        number = numbers[i]
-        font = pygame.font.SysFont(None, 24) #setting up the font
-        text = font.render(str(number), True, (255, 255, 255)) # creating a text instance
-        text_rect = text.get_rect(center=(center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)) # giving coordinates
-        _surface.blit(text, text_rect) # drawing the texts
+        # center = hex_grid.offset(*co)
+        # number = numbers[i]
+        # font = pygame.font.SysFont(None, 24) #setting up the font
+        # text = font.render(str(number), True, (255, 255, 255)) # creating a text instance
+        # text_rect = text.get_rect(center=(center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)) # giving coordinates
+        # _surface.blit(text, text_rect) # drawing the texts
+
+        number = SimpleText("test", _surface)
+        number.draw(hex_grid.absolute_offset(*co))
 
 #    for n, c in itertools.zip_longest(numbers, co_ords):
         #print(n, c)
