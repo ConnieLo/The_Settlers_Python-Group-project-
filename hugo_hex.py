@@ -33,6 +33,11 @@ class HexGrid:
 
         return x_offset, y_offset
 
+    # Returns the offset of the given hex co-ordinate, relative to the surface
+    def absolute_offset(self, x, y):
+        x_offset, y_offset = self.offset(x, y)
+        return x_offset + self.center[0], y_offset + self.center[1]
+
     # Returns a tuple of 6 2d co-ordinates corresponding to the vertices of the hexagon
     def get_hex_vertices(self, x, y):
         x_offset, y_offset = self.offset(x, y)
