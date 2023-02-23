@@ -28,6 +28,9 @@ class TextBox:
         self.textRect = self.text.get_rect()
         self.textRect.center = (x // 2, y // 2)
 
+    def changeText(self, text):
+        self.text = text
+
 
 
     
