@@ -29,3 +29,5 @@ class player:
         text2 = font.render(f"{self.name}'s Resources: {self.resources}", True, self.color)
         surface.blit(text, (x, y))
         surface.blit(text2, (x, y+50))
+
+    #def new_settlement(self, vertex): #need to define settlement class

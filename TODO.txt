@@ -10,7 +10,7 @@ MAIN GAME LOOP
 
 
 
-class TEXTBOX
+class TEXTBOX #done
     for now this class only needs very basic functionality:
     - Should be initialised with text as a field
     - text field should be able to be changed dynamically
@@ -26,7 +26,7 @@ class TEXTBOX
 Once this is done we should be able to place text anywhere on the screen, saying whatever
 
 
-class PLAYER
+class PLAYER 
     A class for each player in the game.
     As much of the low level functionality for each player as possible should be kept the same, whether that player
     is controlled by a bot, or by the user via an interface.
