@@ -4,7 +4,8 @@ import crosshair
 import dice
 import player
 import draw_board
-import TextBox
+from draw_board import co_ords, drawNumbers
+import random
 
 # Initialize Pygame
 pygame.init()
@@ -60,7 +61,11 @@ font = pygame.font.Font(None, font_size)
 # create a player instance
 player1 = player.player("Player", BLACK)
 
+# random number generator
+numbers = [random.randint(1, 12) for _ in range(len(co_ords))]
 
+# font1 # I did it this way due to the performance, so it does not load up the font all the time
+font1 = pygame.font.SysFont(None, 36, bold=True) # setting up the font to be bold
 ######################## Game Stage END #######################################################
 
 #################### Game Stage Function ######################################################
@@ -99,8 +104,12 @@ def game():
         #display static dice when not rolling
         dice.display(screen)
 
+
         # board
         draw_board.main(screen)
+
+        # Draw random numbers in the center of each hexagon
+        drawNumbers(screen, numbers, font1)
 
         # quit button
         if quit_button2.draw(screen):
@@ -117,7 +126,6 @@ def game():
         #########################################################################
         clock.tick(60)
         pygame.display.flip()
-
 ############################# Main Game Loop #################################################
 # Run the game loop
 running = True
