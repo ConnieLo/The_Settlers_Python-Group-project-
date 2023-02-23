@@ -18,7 +18,7 @@ class TextBox:
         screen.blit(self.text, self.textRect)
 
     def render(self, coords = None): #can preemptively change coordinates without displaying using this
-        if coords == None:
+        if coords == None: 
             x = self.x
             y = self.y
         else:
@@ -28,7 +28,7 @@ class TextBox:
         self.textRect = self.text.get_rect()
         self.textRect.center = (x // 2, y // 2)
 
-    def changeText(self, text):
+    def change_text(self, text):
         self.text = text
 
 
