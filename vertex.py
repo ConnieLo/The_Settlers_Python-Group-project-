@@ -10,7 +10,7 @@ class Vertex():
     def get_coords(self):
         return self.coords
     
-    def add_settlement(self, owner):
+    def add_settlement(self, owner): #incompletable till graph structure is complete
         self.settlement = settlement.Settlement(owner, [])#brackets will contain the 2/3 hexes the vertex connects to
 
 

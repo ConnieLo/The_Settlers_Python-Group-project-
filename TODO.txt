@@ -36,14 +36,14 @@ class PLAYER
     resources
 
     METHODS
-    new_settlement(vertex)
+    new_settlement(vertex) #done
         Constructs a new settlement instance, adds it to the board, and saves a reference to it in the players
         settlements array. Also returns a reference (which we may or may not need).
         PARAM vertex:   Where the settlement should go
-        RETURNS the instance of the new settlement
+        RETURNS the instance of the new settlement #haven't added this as i don't think its needed
 
 
-class SETTLEMENT
+class SETTLEMENT #done
     A class for each settlement in the game
 
     FIELDS
@@ -54,3 +54,8 @@ class SETTLEMENT
     METHODS
     grant_resources()
         gives resources to it's assigned player.
+
+
+class GRAPH
+    a class for the board as a data structure
+    
