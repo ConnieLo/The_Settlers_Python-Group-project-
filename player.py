@@ -1,5 +1,7 @@
 import pygame
 import cards
+import settlement
+import vertex
 
 class player:
     def __init__(self, name, color):
@@ -30,4 +32,5 @@ class player:
         surface.blit(text, (x, y))
         surface.blit(text2, (x, y+50))
 
-    #def new_settlement(self, vertex): #need to define settlement class
+    def new_settlement(self, vertex):
+        vertex.add_settlement(self)
