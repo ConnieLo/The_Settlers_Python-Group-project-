@@ -5,8 +5,8 @@ import hugo_hex
 
 pygame.init()
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 1366
+SCREEN_HEIGHT = 768
 
 # Numbers
 numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12]
@@ -20,7 +20,7 @@ co_ords += [(i, -1) for i in range(-1, 3)]
 co_ords += [(i, -2) for i in range(0, 3)]
 
 # Creating a new hex grid at the center of the screen
-hex_grid = hugo_hex.HexGrid(65, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+hex_grid = hugo_hex.HexGrid(60, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 
 
 
