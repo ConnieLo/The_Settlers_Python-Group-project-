@@ -1,5 +1,4 @@
 import settlement
-import vertex
 
 class Vertex():
 
