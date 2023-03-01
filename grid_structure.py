@@ -1,3 +1,9 @@
+# Returns the co-ordinates of the nth neighbor (clockwise) of the tile at the given co-ord
+def neighbor_of(x, y, n):
+    delta = [1, 1, 0, -1, -1, 0, 1]
+    return x + delta[n], y + delta[n + 1]
+
+
 class GridBasic:
     def __init__(self):
         self._grid = [[None]]
