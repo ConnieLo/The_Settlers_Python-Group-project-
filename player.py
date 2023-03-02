@@ -64,10 +64,13 @@ class player:
     
     def buy_development_card(self, deck):
         # This method allows the player to purchase a development card from a given deck.
-        #card = deck.draw()
-        #if card:
-        #    self.development_cards[card] += 1
-        pass
+        card = deck.draw()
+        if card and self.can_afford_cost(card.cost):
+            self.development_cards[card.name] += 1
+            for resource, quantity in card.cost.items():
+                self.remove_resources(resource, quantity)
+            return True
+        return False
 
     def play_development_card(self, card):
         # This method allows the player to play a development card from their hand.

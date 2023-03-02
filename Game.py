@@ -61,8 +61,11 @@ font = pygame.font.Font(None, font_size)
 # create a player instance
 player1 = player.player("Player", BLACK)
 
-# random number generator
-numbers = [random.randint(1, 12) for _ in range(len(co_ords))]
+
+# Numbers
+numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12, 7]
+# shuffle the numbers in the list
+numbers = random.shuffle(numbers)
 
 # font1 # I did it this way due to the performance, so it does not load up the font all the time
 font1 = pygame.font.SysFont(None, 36, bold=True) # setting up the font to be bold
