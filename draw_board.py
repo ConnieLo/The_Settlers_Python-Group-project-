@@ -30,7 +30,7 @@ def getCoordsOfCenter(): # prints out the coordinates of each vertex in the cent
         center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
         print(center)
 
-print(getCoordsOfCenter())
+#print(getCoordsOfCenter())
 
 
 
@@ -40,7 +40,7 @@ def getCoordsOfEdges(): # prints out the coordinates of each vertex of the hexag
         for point in points:
             print(point)
 
-#print(getCoordsOfEdges())
+print(getCoordsOfEdges())
 
 
 def getCoordsOfEdgesMidpoints(): # prints out the midpoint between each pair of adjacent vertices
