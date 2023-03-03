@@ -54,6 +54,15 @@ class GridStruct(GridBasic):
         elif f == "e":
             pass
 
+    # returns the tile at (x, y) or creates a new, empty one if there is nothing there
+    def _touch(self, x, y):
+        if not super().exists(x, y):
+            tile = _TileWrapper()
+            super().set(x, y, tile)
+        else:
+            tile = super().get(x, y)
+        return tile
+
     def _get_vertex(self, x, y, z):
         # This function uses recursive logic, the base case being when z is either 0 or 1
 
@@ -85,12 +94,9 @@ class GridStruct(GridBasic):
         # z = 3 -> v 1 of neighbor 3
         # z = 4 -> v 0 of neighbor 3
         # z = 5 -> v 1 of neighbor 4
-        if z == 0 or z == 1:
+        if z <= 1:
             # Get the tile wrapper, or create a new one
-            if not super().exists(x, y):
-                super().set(x, y, _TileWrapper())
-            tile = super().get(x, y)
-
+            tile = self._touch(z, y)
             tile.v[z] = val
         elif z == 2:
             self._set_vertex(*neighbor_of(x, y, 2), 0, val)
@@ -100,6 +106,34 @@ class GridStruct(GridBasic):
             self._set_vertex(*neighbor_of(x, y, 3), 0, val)
         elif z == 5:
             self._set_vertex(*neighbor_of(x, y, 4), 1, val)
+
+    def _get_edge(self, x, y, z):
+        # EDGES
+        # z = 3 -> e0 of n3
+        # z = 4 -> e1 of n4
+        # z = 5 -> e2 of n5
+        if z <= 2:
+            tile = super().get(x, y)
+
+            # If tile is none, there's nothing there
+            if tile is None:
+                return None
+
+            return tile.e[z]
+        elif z <= 5:
+            return self._get_edge(*neighbor_of(x, y, z), z-3)
+
+    def _set_edge(self, x, y, z, val):
+        # EDGES
+        # z = 3 -> e0 of n3
+        # z = 4 -> e1 of n4
+        # z = 5 -> e2 of n5
+        # Which means we can do it in one if/else statement BABYYYY
+        if z <= 2:
+            tile = self._touch(x, y)
+            tile.e[z] = val
+        elif z <= 5:
+            self._set_edge(*neighbor_of(x, y, z), z-3)
 
 
 class _TileWrapper:
