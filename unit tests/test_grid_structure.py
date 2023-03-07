@@ -21,7 +21,7 @@ class TestGridBasic(unittest.TestCase):
         banana._set_vertex(0, 1, 3, 'v')
 
         # test value inside bounds
-        self.assertEqual(banana._get_vertex(0, 0, 0), banana._get_vertex(0, 0, 0))
+        self.assertEqual(banana._get_vertex(0, 0, 0), banana._get_vertex(0, 1, 3))
 
         # test wrong value
         self.assertEqual(banana._get_vertex(0, 0, 0), 'e')
