@@ -2,7 +2,7 @@ import pygame.draw
 import pygame.font
 import hugo_hex
 import random
-import math
+from button_points import button_points
 
 pygame.init()
 
@@ -87,8 +87,7 @@ def drawHex(_surface, images=None):
     number_images = {2: images['resources/hexType/clayHex.png'], 3: images['resources/hexType/woodHex.png'], 4: images['resources/hexType/sheepHex.png'],
                      5: images['resources/hexType/oreHex.png'], 6: images['resources/hexType/oreHex.png'], 7: images['resources/hexType/desertHex.png'],
                      8: images['resources/hexType/woodHex.png'], 9: images['resources/hexType/clayHex.png'], 10: images['resources/hexType/oreHex.png'],
-                     11: images['resources/hexType/sheepHex.png'], 12: images['resources/hexType/clayHex.png']}# etc
-
+                     11: images['resources/hexType/sheepHex.png'], 12: images['resources/hexType/clayHex.png']}
     # draw the images
     for i, co in enumerate(co_ords):
         center = hex_grid.offset(*co)
@@ -113,6 +112,30 @@ def drawHex(_surface, images=None):
             surface_rect = hex_surface.get_rect(center=center)
             _surface.blit(hex_surface, surface_rect)
 
+
+def drawButtons(_surface):
+    # Create a list to store the buttons
+    buttons = []
+    # Drawing the hexagons
+    for co in co_ords:
+        points = hex_grid.get_hex_vertices(*co)
+
+        # Create a button for each point in the points list
+        for point in points:
+            btn = button_points(point[0], point[1])  # Replace 'image' and 'image2' with your own images
+            buttons.append(btn)
+
+    # Draw buttons and check for clicks
+    for i, btn in enumerate(buttons):
+        btn.draw(_surface)
+
+        # Check if this button was clicked
+        if btn.clicked:
+            print(f"Button {i + 1} was clicked")
+
+
+
+
 # Numbers
 numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12, 7]
 # shuffle the numbers in the list
@@ -124,17 +147,20 @@ print(numbers)
 
 # font1 # I did it this way due to the performance, so it does not load up the font all the time
 font1 = pygame.font.SysFont(None, 36, bold=True)  # setting up the font to be bold
+
+
+
+
 def main(_surface):
+
+
 
     # Drawing the hexagons
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
-        # Add a dot at each vertex of the hexagon
-        for point in points:
-            pygame.draw.circle(_surface, (255, 0, 255), point, 8)
-            # print(point) # prints out the coordinates of each vertex of the hexagons' edges
+
         for i in range(len(points)):
             p1 = points[i]
             p2 = points[(i+1) % len(points)]
@@ -147,3 +173,4 @@ def main(_surface):
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, font1)
 
+    drawButtons(_surface)

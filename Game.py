@@ -1,11 +1,10 @@
 import pygame
-import button
+from button import Button
 import crosshair
 import dice
 import player
 import draw_board
-from draw_board import co_ords, drawNumbers
-import random
+from draw_board import co_ords, hex_grid
 
 # Initialize Pygame
 pygame.init()
@@ -40,13 +39,13 @@ background = pygame.image.load('resources/landscape.jpg').convert_alpha()
 background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # create button instance
-start_button = button.Button(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2.5, start_img, start_img2)
-quit_button = button.Button(SCREEN_WIDTH / 1.8, SCREEN_HEIGHT / 2.5, quit_img, quit_img2)
+start_button = Button(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 2.5, start_img, start_img2)
+quit_button = Button(SCREEN_WIDTH / 1.8, SCREEN_HEIGHT / 2.5, quit_img, quit_img2)
 #################### Main menu Stage END#######################################################
 
 
 #################### Game Stage ###############################################################
-quit_button2 = button.Button(SCREEN_WIDTH * 0, SCREEN_HEIGHT * 0, quit_img, quit_img2)
+quit_button2 = Button(SCREEN_WIDTH * 0, SCREEN_HEIGHT * 0, quit_img, quit_img2)
 
 # dice instance
 dice = dice.Dice(1078, 539, 50)  # define dice
@@ -60,6 +59,7 @@ font_size = 30
 font = pygame.font.Font(None, font_size)
 # create a player instance
 player1 = player.player("Player", BLACK)
+
 
 ######################## Game Stage END #######################################################
 
@@ -101,10 +101,6 @@ def game():
         # board
         draw_board.main(screen)
 
-        # quit button
-        if quit_button2.draw(screen):
-            print('QUIT')
-            running = False
 
         # Display the player's name and score
         player1.display(screen, font, 10, SCREEN_HEIGHT - 100)
