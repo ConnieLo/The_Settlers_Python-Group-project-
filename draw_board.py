@@ -84,9 +84,10 @@ def drawHex(_surface, images=None):
         images = {path: pygame.image.load(path) for path in image_paths}
 
     # dictionary mapping numbers to images
-    number_images = {1: images['resources/hexType/clayHex.png'], 2: images['resources/hexType/sheepHex.png'],
-                     7: images['resources/hexType/desertHex.png'], 4: images['resources/hexType/oreHex.png'],
-                     5: images['resources/hexType/oreHex.png']}  # etc
+    number_images = {2: images['resources/hexType/clayHex.png'], 3: images['resources/hexType/woodHex.png'], 4: images['resources/hexType/sheepHex.png'],
+                     5: images['resources/hexType/oreHex.png'], 6: images['resources/hexType/oreHex.png'], 7: images['resources/hexType/desertHex.png'],
+                     8: images['resources/hexType/woodHex.png'], 9: images['resources/hexType/clayHex.png'], 10: images['resources/hexType/oreHex.png'],
+                     11: images['resources/hexType/sheepHex.png'], 12: images['resources/hexType/clayHex.png']}# etc
 
     # draw the images
     for i, co in enumerate(co_ords):
@@ -96,33 +97,21 @@ def drawHex(_surface, images=None):
         image = number_images.get(number)  # get the corresponding image for the number
 
         if image is not None:
-            # create a surface for the hex with the same size as the image
+            # create a surface for the hex with the same size a5s the image
             hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
 
             # draw the hexagon onto the surface
             pygame.draw.polygon(hex_surface, (0, 0, 0), hex_grid.get_hex_vertices(*co), width=5)
 
             # resize the image to fit inside the hexagon
-            image = pygame.transform.scale(image, (hex_grid.hex_size[0] - 10, hex_grid.hex_size[1] - 10))
+            image = pygame.transform.scale(image, (hex_grid.hex_size[0] - 30, hex_grid.hex_size[1] - 20))
 
             # blit the image onto the surface
-            hex_surface.blit(image, (5, 5))
+            hex_surface.blit(image, (15, 10))
 
             # blit the surface onto the main surface at the center coordinates
             surface_rect = hex_surface.get_rect(center=center)
             _surface.blit(hex_surface, surface_rect)
-
-class SimpleText:
-    font = pygame.font.SysFont(None, 24)  # setting up the font
-
-    def __init__(self, text, surface):
-        self.text = text
-        self._surface = surface
-
-    def draw(self, co_ords):
-        rendered = SimpleText.font.render(self.text, True, (255, 255, 255))
-        self._surface.blit(rendered, co_ords)
-
 
 # Numbers
 numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12, 7]
