@@ -5,6 +5,9 @@ import random
 from button_points import button_points
 
 pygame.init()
+# Load the image to be blitted
+settle = pygame.image.load("resources/settle.png")
+small_settle = pygame.transform.scale(settle, (40, 40))
 
 SCREEN_WIDTH = 1366
 SCREEN_HEIGHT = 768
@@ -113,7 +116,7 @@ def drawHex(_surface, images=None):
             _surface.blit(hex_surface, surface_rect)
 
 
-def drawButtons(_surface):
+def drawButtonEdges(_surface, image):
     # Create a list to store the buttons
     buttons = []
     # Drawing the hexagons
@@ -122,7 +125,7 @@ def drawButtons(_surface):
 
         # Create a button for each point in the points list
         for point in points:
-            btn = button_points(point[0], point[1])  # Replace 'image' and 'image2' with your own images
+            btn = button_points(point[0], point[1])
             buttons.append(btn)
 
     # Draw buttons and check for clicks
@@ -132,8 +135,39 @@ def drawButtons(_surface):
         # Check if this button was clicked
         if btn.clicked:
             print(f"Button {i + 1} was clicked")
+            # Blit the image if the button has been clicked
+            _surface.blit(image, btn.rect.topleft)
 
+            # Set the clicked attribute to True so that the image will continue to be blitted
+            btn.clicked = True
+        else:
+            # Set the clicked attribute to False if the button is not clicked so that the image will not be blitted
+            btn.clicked = False
 
+def drawButtonMidPoints(_surface):
+    # Create a list to store the buttons
+    buttons = []
+
+    # Drawing the hexagons
+    for co in co_ords:
+        points = hex_grid.get_hex_vertices(*co)
+        pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
+
+        # Create a button at the midpoint of each pair of adjacent vertices
+        for i in range(len(points)):
+            p1 = points[i]
+            p2 = points[(i+1) % len(points)]
+            mid = ((p1[0]+p2[0])//2, (p1[1]+p2[1])//2)
+            btn = button_points(mid[0], mid[1])
+            buttons.append(btn)
+
+    # Draw buttons and check for clicks
+    for btn in buttons:
+        btn.draw(_surface)
+
+        # Check if this button was clicked
+        if btn.clicked:
+            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
 
 
 # Numbers
@@ -149,10 +183,7 @@ print(numbers)
 font1 = pygame.font.SysFont(None, 36, bold=True)  # setting up the font to be bold
 
 
-
-
 def main(_surface):
-
 
 
     # Drawing the hexagons
@@ -160,17 +191,14 @@ def main(_surface):
         points = hex_grid.get_hex_vertices(*co)
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
-
-        for i in range(len(points)):
-            p1 = points[i]
-            p2 = points[(i+1) % len(points)]
-            mid = ((p1[0]+p2[0])//2, (p1[1]+p2[1])//2)
-            pygame.draw.circle(_surface, (0, 255, 94), mid, 4)
-            #print(mid) # prints out the midpoint between each pair of adjacent vertices
-
     drawHex(_surface)
 
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, font1)
 
-    drawButtons(_surface)
+    drawButtonEdges(_surface, small_settle)
+
+    drawButtonMidPoints(_surface)
+
+
+

@@ -98,9 +98,12 @@ def game():
         # display static dice when not rolling
         dice.display(screen)
 
+        if quit_button2.draw(screen):
+            print('QUIT')
+            running = False
+
         # board
         draw_board.main(screen)
-
 
         # Display the player's name and score
         player1.display(screen, font, 10, SCREEN_HEIGHT - 100)
