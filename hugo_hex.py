@@ -25,6 +25,7 @@ class HexGrid:
         self.center = center
         self._r_min = (sqrt(3)/2) * size
         self._r_max = size
+        self.hex_size = (int(2 * self._r_max), int(2 * self._r_max))
 
     # Returns the offset in pixel space of a given hex-coordinate, relative to the center of each hex tile
     def offset(self, x, y):
@@ -43,3 +44,8 @@ class HexGrid:
         x_offset, y_offset = self.offset(x, y)
         hex_center = [self.center[0] + x_offset, self.center[1] + y_offset]
         return hexagon(self._r_max, hex_center)
+
+
+    # Returns the size of each hexagon's regular side
+    def hex_size(self):
+        return self._r_max
