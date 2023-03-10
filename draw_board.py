@@ -60,12 +60,12 @@ def drawNumbers(_surface, numbers, font, images=None):
     # draw the numbers
     for i, co in enumerate(co_ords):
         center = hex_grid.offset(*co)
-        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)  # adjust the x and y coordinates
+        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
         number = numbers[i]
 
         # create a surface with a white circle and a transparent center
         circle_surface = pygame.Surface((40, 40), pygame.SRCALPHA)
-        pygame.draw.circle(circle_surface, (255, 255, 255, 200), (20, 20), 20)  # 200 is the alpha value
+        pygame.draw.circle(circle_surface, (255, 255, 255, 200), (20, 20), 20)
 
         # blit the circle surface to the main surface
         circle_rect = circle_surface.get_rect(center=center)
