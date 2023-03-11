@@ -8,15 +8,25 @@ pygame.init()
 # Load the image to be blitted
 settle = pygame.image.load("resources/settle.png")
 small_settle = pygame.transform.scale(settle, (40, 40))
-#################Hexes images##############################
+#################### Numbers images ###############################
+TWO = pygame.image.load('resources/numbers/Number_2.png')
+THREE = pygame.image.load('resources/numbers/Number_3.png')
+FOUR = pygame.image.load('resources/numbers/Number_4.png')
+FIVE = pygame.image.load('resources/numbers/Number_5.png')
+SIX = pygame.image.load('resources/numbers/Number_6.png')
+EIGHT = pygame.image.load('resources/numbers/Number_8.png')
+NINE = pygame.image.load('resources/numbers/Number_9.png')
+TEN = pygame.image.load('resources/numbers/Number_10.png')
+ELEVEN = pygame.image.load('resources/numbers/Number_11.png')
+TWELVE = pygame.image.load('resources/numbers/Number_12.png')
+
+################# Hexes images ##############################
 ORE = pygame.image.load('resources/hexType/oreHex.png')
 SHEEP = pygame.image.load('resources/hexType/sheepHex.png')
 CLAY = pygame.image.load('resources/hexType/clayHex.png')
 WHEAT = pygame.image.load('resources/hexType/wheatHex.png')
 WOOD = pygame.image.load('resources/hexType/woodHex.png')
 DESERT = pygame.image.load('resources/hexType/desertHex.png')
-
-
 
 SCREEN_WIDTH = 1366
 SCREEN_HEIGHT = 768
@@ -33,77 +43,80 @@ co_ords += [(i, -2) for i in range(0, 3)]
 hex_grid = hugo_hex.HexGrid(60, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 hex_radius = hex_grid.hex_size
 
-def getCoordsOfCenter(): # prints out the coordinates of each vertex in the center of the hexagon
+
+def getCoordsOfCenter():  # prints out the coordinates of each vertex in the center of the hexagon
     for co in co_ords:
         center = hex_grid.offset(*co)
         center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
         print(center)
 
-#print(getCoordsOfCenter())
+
+# print(getCoordsOfCenter())
 
 
-
-def getCoordsOfEdges(): # prints out the coordinates of each vertex of the hexagons' edges
+def getCoordsOfEdges():  # prints out the coordinates of each vertex of the hexagons' edges
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
         for point in points:
             print(point)
 
-#print(getCoordsOfEdges())
+
+# print(getCoordsOfEdges())
 
 
-def getCoordsOfEdgesMidpoints(): # prints out the midpoint between each pair of adjacent vertices
+def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of adjacent vertices
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
         for point in points:
             for i in range(len(points)):
                 p1 = points[i]
-                p2 = points[(i+1) % len(points)]
-                mid = ((p1[0]+p2[0])//2, (p1[1]+p2[1])//2)
+                p2 = points[(i + 1) % len(points)]
+                mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
                 print(mid)
 
-#print(getCoordsOfEdgesMidpoints())
+
+# print(getCoordsOfEdgesMidpoints())
+
+numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 10: TEN, 11: ELEVEN, 12: TWELVE}
 
 
-def drawNumbers(_surface, numbers, font, images=None):
-    # draw the numbers
+def drawNumbers(_surface, numbers, numberImages):
+    # draw the image numbers
     for i, co in enumerate(co_ords):
         center = hex_grid.offset(*co)
-        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
+        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)  # adjust the x and y coordinates
         number = numbers[i]
+        image = numberImages.get(number)  # get the corresponding image for the number
 
-        # check if the number is equal to 7
-        if number == 7:
-            continue  # skip drawing this number
+        if image is not None:
+            # create a surface for the hex with the same size a5s the image
+            hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
 
-        # create a surface with a white circle and a transparent center
-        circle_surface = pygame.Surface((40, 40), pygame.SRCALPHA)
-        pygame.draw.circle(circle_surface, (255, 255, 255, 200), (20, 20), 20)
+            # resize the image to fit inside the hexagon
+            image = pygame.transform.scale(image, (hex_grid.hex_size[0] + 60, hex_grid.hex_size[1] + 40))
 
-        # blit the circle surface to the main surface
-        circle_rect = circle_surface.get_rect(center=center)
-        _surface.blit(circle_surface, circle_rect)
+            # blit the image onto the surface
+            hex_surface.blit(image, (-30, -20))
 
-        # create the number text and blit it to the main surface
-        text = font.render(str(number), True, (0, 0, 0))  # creating a text instance
-        text_rect = text.get_rect(center=center)  # giving coordinates
-        _surface.blit(text, text_rect)  # drawing the texts
-
+            # blit the surface onto the main surface at the center coordinates
+            surface_rect = hex_surface.get_rect(center=center)
+            _surface.blit(hex_surface, surface_rect)
 
 
 image_paths = {1: ORE, 2: ORE, 3: ORE,
                4: SHEEP, 5: SHEEP, 6: SHEEP, 7: SHEEP,
                8: CLAY, 9: CLAY, 10: CLAY,
                11: WHEAT, 12: WHEAT, 13: WHEAT, 14: WHEAT,
-               15: WOOD, 16:  WOOD, 17:  WOOD, 18:  WOOD,19: WOOD }
+               15: WOOD, 16: WOOD, 17: WOOD, 18: WOOD, 19: WOOD}
 
 image_paths_list = list(image_paths.items())
 # shuffle the image paths to randomize the distribution of hex types
 random.shuffle(image_paths_list)
 image_paths = dict(image_paths_list)
 print(image_paths)
-def drawHex(_surface, numbers, image_paths_list, DESERT):
 
+
+def drawHex(_surface, numbers, image_paths_list, DESERT):
     # draw the images
     for i, (key, value) in enumerate(image_paths_list):
         center = hex_grid.offset(*co_ords[i])
@@ -128,6 +141,8 @@ def drawHex(_surface, numbers, image_paths_list, DESERT):
         # blit the surface onto the main surface at the center coordinates
         surface_rect = hex_surface.get_rect(center=center)
         _surface.blit(hex_surface, surface_rect)
+
+
 def drawButtonEdges(_surface, image):
     # Create a list to store the buttons
     buttons = []
@@ -156,6 +171,7 @@ def drawButtonEdges(_surface, image):
             # Set the clicked attribute to False if the button is not clicked so that the image will not be blitted
             btn.clicked = False
 
+
 def drawButtonMidPoints(_surface):
     # Create a list to store the buttons
     buttons = []
@@ -168,8 +184,8 @@ def drawButtonMidPoints(_surface):
         # Create a button at the midpoint of each pair of adjacent vertices
         for i in range(len(points)):
             p1 = points[i]
-            p2 = points[(i+1) % len(points)]
-            mid = ((p1[0]+p2[0])//2, (p1[1]+p2[1])//2)
+            p2 = points[(i + 1) % len(points)]
+            mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
             btn = button_points(mid[0], mid[1])
             buttons.append(btn)
 
@@ -190,14 +206,7 @@ random.shuffle(numbers)
 print(numbers)
 
 
-
-# font1 # I did it this way due to the performance, so it does not load up the font all the time
-font1 = pygame.font.SysFont(None, 36, bold=True)  # setting up the font to be bold
-
-
 def main(_surface):
-
-
     # Drawing the hexagons
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
@@ -206,11 +215,8 @@ def main(_surface):
     drawHex(_surface, numbers, image_paths_list, DESERT)
 
     # Draw random numbers in the center of each hexagon
-    drawNumbers(_surface, numbers, font1)
+    drawNumbers(_surface, numbers, numberImages)
 
     drawButtonEdges(_surface, small_settle)
 
     drawButtonMidPoints(_surface)
-
-
-
