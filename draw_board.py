@@ -8,6 +8,15 @@ pygame.init()
 # Load the image to be blitted
 settle = pygame.image.load("resources/settle.png")
 small_settle = pygame.transform.scale(settle, (40, 40))
+#################Hexes images##############################
+ORE = pygame.image.load('resources/hexType/oreHex.png')
+SHEEP = pygame.image.load('resources/hexType/sheepHex.png')
+CLAY = pygame.image.load('resources/hexType/clayHex.png')
+WHEAT = pygame.image.load('resources/hexType/wheatHex.png')
+WOOD = pygame.image.load('resources/hexType/woodHex.png')
+DESERT = pygame.image.load('resources/hexType/desertHex.png')
+
+
 
 SCREEN_WIDTH = 1366
 SCREEN_HEIGHT = 768
@@ -63,6 +72,10 @@ def drawNumbers(_surface, numbers, font, images=None):
         center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
         number = numbers[i]
 
+        # check if the number is equal to 7
+        if number == 7:
+            continue  # skip drawing this number
+
         # create a surface with a white circle and a transparent center
         circle_surface = pygame.Surface((40, 40), pygame.SRCALPHA)
         pygame.draw.circle(circle_surface, (255, 255, 255, 200), (20, 20), 20)
@@ -77,45 +90,44 @@ def drawNumbers(_surface, numbers, font, images=None):
         _surface.blit(text, text_rect)  # drawing the texts
 
 
-def drawHex(_surface, images=None):
-    if images is None:
-        # default image paths
-        image_paths = ['resources/hexType/clayHex.png', 'resources/hexType/desertHex.png',
-                       'resources/hexType/oreHex.png', 'resources/hexType/sheepHex.png',
-                       'resources/hexType/wheatHex.png', 'resources/hexType/woodHex.png']
-        # load the images from the paths
-        images = {path: pygame.image.load(path) for path in image_paths}
 
-    # dictionary mapping numbers to images
-    number_images = {2: images['resources/hexType/clayHex.png'], 3: images['resources/hexType/woodHex.png'], 4: images['resources/hexType/sheepHex.png'],
-                     5: images['resources/hexType/oreHex.png'], 6: images['resources/hexType/oreHex.png'], 7: images['resources/hexType/desertHex.png'],
-                     8: images['resources/hexType/woodHex.png'], 9: images['resources/hexType/clayHex.png'], 10: images['resources/hexType/oreHex.png'],
-                     11: images['resources/hexType/sheepHex.png'], 12: images['resources/hexType/clayHex.png']}
+image_paths = {1: ORE, 2: ORE, 3: ORE,
+               4: SHEEP, 5: SHEEP, 6: SHEEP, 7: SHEEP,
+               8: CLAY, 9: CLAY, 10: CLAY,
+               11: WHEAT, 12: WHEAT, 13: WHEAT, 14: WHEAT,
+               15: WOOD, 16:  WOOD, 17:  WOOD, 18:  WOOD,19: WOOD }
+
+image_paths_list = list(image_paths.items())
+# shuffle the image paths to randomize the distribution of hex types
+random.shuffle(image_paths_list)
+image_paths = dict(image_paths_list)
+print(image_paths)
+def drawHex(_surface, numbers, image_paths_list, DESERT):
+
     # draw the images
-    for i, co in enumerate(co_ords):
-        center = hex_grid.offset(*co)
-        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)  # adjust the x and y coordinates
-        number = numbers[i]
-        image = number_images.get(number)  # get the corresponding image for the number
+    for i, (key, value) in enumerate(image_paths_list):
+        center = hex_grid.offset(*co_ords[i])
+        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
+        if numbers[i] == 7:
+            image = DESERT
+        else:
+            image = value
 
-        if image is not None:
-            # create a surface for the hex with the same size a5s the image
-            hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
+        # create a surface for the hex with the same size a5s the image
+        hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
 
-            # draw the hexagon onto the surface
-            pygame.draw.polygon(hex_surface, (0, 0, 0), hex_grid.get_hex_vertices(*co), width=5)
+        # draw the hexagon onto the surface
+        pygame.draw.polygon(hex_surface, (0, 0, 0), hex_grid.get_hex_vertices(*co_ords[i]), width=5)
 
-            # resize the image to fit inside the hexagon
-            image = pygame.transform.scale(image, (hex_grid.hex_size[0] - 30, hex_grid.hex_size[1] - 20))
+        # resize the image to fit inside the hexagon
+        image = pygame.transform.scale(image, (hex_grid.hex_size[0] - 30, hex_grid.hex_size[1] - 20))
 
-            # blit the image onto the surface
-            hex_surface.blit(image, (15, 10))
+        # blit the image onto the surface
+        hex_surface.blit(image, (15, 10))
 
-            # blit the surface onto the main surface at the center coordinates
-            surface_rect = hex_surface.get_rect(center=center)
-            _surface.blit(hex_surface, surface_rect)
-
-
+        # blit the surface onto the main surface at the center coordinates
+        surface_rect = hex_surface.get_rect(center=center)
+        _surface.blit(hex_surface, surface_rect)
 def drawButtonEdges(_surface, image):
     # Create a list to store the buttons
     buttons = []
@@ -191,7 +203,7 @@ def main(_surface):
         points = hex_grid.get_hex_vertices(*co)
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
-    drawHex(_surface)
+    drawHex(_surface, numbers, image_paths_list, DESERT)
 
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, font1)
