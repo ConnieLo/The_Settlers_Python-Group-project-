@@ -165,3 +165,5 @@ class player:
         surface.blit(text, (x, y))
         surface.blit(text2, (x, y+50))
         surface.blit(text3, (x, y+80))
+
+

@@ -107,16 +107,21 @@ image_paths = {1: ORE, 2: ORE, 3: ORE,
                4: SHEEP, 5: SHEEP, 6: SHEEP, 7: SHEEP,
                8: CLAY, 9: CLAY, 10: CLAY,
                11: WHEAT, 12: WHEAT, 13: WHEAT, 14: WHEAT,
-               15: WOOD, 16: WOOD, 17: WOOD, 18: WOOD, 19: WOOD}
+               15: WOOD, 16: WOOD, 17: WOOD, 18: WOOD, 19: DESERT}
 
 image_paths_list = list(image_paths.items())
 # shuffle the image paths to randomize the distribution of hex types
 random.shuffle(image_paths_list)
 image_paths = dict(image_paths_list)
-print(image_paths)
+
+# Create a mapping of Pygame surfaces to their corresponding names
+name_mapping = {ORE: "ORE", SHEEP: "SHEEP", CLAY: "CLAY", WHEAT: "WHEAT", WOOD: "WOOD", DESERT: "DESERT"}
+
+# Print the shuffled values as a comma-separated string using the name_mapping dictionary
+print(",".join([name_mapping[value] for key, value in image_paths.items()]))
 
 
-def drawHex(_surface, numbers, image_paths_list, DESERT):
+def drawHex(_surface, numbers, image_paths_list):
     # draw the images
     for i, (key, value) in enumerate(image_paths_list):
         center = hex_grid.offset(*co_ords[i])
@@ -212,7 +217,7 @@ def main(_surface):
         points = hex_grid.get_hex_vertices(*co)
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
-    drawHex(_surface, numbers, image_paths_list, DESERT)
+    drawHex(_surface, numbers, image_paths_list)
 
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, numberImages)
