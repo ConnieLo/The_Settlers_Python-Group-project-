@@ -54,7 +54,7 @@ font_size = 30
 # Load the Pygame Serif font
 font = pygame.font.Font(None, font_size)
 # create a player instance
-player1 = player.player("Player", BLACK)
+player1 = player.Player("Player", BLACK)
 
 
 ######################## Game Stage END #######################################################
