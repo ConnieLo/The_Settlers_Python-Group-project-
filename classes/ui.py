@@ -3,7 +3,7 @@ import pygame.draw
 import pygame.font
 from tools import hugo_hex
 import random
-from button_points import button_points
+from classes.button_points import button_points
 
 pygame.init()
 # Load the image to be blitted

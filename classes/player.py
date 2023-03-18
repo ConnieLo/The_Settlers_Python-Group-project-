@@ -1,7 +1,4 @@
-import pygame
-import cards
-import settlement
-import trade
+from classes import cards, settlement, trade
 
 class player:
     def __init__(self, name, color):

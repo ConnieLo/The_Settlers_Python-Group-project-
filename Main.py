@@ -1,9 +1,6 @@
 import pygame
-from button import Button
-import dice
-import player
-import ui
-from ui import co_ords, hex_grid
+from classes.button import Button
+from classes import ui, player, dice
 
 # Initialize Pygame
 pygame.init()
@@ -102,7 +99,7 @@ def game():
             running = False
 
         # board
-        draw_board.main(screen)
+        ui.main(screen)
 
         # Display the player's name and score
         player1.display(screen, font, 10, SCREEN_HEIGHT - 100)
