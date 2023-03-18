@@ -3,8 +3,8 @@ from button import Button
 import crosshair
 import dice
 import player
-import draw_board
-from draw_board import co_ords, hex_grid
+import ui
+from ui import co_ords, hex_grid
 
 # Initialize Pygame
 pygame.init()
@@ -22,7 +22,7 @@ pygame.display.set_icon(icon)
 # crosshair
 pygame.mouse.set_visible(False)
 # load crosshair image & create a crosshair object and add it to a sprite group
-crosshair = crosshair.crosshair("resources/cursor_fist.gif", "resources/cursor.gif")
+crosshair = ui.crosshair("resources/cursor_fist.gif", "resources/cursor.gif")
 crosshair_group = pygame.sprite.Group(crosshair)
 crosshair_group.add(crosshair)
 

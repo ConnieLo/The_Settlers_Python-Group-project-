@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from grid_structure import GridStruct
+from board import GridStruct
 
 
 class TestGridBasic(unittest.TestCase):

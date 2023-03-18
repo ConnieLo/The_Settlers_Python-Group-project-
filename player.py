@@ -1,7 +1,6 @@
 import pygame
 import cards
 import settlement
-import vertex
 import trade
 
 class player:
