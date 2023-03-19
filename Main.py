@@ -1,6 +1,8 @@
 import pygame
 from classes.button import Button
 from classes import ui, player, dice
+from classes.ui import drawButtonEdges
+
 
 # Initialize Pygame
 pygame.init()

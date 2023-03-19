@@ -149,7 +149,12 @@ def drawHex(_surface, numbers, image_paths_list):
         _surface.blit(hex_surface, surface_rect)
 
 
+
 def drawButtonEdges(_surface, image):
+    # create a surface with a white circle and a transparent center
+    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+    pygame.draw.circle(circle_surface, (255, 255, 255, 200), (10, 10), 10)
+
     # Create a list to store the buttons
     buttons = []
     # Drawing the hexagons
@@ -158,7 +163,7 @@ def drawButtonEdges(_surface, image):
 
         # Create a button for each point in the points list
         for point in points:
-            btn = button_points(point[0], point[1])
+            btn = button_points(point[0], point[1], circle_surface)
             buttons.append(btn)
 
     # Draw buttons and check for clicks
@@ -170,15 +175,17 @@ def drawButtonEdges(_surface, image):
             print(f"Button {i + 1} was clicked")
             # Blit the image if the button has been clicked
             _surface.blit(image, btn.rect.topleft)
-
             # Set the clicked attribute to True so that the image will continue to be blitted
             btn.clicked = True
         else:
             # Set the clicked attribute to False if the button is not clicked so that the image will not be blitted
             btn.clicked = False
 
-
 def drawButtonMidPoints(_surface):
+    # create a surface with a white circle and a transparent center
+    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+    pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
+
     # Create a list to store the buttons
     buttons = []
 
@@ -192,7 +199,7 @@ def drawButtonMidPoints(_surface):
             p1 = points[i]
             p2 = points[(i + 1) % len(points)]
             mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
-            btn = button_points(mid[0], mid[1])
+            btn = button_points(mid[0], mid[1], circle_surface)
             buttons.append(btn)
 
     # Draw buttons and check for clicks
@@ -223,9 +230,15 @@ def main(_surface):
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, numberImages)
 
+#    buttons = drawButtonEdges(_surface, small_settle)
+
     drawButtonEdges(_surface, small_settle)
 
     drawButtonMidPoints(_surface)
+
+
+
+
 
 
 class crosshair(pygame.sprite.Sprite):
