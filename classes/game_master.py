@@ -1,4 +1,4 @@
-import classes.board as board
+import classes.grid as grid
 import classes.turn as turn
 
 
