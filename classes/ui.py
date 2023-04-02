@@ -79,8 +79,6 @@ def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of
 # print(getCoordsOfEdgesMidpoints())
 
 numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 10: TEN, 11: ELEVEN, 12: TWELVE}
-
-
 def drawNumbers(_surface, numbers, numberImages):
     # draw the image numbers
     for i, co in enumerate(co_ords):
@@ -181,34 +179,34 @@ def drawButtonEdges(_surface, image):
             # Set the clicked attribute to False if the button is not clicked so that the image will not be blitted
             btn.clicked = False
 
-def drawButtonMidPoints(_surface):
+#def drawButtonMidPoints(_surface):
     # create a surface with a white circle and a transparent center
-    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
-    pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
+#    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+#    pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
 
     # Create a list to store the buttons
-    buttons = []
+#    buttons = []
 
     # Drawing the hexagons
-    for co in co_ords:
-        points = hex_grid.get_hex_vertices(*co)
-        pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
+#    for co in co_ords:
+#        points = hex_grid.get_hex_vertices(*co)
+#        pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
         # Create a button at the midpoint of each pair of adjacent vertices
-        for i in range(len(points)):
-            p1 = points[i]
-            p2 = points[(i + 1) % len(points)]
-            mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
-            btn = button_points(mid[0], mid[1], circle_surface)
-            buttons.append(btn)
+#        for i in range(len(points)):
+#            p1 = points[i]
+#            p2 = points[(i + 1) % len(points)]
+#            mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
+#            btn = button_points(mid[0], mid[1], circle_surface)
+#            buttons.append(btn)
 
     # Draw buttons and check for clicks
-    for btn in buttons:
-        btn.draw(_surface)
+#    for btn in buttons:
+#        btn.draw(_surface)
 
         # Check if this button was clicked
-        if btn.clicked:
-            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
+#        if btn.clicked:
+#            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
 
 
 # Numbers
@@ -218,6 +216,25 @@ random.shuffle(numbers)
 
 print(numbers)
 
+####################BUTTON EDGES - SETTLEMENT#################################
+# create a surface with a white circle and a transparent center
+circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
+# Create a list to store the buttons
+buttons = []
+
+# Drawing the hexagons
+for co in co_ords:
+    points = hex_grid.get_hex_vertices(*co)
+
+    # Create a button for each point in the points list
+    for point in points:
+        btn = button_points(point[0], point[1], circle_surface)
+        buttons.append(btn)
+
+# Variable to store the previous click state
+was_clicked = [False] * len(buttons)
+#################################################################################
 
 def main(_surface):
     # Drawing the hexagons
@@ -230,12 +247,25 @@ def main(_surface):
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, numberImages)
 
-#    buttons = drawButtonEdges(_surface, small_settle)
+#    buttons = drawButtonEdges(_surface, small_settle) #Zombie code
 
-    drawButtonEdges(_surface, small_settle)
+    #drawButtonEdges(_surface, small_settle) #Zombie code
 
-    drawButtonMidPoints(_surface)
+    #drawButtonMidPoints(_surface) # Zombie code
 
+    # Draw the buttons and check for clicks
+    for i, btn in enumerate(buttons):
+        btn.draw(circle_surface)
+
+        # Check if the button is clicked
+        clicked = btn.is_clicked()
+
+        # If the button was not clicked in the previous frame and is clicked now, print a message
+        if not was_clicked[i] and clicked:
+            print(f"Button {i + 1} was clicked")
+
+        # Update the previous click state
+        was_clicked[i] = clicked
 
 
 

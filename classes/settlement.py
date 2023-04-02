@@ -1,5 +1,4 @@
-import player
-
+from classes import player
 class Settlement():
 
     def __init__(self, owner, potential_resources):

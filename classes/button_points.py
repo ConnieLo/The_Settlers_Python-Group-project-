@@ -2,28 +2,20 @@ import pygame
 # button class
 
 class button_points:
-    def __init__(self, x, y, circle):
-        self.image2 = circle
-        self.rect = self.image2.get_rect()
+    def __init__(self, x, y, image):
+        self.image = image
+        self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.clicked = False
-        self.offset = 0 # for animation purposes
 
-    def draw(self, surface):
-        action = False  # just a variable used for boolean values, i.e., a flag
-        # get mouse's position
-        pos = pygame.mouse.get_pos()
-        # check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):  # is the cursor colliding the rectangle of the button
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:  # [0] means left click, [1] means middle click, [2] means right click
-                self.clicked = True
-                action = True
-                self.offset = 6 # the amount of pixels getting shifted down when the button is being clicked on
-            elif pygame.mouse.get_pressed()[0] == 0:
-                self.clicked = False
-                self.offset = 0 # when the button is no longer being clicked on the amount of pixels getting shifted down will be 0, i.e., goes back to its position
+    def draw(self, screen):
+        # Get mouse's position
+        mouse_pos = pygame.mouse.get_pos()
 
-            # draw the circle button on screen
-            surface.blit(self.image2, (self.rect.x, self.rect.y + self.offset))
-        # this allows to use if statements in the draw() methods, because it returns boolean values
-        return action
+        # Check if the cursor is colliding with the rectangle of the button
+        if self.rect.collidepoint(mouse_pos):
+            # Draw the button on the screen
+            screen.blit(self.image, self.rect)
+
+    def is_clicked(self):
+        # Check if the left mouse button is pressed and the cursor is on the button
+        return pygame.mouse.get_pressed(3)[0] and self.rect.collidepoint(pygame.mouse.get_pos())
