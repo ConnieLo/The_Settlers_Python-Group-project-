@@ -216,7 +216,7 @@ random.shuffle(numbers)
 
 print(numbers)
 
-####################BUTTON EDGES - SETTLEMENT#################################
+#################### BUTTON EDGES - SETTLEMENT #################################
 # create a surface with a white circle and a transparent center
 circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
 pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
@@ -240,26 +240,6 @@ clicked_positions = []
 #################################################################################
 
 def main(_surface):
-
-    # Draw the buttons and check for clicks
-    for i, btn in enumerate(buttons):
-        btn.draw(_surface)
-
-        # Check if the button is clicked
-        clicked = btn.is_clicked()
-
-        # If the button was not clicked in the previous frame and is clicked now, print a message
-        if not was_clicked[i] and clicked:
-            print(f"Button {i + 1} was clicked")
-            clicked_positions.append((btn.rect.x, btn.rect.y))
-
-        # Update the previous click state
-        was_clicked[i] = clicked
-
-        # Blit the clicked image at the stored positions
-        for position in clicked_positions:
-            _surface.blit(small_settle, position)
-
     # Drawing the hexagons
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
@@ -270,9 +250,26 @@ def main(_surface):
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, numberImages)
 
-#    buttons = drawButtonEdges(_surface, small_settle) #Zombie code
+    # Draw the buttons and check for clicks
+    for i, btn in enumerate(buttons):
+        btn.draw(_surface)
 
-    #drawButtonEdges(_surface, small_settle) #Zombie code
+        # Check if the button is clicked
+        clicked = btn.is_clicked()
+
+        # If the button was not clicked in the previous frame and is clicked now, print a message
+        if not was_clicked[i] and clicked:
+            print(f"Settlement on the position {i + 1} has been placed")
+            clicked_positions.append((btn.rect.x, btn.rect.y))
+
+        # Update the previous click state
+        was_clicked[i] = clicked
+
+        # Blit the clicked image at the stored positions
+        for position in clicked_positions:
+            _surface.blit(small_settle, position)
+
+#    buttons = drawButtonEdges(_surface, small_settle) #Zombie code
 
     #drawButtonMidPoints(_surface) # Zombie code
 
