@@ -229,14 +229,37 @@ for co in co_ords:
 
     # Create a button for each point in the points list
     for point in points:
-        btn = button_points(point[0], point[1], circle_surface)
+        btn = button_points(point[0], point[1], circle_surface, hover_image=circle_surface)
         buttons.append(btn)
 
 # Variable to store the previous click state
 was_clicked = [False] * len(buttons)
+
+# An empty list to store the positions of clicked buttons
+clicked_positions = []
 #################################################################################
 
 def main(_surface):
+
+    # Draw the buttons and check for clicks
+    for i, btn in enumerate(buttons):
+        btn.draw(_surface)
+
+        # Check if the button is clicked
+        clicked = btn.is_clicked()
+
+        # If the button was not clicked in the previous frame and is clicked now, print a message
+        if not was_clicked[i] and clicked:
+            print(f"Button {i + 1} was clicked")
+            clicked_positions.append((btn.rect.x, btn.rect.y))
+
+        # Update the previous click state
+        was_clicked[i] = clicked
+
+        # Blit the clicked image at the stored positions
+        for position in clicked_positions:
+            _surface.blit(small_settle, position)
+
     # Drawing the hexagons
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
@@ -253,19 +276,7 @@ def main(_surface):
 
     #drawButtonMidPoints(_surface) # Zombie code
 
-    # Draw the buttons and check for clicks
-    for i, btn in enumerate(buttons):
-        btn.draw(circle_surface)
 
-        # Check if the button is clicked
-        clicked = btn.is_clicked()
-
-        # If the button was not clicked in the previous frame and is clicked now, print a message
-        if not was_clicked[i] and clicked:
-            print(f"Button {i + 1} was clicked")
-
-        # Update the previous click state
-        was_clicked[i] = clicked
 
 
 
