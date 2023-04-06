@@ -2,35 +2,39 @@ import pygame
 import pygame.draw
 import pygame.font
 from tools import hugo_hex
-import random
 from classes.button_points import button_points
+import pygame.sprite
+from classes.board import b
+import pygame
 
 pygame.init()
-# Load the image to be blitted
-settle = pygame.image.load("resources/settle.png")
-small_settle = pygame.transform.scale(settle, (40, 40))
-#################### Numbers images ###############################
-TWO = pygame.image.load('resources/numbers/Number_2.png')
-THREE = pygame.image.load('resources/numbers/Number_3.png')
-FOUR = pygame.image.load('resources/numbers/Number_4.png')
-FIVE = pygame.image.load('resources/numbers/Number_5.png')
-SIX = pygame.image.load('resources/numbers/Number_6.png')
-EIGHT = pygame.image.load('resources/numbers/Number_8.png')
-NINE = pygame.image.load('resources/numbers/Number_9.png')
-TEN = pygame.image.load('resources/numbers/Number_10.png')
-ELEVEN = pygame.image.load('resources/numbers/Number_11.png')
-TWELVE = pygame.image.load('resources/numbers/Number_12.png')
-
-################# Hexes images ##############################
-ORE = pygame.image.load('resources/hexType/oreHex.png')
-SHEEP = pygame.image.load('resources/hexType/sheepHex.png')
-CLAY = pygame.image.load('resources/hexType/clayHex.png')
-WHEAT = pygame.image.load('resources/hexType/wheatHex.png')
-WOOD = pygame.image.load('resources/hexType/woodHex.png')
-DESERT = pygame.image.load('resources/hexType/desertHex.png')
-
 SCREEN_WIDTH = 1366
 SCREEN_HEIGHT = 768
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+# Load the image to be blitted
+# Using convert_alpha() method to increase the FPS rates of the game
+settle = pygame.image.load("resources/settleRed.png").convert_alpha()
+small_settle = pygame.transform.scale(settle, (30, 30))
+#################### Numbers images ###############################
+TWO = pygame.image.load('resources/numbers/Number_2.png')
+THREE = pygame.image.load('resources/numbers/Number_3.png').convert_alpha()
+FOUR = pygame.image.load('resources/numbers/Number_4.png').convert_alpha()
+FIVE = pygame.image.load('resources/numbers/Number_5.png').convert_alpha()
+SIX = pygame.image.load('resources/numbers/Number_6.png').convert_alpha()
+EIGHT = pygame.image.load('resources/numbers/Number_8.png').convert_alpha()
+NINE = pygame.image.load('resources/numbers/Number_9.png').convert_alpha()
+TEN = pygame.image.load('resources/numbers/Number_10.png').convert_alpha()
+ELEVEN = pygame.image.load('resources/numbers/Number_11.png').convert_alpha()
+TWELVE = pygame.image.load('resources/numbers/Number_12.png').convert_alpha()
+
+################# Hexes images ##############################
+ORE = pygame.image.load('resources/hexType/oreHex.png').convert_alpha()
+SHEEP = pygame.image.load('resources/hexType/sheepHex.png').convert_alpha()
+CLAY = pygame.image.load('resources/hexType/clayHex.png').convert_alpha()
+WHEAT = pygame.image.load('resources/hexType/wheatHex.png').convert_alpha()
+WOOD = pygame.image.load('resources/hexType/woodHex.png').convert_alpha()
+DESERT = pygame.image.load('resources/hexType/desertHex.png').convert_alpha()
+
 
 # Grid co-ordinates
 co_ords = []
@@ -70,76 +74,7 @@ def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of
                 print(mid)
 # print(getCoordsOfEdgesMidpoints())
 
-numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 10: TEN, 11: ELEVEN, 12: TWELVE}
-def drawNumbers(_surface, numbers, numberImages):
-    # draw the image numbers
-    for i, co in enumerate(co_ords):
-        center = hex_grid.offset(*co)
-        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)  # adjust the x and y coordinates
-        number = numbers[i]
-        image = numberImages.get(number)  # get the corresponding image for the number
-
-        if image is not None:
-            # create a surface for the hex with the same size a5s the image
-            hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
-
-            # resize the image to fit inside the hexagon
-            image = pygame.transform.scale(image, (hex_grid.hex_size[0] + 60, hex_grid.hex_size[1] + 40))
-
-            # blit the image onto the surface
-            hex_surface.blit(image, (-30, -20))
-
-            # blit the surface onto the main surface at the center coordinates
-            surface_rect = hex_surface.get_rect(center=center)
-            _surface.blit(hex_surface, surface_rect)
-
-
-image_paths = {1: ORE, 2: ORE, 3: ORE,
-               4: SHEEP, 5: SHEEP, 6: SHEEP, 7: SHEEP,
-               8: CLAY, 9: CLAY, 10: CLAY,
-               11: WHEAT, 12: WHEAT, 13: WHEAT, 14: WHEAT,
-               15: WOOD, 16: WOOD, 17: WOOD, 18: WOOD,
-               19: DESERT}
-
-image_paths_list = list(image_paths.items())
-# shuffle the image paths to randomize the distribution of hex types
-random.shuffle(image_paths_list)
-image_paths = dict(image_paths_list)
-
-# Create a mapping of Pygame surfaces to their corresponding names
-name_mapping = {ORE: "ORE", SHEEP: "SHEEP", CLAY: "CLAY", WHEAT: "WHEAT", WOOD: "WOOD", DESERT: "DESERT"}
-
-# Print the shuffled values as a comma-separated string using the name_mapping dictionary
-print(",".join([name_mapping[value] for key, value in image_paths.items()]))
-def drawHex(_surface, numbers, image_paths):
-    # draw the images
-    is_7 = False
-    # draw the images
-    for i, (key, value) in enumerate(image_paths):
-        center = hex_grid.offset(*co_ords[i])
-        center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
-        if numbers[i] == 7:
-            image = DESERT
-            is_7 = True
-        elif value == DESERT and is_7:
-            continue
-        else:
-            image = value
-        # create a surface for the hex with the same size a5s the image
-        hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
-
-        # resize the image to fit inside the hexagon
-        image = pygame.transform.scale(image, (hex_grid.hex_size[0] - 30, hex_grid.hex_size[1] - 20))
-
-        # blit the image onto the surface
-        hex_surface.blit(image, (15, 10))
-
-        # blit the surface onto the main surface at the center coordinates
-        surface_rect = hex_surface.get_rect(center=center)
-        _surface.blit(hex_surface, surface_rect)
-
-
-#def drawButtonMidPoints(_surface):
+#def drawButtonMidPoints(_surface): #Zombie Code
     # create a surface with a white circle and a transparent center
 #    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
 #    pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
@@ -169,12 +104,7 @@ def drawHex(_surface, numbers, image_paths):
 #            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
 
 
-# Numbers
-numbers = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12, 7]
-# shuffle the numbers in the list
-random.shuffle(numbers)
 
-print(numbers)
 
 #################### BUTTON EDGES - SETTLEMENT #################################
 # create a surface with a white circle and a transparent center
@@ -200,9 +130,12 @@ clicked_positions = []
 
 # List to store dirty rects
 dirty_rects = []
-#################################################################################
 
-##################################################################################
+################################################################################
+numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 10: TEN, 11: ELEVEN, 12: TWELVE}
+
+hex_images = {"ore": ORE, "sheep": SHEEP, "clay": CLAY, "wheat": WHEAT, "wood": WOOD, "desert": DESERT}
+################################################################################
 
 def main(_surface):
     global dirty_rects
@@ -212,10 +145,7 @@ def main(_surface):
         points = hex_grid.get_hex_vertices(*co)
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
-    drawHex(_surface, numbers, image_paths_list)
-
-    # Draw random numbers in the center of each hexagon
-    drawNumbers(_surface, numbers, numberImages)
+    b.draw_board(_surface, hex_images, numberImages)
 
     #################### BUTTON EDGES - SETTLEMENT #################################
 
@@ -252,10 +182,6 @@ def main(_surface):
 
 
     #drawButtonMidPoints(_surface) # Zombie code
-
-
-
-
 
 
 
