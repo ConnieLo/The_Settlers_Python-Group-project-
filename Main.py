@@ -1,14 +1,12 @@
 import pygame
 from classes.button import Button
 from classes import ui, player, dice
-from classes.ui import drawButtonEdges
-
 
 # Initialize Pygame
 pygame.init()
 # Set screen size and title
-SCREEN_WIDTH = 1600
-SCREEN_HEIGHT = 900
+SCREEN_WIDTH = 1366
+SCREEN_HEIGHT = 768
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Catan")
 # load the icon for the game

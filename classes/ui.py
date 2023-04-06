@@ -50,20 +50,14 @@ def getCoordsOfCenter():  # prints out the coordinates of each vertex in the cen
         center = hex_grid.offset(*co)
         center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
         print(center)
-
-
 # print(getCoordsOfCenter())
-
 
 def getCoordsOfEdges():  # prints out the coordinates of each vertex of the hexagons' edges
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
         for point in points:
             print(point)
-
-
 # print(getCoordsOfEdges())
-
 
 def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of adjacent vertices
     for co in co_ords:
@@ -74,8 +68,6 @@ def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of
                 p2 = points[(i + 1) % len(points)]
                 mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
                 print(mid)
-
-
 # print(getCoordsOfEdgesMidpoints())
 
 numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 10: TEN, 11: ELEVEN, 12: TWELVE}
@@ -106,7 +98,8 @@ image_paths = {1: ORE, 2: ORE, 3: ORE,
                4: SHEEP, 5: SHEEP, 6: SHEEP, 7: SHEEP,
                8: CLAY, 9: CLAY, 10: CLAY,
                11: WHEAT, 12: WHEAT, 13: WHEAT, 14: WHEAT,
-               15: WOOD, 16: WOOD, 17: WOOD, 18: WOOD, 19: DESERT}
+               15: WOOD, 16: WOOD, 17: WOOD, 18: WOOD,
+               19: DESERT}
 
 image_paths_list = list(image_paths.items())
 # shuffle the image paths to randomize the distribution of hex types
@@ -118,23 +111,22 @@ name_mapping = {ORE: "ORE", SHEEP: "SHEEP", CLAY: "CLAY", WHEAT: "WHEAT", WOOD: 
 
 # Print the shuffled values as a comma-separated string using the name_mapping dictionary
 print(",".join([name_mapping[value] for key, value in image_paths.items()]))
-
-
-def drawHex(_surface, numbers, image_paths_list):
+def drawHex(_surface, numbers, image_paths):
     # draw the images
-    for i, (key, value) in enumerate(image_paths_list):
+    is_7 = False
+    # draw the images
+    for i, (key, value) in enumerate(image_paths):
         center = hex_grid.offset(*co_ords[i])
         center = (center[0] + SCREEN_WIDTH / 2, center[1] + SCREEN_HEIGHT / 2)
         if numbers[i] == 7:
             image = DESERT
+            is_7 = True
+        elif value == DESERT and is_7:
+            continue
         else:
             image = value
-
         # create a surface for the hex with the same size a5s the image
         hex_surface = pygame.Surface(hex_grid.hex_size, pygame.SRCALPHA)
-
-        # draw the hexagon onto the surface
-        pygame.draw.polygon(hex_surface, (0, 0, 0), hex_grid.get_hex_vertices(*co_ords[i]), width=5)
 
         # resize the image to fit inside the hexagon
         image = pygame.transform.scale(image, (hex_grid.hex_size[0] - 30, hex_grid.hex_size[1] - 20))
@@ -146,38 +138,6 @@ def drawHex(_surface, numbers, image_paths_list):
         surface_rect = hex_surface.get_rect(center=center)
         _surface.blit(hex_surface, surface_rect)
 
-
-
-def drawButtonEdges(_surface, image):
-    # create a surface with a white circle and a transparent center
-    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
-    pygame.draw.circle(circle_surface, (255, 255, 255, 200), (10, 10), 10)
-
-    # Create a list to store the buttons
-    buttons = []
-    # Drawing the hexagons
-    for co in co_ords:
-        points = hex_grid.get_hex_vertices(*co)
-
-        # Create a button for each point in the points list
-        for point in points:
-            btn = button_points(point[0], point[1], circle_surface)
-            buttons.append(btn)
-
-    # Draw buttons and check for clicks
-    for i, btn in enumerate(buttons):
-        btn.draw(_surface)
-
-        # Check if this button was clicked
-        if btn.clicked:
-            print(f"Button {i + 1} was clicked")
-            # Blit the image if the button has been clicked
-            _surface.blit(image, btn.rect.topleft)
-            # Set the clicked attribute to True so that the image will continue to be blitted
-            btn.clicked = True
-        else:
-            # Set the clicked attribute to False if the button is not clicked so that the image will not be blitted
-            btn.clicked = False
 
 #def drawButtonMidPoints(_surface):
     # create a surface with a white circle and a transparent center
@@ -229,7 +189,7 @@ for co in co_ords:
 
     # Create a button for each point in the points list
     for point in points:
-        btn = button_points(point[0], point[1], circle_surface, hover_image=circle_surface)
+        btn = button_points(point[0], point[1], circle_surface)
         buttons.append(btn)
 
 # Variable to store the previous click state
@@ -237,9 +197,16 @@ was_clicked = [False] * len(buttons)
 
 # An empty list to store the positions of clicked buttons
 clicked_positions = []
+
+# List to store dirty rects
+dirty_rects = []
 #################################################################################
 
+##################################################################################
+
 def main(_surface):
+    global dirty_rects
+
     # Drawing the hexagons
     for co in co_ords:
         points = hex_grid.get_hex_vertices(*co)
@@ -250,9 +217,12 @@ def main(_surface):
     # Draw random numbers in the center of each hexagon
     drawNumbers(_surface, numbers, numberImages)
 
+    #################### BUTTON EDGES - SETTLEMENT #################################
+
     # Draw the buttons and check for clicks
     for i, btn in enumerate(buttons):
         btn.draw(_surface)
+        dirty_rects.append(btn.rect)  # Add button rect to the dirty rects list
 
         # Check if the button is clicked
         clicked = btn.is_clicked()
@@ -262,14 +232,24 @@ def main(_surface):
             print(f"Settlement on the position {i + 1} has been placed")
             clicked_positions.append((btn.rect.x, btn.rect.y))
 
+            # Add the clicked position rect to the dirty rects list
+            dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, small_settle.get_width(), small_settle.get_height()))
+
         # Update the previous click state
         was_clicked[i] = clicked
 
         # Blit the clicked image at the stored positions
         for position in clicked_positions:
             _surface.blit(small_settle, position)
+            dirty_rect = pygame.Rect(position[0], position[1], small_settle.get_width(), small_settle.get_height())
+            dirty_rects.append(dirty_rect)
 
-#    buttons = drawButtonEdges(_surface, small_settle) #Zombie code
+    # Update only the dirty rects on the screen
+    pygame.display.update(dirty_rects)
+
+    # Clear the dirty rects list for the next frame
+    dirty_rects.clear()
+
 
     #drawButtonMidPoints(_surface) # Zombie code
 

@@ -2,9 +2,8 @@ import pygame
 # button class
 
 class button_points:
-    def __init__(self, x, y, image, hover_image=None):
+    def __init__(self, x, y, image):
         self.image = image
-        self.hover_image = hover_image
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
@@ -13,9 +12,9 @@ class button_points:
         mouse_pos = pygame.mouse.get_pos()
 
         # Check if the cursor is colliding with the rectangle of the button
-        if self.hover_image and self.rect.collidepoint(mouse_pos):
+        if self.image and self.rect.collidepoint(mouse_pos):
             # Draw the hover image on the screen
-            screen.blit(self.hover_image, self.rect)
+            screen.blit(self.image, self.rect)
 
 
     def is_clicked(self):
