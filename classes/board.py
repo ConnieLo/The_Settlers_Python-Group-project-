@@ -37,6 +37,14 @@ class Board:
 
         return new_tiles
 
+    # returns the tile number, resource, and position number for a given position
+    def get_tile_info(self, position):
+        if 0 <= position < len(self.tiles):
+            number, resource = self.tiles[position]
+            return position, resource, number
+        else:
+            return None
+
     def draw_board(self, _surface, hex_images, number_images):
         for i, (number, resource) in enumerate(self.tiles):
             # Draw the hexagon
@@ -78,3 +86,32 @@ co_ords += [(i, -2) for i in range(0, 3)]
 
 b = Board()
 print(b.tiles)
+
+
+# The class TileInfor extracts the vertex number, tile number, and resource information from the Board object
+# and stores it in instances of the TileInfo class. Then, it will print out the index,
+# vertex number, tile number, and resource for each TileInfo object in the tile_info_list.
+class TileInfo:
+    i = 0
+    def __init__(self, vertex_number, tile_number, resource):
+        self.position = TileInfo.i
+        TileInfo.i += 1
+        self.vertex_number = vertex_number
+        self.tile_number = tile_number
+        self.resource = resource
+
+    def print_info(self):
+        print(f"Position: {self.position}, Vertex Number: {self.vertex_number}, Tile Number: {self.tile_number}, Resource: {self.resource}")
+# List to store TileInfo objects
+tile_info_list = []
+# This extracts resources from the Board object
+for idx, co in enumerate(co_ords):
+    points = hex_grid.get_hex_vertices(*co)
+    for vertex_number, point in enumerate(points):
+        _, resource, tile_number = b.get_tile_info(idx)
+        tile_info = TileInfo(vertex_number, tile_number, resource)
+        tile_info_list.append(tile_info)
+
+# Prints the information for each TileInfo object
+for info in tile_info_list:
+    info.print_info()

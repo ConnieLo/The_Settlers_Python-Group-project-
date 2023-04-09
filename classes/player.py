@@ -33,8 +33,8 @@ class Player:
         else:
             return False
 
-    def new_settlement(self, vertex):
-        vertex.add_settlement(self)
+    def new_settlement(): # returns the list of settlements, which includes the position, resource, and number token for each settlement.
+        return settlements
 
     def add_city(self, vertex):
         # This method upgrades an existing settlement to a city at a given vertex.
