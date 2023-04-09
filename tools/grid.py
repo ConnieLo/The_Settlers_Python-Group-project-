@@ -1,7 +1,41 @@
+# An array to translate between indexing and co-ordinates (ie a[0] being the bottom left most
+# tile, at co-ordinate -2,-2
+CONSTANT_COORDS = (
+    (-2, -2),
+    (-1, -2),
+    (0, -2),
+    (-2, -1),
+    (-1, -1),
+    (0, -1),
+    (1, -1),
+    (-2, 0),
+    (-1,0),
+    (0, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1),
+    (2, 1),
+    (0, 2),
+    (1, 2),
+    (2, 2)
+)
+
+
+# Translates between co-ords and indexes
+def coord_to_index(i):
+    return CONSTANT_COORDS.index(tuple(i))
+
+
+# Translates between co-ords and indexes
+def index_to_coord(i):
+    return CONSTANT_COORDS[i]
+
+
 # Returns the co-ordinates of the nth neighbor (clockwise) of the tile at the given co-ord
 def neighbor_of(x, y, n):
     delta = [1, 1, 0, -1, -1, 0, 1]
     return x + delta[n], y + delta[n + 1]
+
 
 
 class GridBasic:
