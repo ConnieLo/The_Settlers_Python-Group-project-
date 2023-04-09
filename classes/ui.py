@@ -138,9 +138,8 @@ numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 1
 
 hex_images = {"ore": ORE, "sheep": SHEEP, "clay": CLAY, "wheat": WHEAT, "wood": WOOD, "desert": DESERT}
 ################################################################################
-
+settlements = []
 def main(_surface):
-    settlements = []
     global dirty_rects
 
     # Drawing the hexagons
