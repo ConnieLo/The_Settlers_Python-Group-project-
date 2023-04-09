@@ -46,6 +46,23 @@ quit_button2 = Button(SCREEN_WIDTH * 0, SCREEN_HEIGHT * 0, quit_img, quit_img2)
 # dice instance
 dice = dice.Dice(1078, 539, 50)  # define dice
 
+# Load card images
+Clay = pygame.image.load('resources/cards/brick.jpg').convert_alpha()
+Sheep = pygame.image.load('resources/cards/wool.jpg').convert_alpha()
+Ore = pygame.image.load('resources/cards/ore.jpg').convert_alpha()
+Wood = pygame.image.load('resources/cards/lumber.jpg').convert_alpha()
+Wheat = pygame.image.load('resources/cards/wheat.jpg').convert_alpha()
+# Making the images smaller size
+clay = pygame.transform.scale(Clay, (60, 100))
+sheep = pygame.transform.scale(Sheep, (60, 100))
+ore = pygame.transform.scale(Ore, (60, 100))
+wood = pygame.transform.scale(Wood, (60, 100))
+wheat = pygame.transform.scale(Wheat, (60, 100))
+
+
+# Mapping
+resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
+
 # Player instance
 # RBG value
 BLACK = (0, 0, 0)
@@ -55,8 +72,6 @@ font_size = 30
 font = pygame.font.Font(None, font_size)
 # create a player instance
 player1 = player.Player("Player", BLACK)
-
-
 ######################## Game Stage END #######################################################
 
 #################### Game Stage Function ######################################################
@@ -102,7 +117,8 @@ def game():
         ui.main(screen)
 
         # Display the player's name and score
-        player1.display(screen, font, 10, SCREEN_HEIGHT - 100)
+        player1.display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
+
 
         # crosshair
         crosshair_group.draw(screen)
