@@ -3,9 +3,9 @@ from classes.player import Player
 from classes.board import Board
 
 PLAYER_COLOURS = [
-    (50, 255, 50),  # GREEN
+    (255, 0, 0),  # RED
     (50, 100, 255),  # BLUE
-    (255, 75, 50),  # RED
+    (50, 255, 50),  # GREEN
     (255, 220, 0)  # YELLOW
 ]
 
@@ -28,7 +28,8 @@ class GameMaster:
         turn.take_turn()
 
     def new_settlement(self, settlement_info):
-        self.board.new_settlement(self.current_turn.active_player, settlement_info)
+        active_player = self.turn_queue[self.current_turn % 4]
+        self.board.new_settlement(active_player, settlement_info)
 
     # AT the start of each turn, goes through every settlement and assigns the relevant resorces to the player
     def pass_resources(self, roll):

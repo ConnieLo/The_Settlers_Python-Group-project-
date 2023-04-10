@@ -177,9 +177,7 @@ def main(_surface, game_master):
             if clicked_tile_info is not None:
                 settlement_info = (clicked_tile_info.resource, clicked_tile_info.tile_number)
                 game_master.new_settlement(settlement_info)
-                #print(settlements)
                 # Outputs a list containing the chosen index, vertex number, tile number, and resource where the user
-                # has placed a settlement
 
             # Adds the clicked position rect to the dirty rects list
             dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, small_settle.get_width(), small_settle.get_height()))

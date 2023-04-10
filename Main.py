@@ -15,7 +15,6 @@ icon = pygame.image.load('resources/icon.png').convert_alpha()
 # add the icon
 pygame.display.set_icon(icon)
 ###################### Universal instances ##################################################
-
 # crosshair
 pygame.mouse.set_visible(False)
 # load crosshair image & create a crosshair object and add it to a sprite group
@@ -63,17 +62,32 @@ wheat = pygame.transform.scale(Wheat, (60, 100))
 # Mapping
 resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
 
-# Player instance
-# RBG value
-BLACK = (0, 0, 0)
+# Font for player instances
 # Set the font size
 font_size = 30
 # Load the Pygame Serif font
 font = pygame.font.Font(None, font_size)
-# create a player instance
-player1 = player.Player("Player", BLACK)
 
+# Game master instance
 game_master = GameMaster()
+
+# Load the images for the end turn button
+end_turn_button_normal = pygame.image.load('resources/end_turn_button_normal.png').convert_alpha()
+end_turn_button_hover = pygame.image.load('resources/end_turn_button_hover.png').convert_alpha()
+# Makes the button smaller
+end_turn_button_normal_small = pygame.transform.scale(end_turn_button_normal, (120, 80))
+end_turn_button_hover_small = pygame.transform.scale(end_turn_button_hover, (120, 80))
+# Create an instance of the Button class
+end_turn_button = Button(890, 655, end_turn_button_normal_small, end_turn_button_hover_small)
+
+# Load the images for the trade button
+trade_button_normal = pygame.image.load('resources/trade_normal.png').convert_alpha()
+trade_button_hover = pygame.image.load('resources/trade_button_hover.png').convert_alpha()
+# Makes the button smaller
+trade_button_normal_small = pygame.transform.scale(trade_button_normal, (120, 80))
+trade_button_hover_small = pygame.transform.scale(trade_button_hover, (120, 80))
+# Create an instance of the Button class
+trade_button = Button(700, 655, trade_button_normal_small, trade_button_hover_small)
 ######################## Game Stage END #######################################################
 
 #################### Game Stage Function ######################################################
@@ -121,6 +135,13 @@ def game():
         # Display the player's name and score
         game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
 
+        if end_turn_button.draw(screen):
+            print('Ending the turn...')
+
+        if trade_button.draw(screen):
+            print('Trading...')
+
+
 
         # crosshair
         crosshair_group.draw(screen)
@@ -131,11 +152,6 @@ def game():
 
 
 ############################# Main Game Loop #################################################
-# Run the game loop
-####
-
-
-####
 running = True
 while running:
     for event in pygame.event.get():
@@ -145,10 +161,8 @@ while running:
     # buttons
     screen.blit(background, (0, 0))
     if start_button.draw(screen):
-        print('START')
         game()
     if quit_button.draw(screen):
-        print('QUIT')
         running = False
 
     # crosshair
