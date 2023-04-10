@@ -43,13 +43,7 @@ class Board:
         return new_tiles
 
     def new_settlement(self, owner, settlement_info):
-        potential_resources = []
-
-        for item in settlement_info:
-            # We only need the resorce name and number
-            potential_resources.append((item[2], item[1]))
-
-        new: Settlement = Settlement(owner, potential_resources)
+        new: Settlement = Settlement(owner, settlement_info)
         self.settlements.append(new)
 
     def get_settlements(self):
