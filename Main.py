@@ -1,13 +1,6 @@
 import pygame
 from classes.button import Button
 from classes import ui, player, dice
-from classes.board import settlements
-from classes import board
-from tools import hugo_hex
-from classes.button_points import button_points
-import pygame.sprite
-from classes.board import b, Board, tile_info_list
-from classes.game_master import PLAYER_COLOURS, GameMaster
 
 # Initialize Pygame
 pygame.init()
@@ -70,14 +63,15 @@ wheat = pygame.transform.scale(Wheat, (60, 100))
 # Mapping
 resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
 
-# Fonts for the player
+# Player instance
+# RBG value
+BLACK = (0, 0, 0)
 # Set the font size
 font_size = 30
 # Load the Pygame Serif font
 font = pygame.font.Font(None, font_size)
-
-# Game master instance
-game_master = GameMaster()
+# create a player instance
+player1 = player.Player("Player", BLACK)
 ######################## Game Stage END #######################################################
 
 #################### Game Stage Function ######################################################
@@ -123,7 +117,7 @@ def game():
         ui.main(screen)
 
         # Display the player's name and score
-        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
+        player1.display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
 
 
         # crosshair
