@@ -34,4 +34,4 @@ class GameMaster:
     # AT the start of each turn, goes through every settlement and assigns the relevant resorces to the player
     def pass_resources(self, roll):
         for s in self.board.get_settlements():
-            s.grant_resources(roll)
+            print(s)

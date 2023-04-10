@@ -46,7 +46,7 @@ class Board:
         self.settlements.append(new)
 
     def get_settlements(self):
-        return self.grid.get_all_verticies()
+        return self.settlements
 
     # returns the tile number, resource, and position number for a given position
     def get_tile_info(self, position):

@@ -142,6 +142,7 @@ def game():
 
         if end_turn_button.draw(screen): # If the user clicks on the end_turn_button then...
             print('Ending the turn...')
+            game_master.next_turn()
 
         if trade_button.draw(screen):# If the user clicks on the trade_button then...
             print('Trading...')
