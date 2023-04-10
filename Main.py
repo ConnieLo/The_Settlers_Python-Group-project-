@@ -1,6 +1,7 @@
 import pygame
 from classes.button import Button
 from classes import ui, player, dice
+from classes.game_master import GameMaster
 
 # Initialize Pygame
 pygame.init()
@@ -59,7 +60,6 @@ ore = pygame.transform.scale(Ore, (60, 100))
 wood = pygame.transform.scale(Wood, (60, 100))
 wheat = pygame.transform.scale(Wheat, (60, 100))
 
-
 # Mapping
 resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
 
@@ -72,6 +72,8 @@ font_size = 30
 font = pygame.font.Font(None, font_size)
 # create a player instance
 player1 = player.Player("Player", BLACK)
+
+game_master = GameMaster()
 ######################## Game Stage END #######################################################
 
 #################### Game Stage Function ######################################################
@@ -114,10 +116,10 @@ def game():
             running = False
 
         # board
-        ui.main(screen)
+        ui.main(screen, game_master)
 
         # Display the player's name and score
-        player1.display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
+        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
 
 
         # crosshair
@@ -157,3 +159,4 @@ while running:
     pygame.display.update()
 # Quit Pygame
 pygame.quit()
+

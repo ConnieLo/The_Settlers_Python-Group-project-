@@ -127,5 +127,3 @@ for idx, co in enumerate(co_ords):
 # Prints the information for each TileInfo object
 #for info in tile_info_list:
 #    info.print_info()
-
-settlements = []

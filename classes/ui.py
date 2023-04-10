@@ -2,7 +2,6 @@ import pygame
 import pygame.draw
 import pygame.font
 
-from classes.board import settlements
 from classes import board
 from tools import hugo_hex
 from classes.button_points import button_points
@@ -141,7 +140,7 @@ numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 1
 
 hex_images = {"ore": ORE, "sheep": SHEEP, "clay": CLAY, "wheat": WHEAT, "wood": WOOD, "desert": DESERT}
 ################################################################################
-def main(_surface):
+def main(_surface, game_master):
     global dirty_rects
 
     # Drawing the hexagons
@@ -174,11 +173,11 @@ def main(_surface):
                 if tile_info.position == i:
                     clicked_tile_info = tile_info
                     break
-            # Appends the necessary information to the settlements list
+            # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
-                settlements.append(
-                    (clicked_tile_info.resource, clicked_tile_info.tile_number))
-                print(settlements)
+                settlement_info = (clicked_tile_info.resource, clicked_tile_info.tile_number)
+                game_master.new_settlement(settlement_info)
+                #print(settlements)
                 # Outputs a list containing the chosen index, vertex number, tile number, and resource where the user
                 # has placed a settlement
 
