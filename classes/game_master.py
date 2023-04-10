@@ -9,12 +9,11 @@ PLAYER_COLOURS = [
     (255, 220, 0)  # YELLOW
 ]
 
-
 class GameMaster:
     turn_queue: list[Turn]
     current_turn: Turn
 
-    def __init__(self):
+    def __init__(self, ):
         # Instancing an array of 4 players with unique names and colours
         self.turn_queue = [
             Player("player {}".format(i), PLAYER_COLOURS[i]) for i in range(4)

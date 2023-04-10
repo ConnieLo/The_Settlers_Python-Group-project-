@@ -131,5 +131,7 @@ for idx, co in enumerate(co_ords):
         tile_info_list.append(tile_info)
 
 # Prints the information for each TileInfo object
-for info in tile_info_list:
-    info.print_info()
+#for info in tile_info_list:
+#    info.print_info()
+
+settlements = []
