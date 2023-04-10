@@ -162,6 +162,13 @@ class Player:
                       self.get_victory_points_from_development_cards() + self.get_victory_points_from_other_sources()
         return self.score
 
+    # TODO
+    def prompt_trade(self):
+        pass
+
+    # TODO
+    def prompt_builds(self):
+        pass
 
     def display(self, surface, font, x, y, resource_images):
         text = font.render(f"{self.name}'s Victory Points: {self.score}", True, self.color)

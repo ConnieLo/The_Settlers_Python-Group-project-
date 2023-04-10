@@ -18,7 +18,6 @@ class Turn:
 
         # Prompt the player to purchase/build new items. Pass any new roads or settlments to the game master
         new_builds = self.active_player.prompt_builds()
-        self.master.update_board(new_builds)
 
     def new_settlement(self, settlement_info):
         self.master.new_settlement(settlement_info)

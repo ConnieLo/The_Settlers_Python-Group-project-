@@ -12,7 +12,6 @@ class Board:
     def __init__(self):
         self.tiles = self.generate_tiles()
         self.grid = GridStruct()
-        self.foo = "bar"
         self.settlements = []
 
     def generate_tiles(self):
