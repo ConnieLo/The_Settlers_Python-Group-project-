@@ -3,6 +3,7 @@ import itertools as itt
 import pygame
 from tools import hugo_hex
 from tools.grid import GridStruct, CONSTANT_COORDS
+from classes.settlement import Settlement
 
 #from classes.ui import (SCREEN_WIDTH, SCREEN_HEIGHT) #  File "C:\PycharmProjects\The_Settlers_Python\classes\board.py", line 5, in <module> from classes.ui import hex_grid, hex_radius
 # ImportError: cannot import name 'hex_grid' from partially initialized module 'classes.ui' (most likely due to a circular import) (C:\Users\maruf\PycharmProjects\The_Settlers_Python\classes\ui.py)
@@ -12,6 +13,7 @@ class Board:
         self.tiles = self.generate_tiles()
         self.grid = GridStruct()
         self.foo = "bar"
+        self.settlements = []
 
     def generate_tiles(self):
         new_tiles = []
@@ -39,6 +41,16 @@ class Board:
         new_tiles.insert(rnd.randint(0, 18), (0, "desert"))
 
         return new_tiles
+
+    def new_settlement(self, owner, settlement_info):
+        potential_resources = []
+
+        for item in settlement_info:
+            # We only need the resorce name and number
+            potential_resources.append((item[2], item[1]))
+
+        new: Settlement = Settlement(owner, potential_resources)
+        self.settlements.append(new)
 
     def get_settlements(self):
         return self.grid.get_all_verticies()
