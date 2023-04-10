@@ -21,7 +21,6 @@ class GameMaster:
         ]
         self.current_turn = 0
         self.board = Board()
-
     # Generates and starts the next turn
     def next_turn(self):
         player = self.turn_queue[self.current_turn % 4]
