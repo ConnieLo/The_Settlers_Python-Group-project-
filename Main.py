@@ -44,7 +44,7 @@ quit_button = Button(SCREEN_WIDTH / 1.8, SCREEN_HEIGHT / 2.5, quit_img, quit_img
 quit_button2 = Button(SCREEN_WIDTH * 0, SCREEN_HEIGHT * 0, quit_img, quit_img2)
 
 # dice instance
-dice = dice.Dice(1078, 539, 50)  # define dice
+dice = dice.Dice(1120, 670, 50)  # define dice
 
 # Load card images
 Clay = pygame.image.load('resources/cards/brick.jpg').convert_alpha()
@@ -102,7 +102,7 @@ def game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            ####################################################################################
+            ################################### THE DICE ANIMATION ##########################################
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouseX, mouseY = pygame.mouse.get_pos()
                 if (dice.d1X <= mouseX <= dice.d2X + dice.dimens) and (dice.d1Y <= mouseY <= dice.d1Y + dice.dimens):
@@ -121,32 +121,36 @@ def game():
                 else:
                     dice.roll(screen)  # temp display of dice while rolling
                     dRollCount += 1
-
+        ##########################################################################################################
         # display static dice when not rolling
         dice.display(screen)
 
         if quit_button2.draw(screen):
-            print('QUIT')
             running = False
 
         # board
         ui.main(screen, game_master)
 
-        # Display the player's name and score
-        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 200, resource_images)
+        # Display the player's name and details
+        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
 
-        if end_turn_button.draw(screen):
+        # Display the bots' names and their details
+        game_master.turn_queue[1].display_for_bots(screen, font, SCREEN_WIDTH - 375, 20, resource_images)
+        game_master.turn_queue[2].display_for_bots(screen, font, SCREEN_WIDTH - 375, 240, resource_images)
+        game_master.turn_queue[3].display_for_bots(screen, font, SCREEN_WIDTH - 375, 460, resource_images)
+
+
+        if end_turn_button.draw(screen): # If the user clicks on the end_turn_button then...
             print('Ending the turn...')
 
-        if trade_button.draw(screen):
+        if trade_button.draw(screen):# If the user clicks on the trade_button then...
             print('Trading...')
-
-
 
         # crosshair
         crosshair_group.draw(screen)
         crosshair_group.update()
         #########################################################################
+        # FPS
         clock.tick(60)
         pygame.display.flip()
 

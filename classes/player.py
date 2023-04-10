@@ -11,6 +11,9 @@ class Player:
         self.resources = {"wood": 0, "brick": 0, "sheep": 0, "wheat": 0, "ore": 0}
         self.development_cards = {"Knights": 0, "Road Building": 0, "Year of Plenty": 0, "Monopoly": 0, "University": 0,
                                   "Market": 0, "Great Hall": 0, "Chapel": 0, "Library": 0, }
+        self.number_of_roads = 0
+        self.number_of_cities = 0
+        self.number_of_cards = 0
 
     def add_resources(self, resource, quantity):
         self.resources[resource] += quantity
@@ -177,5 +180,34 @@ class Player:
             x + resource_x_offset + count_x_offset, y + resource_y_offset + image.get_height() + vertical_offset))
             resource_x_offset += image.get_width() + 20
 
-        text3 = font.render(f"{self.name}'s Development Cards: {self.development_cards}", True, self.color)
-        surface.blit(text3, (x, y + resource_y_offset + image.get_height() + 50))
+        #text3 = font.render(f"Development Cards: {self.development_cards}", True, self.color)
+        #surface.blit(text3, (x, y + resource_y_offset + image.get_height() + 50))
+
+        text4 = font.render(f"Number of Roads: {self.number_of_roads}", True, self.color)
+        surface.blit(text4, (x, y + resource_y_offset + image.get_height() +60))
+
+        text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
+        surface.blit(text5, (x, y + resource_y_offset + image.get_height() +100))
+
+    def display_for_bots(self, surface, font, x, y, resource_images): # This needs more working to do
+        text = font.render(f"{self.name}'s Victory Points: {self.score}", True, self.color)
+        surface.blit(text, (x, y))
+
+        resource_y_offset = 0 # For it is set to 0 will change once I add images
+
+        total_resources = sum(self.resources.values())
+        text2 = font.render(f"Number of Resource Cards: {total_resources}", True, self.color)
+        surface.blit(text2, (x, y + resource_y_offset + 20))
+
+        total_development_cards = sum(self.development_cards.values())
+        text3 = font.render(f"Number of Development Cards: {total_development_cards}", True, self.color)
+        surface.blit(text3, (x, y + resource_y_offset + 40))
+
+        text4 = font.render(f"Number of Roads: {self.number_of_roads}", True, self.color)
+        surface.blit(text4, (x, y + resource_y_offset + 60))
+
+        text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
+        surface.blit(text5, (x, y + resource_y_offset + 80))
+
+        text6 = font.render(f"Number of Cards: {self.number_of_cards}", True, self.color)
+        surface.blit(text6, (x, y + resource_y_offset + 100))
