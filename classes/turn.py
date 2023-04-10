@@ -20,6 +20,7 @@ class Turn:
         new_builds = self.active_player.prompt_builds()
         self.master.update_board(new_builds)
 
-
+    def new_settlement(self, settlement_info):
+        self.master.new_settlement(settlement_info)
 
 

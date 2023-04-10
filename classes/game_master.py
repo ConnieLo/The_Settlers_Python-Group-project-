@@ -21,11 +21,15 @@ class GameMaster:
         ]
         self.current_turn = 0
         self.board = Board()
+
     # Generates and starts the next turn
     def next_turn(self):
         player = self.turn_queue[self.current_turn % 4]
         turn = Turn(self, player, self.current_turn)
         turn.take_turn()
+
+    def new_settlement(self, settlement_info):
+        self.board.new_settlement(self.current_turn.active_player, settlement_info)
 
     # AT the start of each turn, goes through every settlement and assigns the relevant resorces to the player
     def pass_resources(self, roll):
