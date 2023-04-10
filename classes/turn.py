@@ -1,13 +1,9 @@
-import classes.player as player
-import classes.game_master as gm
+from classes.player import Player
 from random import randint
 
 
 class Turn:
-    active_player: player.Player
-    master: gm.GameMaster
-
-    def __init__(self, master: gm.GameMaster, which_player, turn_no):
+    def __init__(self, master, which_player, turn_no):
         self.master = master
         self.turn_no = turn_no
         self.active_player = which_player
