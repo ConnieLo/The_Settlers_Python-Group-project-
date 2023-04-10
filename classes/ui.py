@@ -171,7 +171,7 @@ def main(_surface):
             # Appends the necessary information to the settlements list
             if clicked_tile_info is not None:
                 settlements.append(
-                    (clicked_tile_info.position, clicked_tile_info.resource, clicked_tile_info.tile_number))
+                    (clicked_tile_info.resource, clicked_tile_info.tile_number))
                 print(settlements)
                 # Outputs a list containing the chosen index, vertex number, tile number, and resource where the user
                 # has placed a settlement
