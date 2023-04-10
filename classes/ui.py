@@ -2,6 +2,7 @@ import pygame
 import pygame.draw
 import pygame.font
 
+from classes.board import settlements
 from classes import board
 from tools import hugo_hex
 from classes.button_points import button_points
@@ -105,13 +106,15 @@ def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of
 #        if btn.clicked:
 #            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
 
-
-
+#################### BUTTON EDGES' MIDPOINTS - ROAD #################################
+    # create a surface with a white circle and a transparent center
+circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
 
 #################### BUTTON EDGES - SETTLEMENT #################################
 # create a surface with a white circle and a transparent center
 circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
-pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
+pygame.draw.circle(circle_surface, (255, 255, 255, 200), (10, 10), 10)
 # Create a list to store the buttons
 buttons = []
 
@@ -138,7 +141,6 @@ numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 1
 
 hex_images = {"ore": ORE, "sheep": SHEEP, "clay": CLAY, "wheat": WHEAT, "wood": WOOD, "desert": DESERT}
 ################################################################################
-settlements = []
 def main(_surface):
     global dirty_rects
 
@@ -148,7 +150,11 @@ def main(_surface):
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
     b.draw_board(_surface, hex_images, numberImages)
-    #################### BUTTON EDGES - SETTLEMENT #################################
+    #################### BUTTON EDGES' MIDPOINTS - ROAD #################################
+
+
+
+    #################### BUTTON EDGES - SETTLEMENT/CITIES #################################
     # Draws the buttons and check for clicks
     for i, btn in enumerate(buttons):
         btn.draw(_surface)
@@ -171,7 +177,7 @@ def main(_surface):
             # Appends the necessary information to the settlements list
             if clicked_tile_info is not None:
                 settlements.append(
-                    (clicked_tile_info.position, clicked_tile_info.resource, clicked_tile_info.tile_number))
+                    (clicked_tile_info.resource, clicked_tile_info.tile_number))
                 print(settlements)
                 # Outputs a list containing the chosen index, vertex number, tile number, and resource where the user
                 # has placed a settlement
