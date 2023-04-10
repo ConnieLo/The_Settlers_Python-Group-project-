@@ -1,3 +1,5 @@
+import random
+
 from classes import cards, settlement, trade
 
 
@@ -33,8 +35,8 @@ class Player:
         else:
             return False
 
-    def new_settlement(self, vertex):
-        vertex.add_settlement(self)
+    #def new_settlement(self, vertex):# not sure if needeed
+    #    vertex.new_settlement(self)
 
     def add_city(self, vertex):
         # This method upgrades an existing settlement to a city at a given vertex.
@@ -157,10 +159,23 @@ class Player:
                       self.get_victory_points_from_development_cards() + self.get_victory_points_from_other_sources()
         return self.score
 
-    def display(self, surface, font, x, y):
+
+    def display(self, surface, font, x, y, resource_images):
         text = font.render(f"{self.name}'s Victory Points: {self.score}", True, self.color)
-        text2 = font.render(f"{self.name}'s Resources: {self.resources}", True, self.color)
-        text3 = font.render(f"{self.name}'s Development Cards: {self.development_cards}", True, self.color)
         surface.blit(text, (x, y))
-        surface.blit(text2, (x, y + 50))
-        surface.blit(text3, (x, y + 80))
+
+        resource_y_offset = 50
+        resource_x_offset = 0
+        for resource, image in resource_images.items(): # Extraction of resource_images list
+            surface.blit(image, (x + resource_x_offset, y + resource_y_offset)) # Blits the images
+            count_text = font.render(str(self.resources[resource]), True, self.color)
+            text_width, _ = count_text.get_size()
+            count_x_offset = (image.get_width() - text_width) // 2 # This value is used to move the numbers to the center of the corresponding image
+            vertical_offset = 10  # This value is used to move the numbers further down
+            # Adds up all the offsets for the numbers text
+            surface.blit(count_text, (
+            x + resource_x_offset + count_x_offset, y + resource_y_offset + image.get_height() + vertical_offset))
+            resource_x_offset += image.get_width() + 20
+
+        text3 = font.render(f"{self.name}'s Development Cards: {self.development_cards}", True, self.color)
+        surface.blit(text3, (x, y + resource_y_offset + image.get_height() + 50))

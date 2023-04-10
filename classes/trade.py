@@ -1,4 +1,4 @@
-class Trade:
+class Trade: # Not finished!
     def __init__(self, giver, receiver, give, receive):
         self.giver = giver
         self.receiver = receiver

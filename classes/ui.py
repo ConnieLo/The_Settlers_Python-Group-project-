@@ -1,10 +1,12 @@
 import pygame
 import pygame.draw
 import pygame.font
+
+from classes import board
 from tools import hugo_hex
 from classes.button_points import button_points
 import pygame.sprite
-from classes.board import b
+from classes.board import b, Board, tile_info_list
 import pygame
 
 pygame.init()
@@ -136,7 +138,7 @@ numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 1
 
 hex_images = {"ore": ORE, "sheep": SHEEP, "clay": CLAY, "wheat": WHEAT, "wood": WOOD, "desert": DESERT}
 ################################################################################
-
+settlements = []
 def main(_surface):
     global dirty_rects
 
@@ -146,15 +148,13 @@ def main(_surface):
         pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
 
     b.draw_board(_surface, hex_images, numberImages)
-
     #################### BUTTON EDGES - SETTLEMENT #################################
-
-    # Draw the buttons and check for clicks
+    # Draws the buttons and check for clicks
     for i, btn in enumerate(buttons):
         btn.draw(_surface)
         dirty_rects.append(btn.rect)  # Add button rect to the dirty rects list
 
-        # Check if the button is clicked
+        # Checks if the button is clicked
         clicked = btn.is_clicked()
 
         # If the button was not clicked in the previous frame and is clicked now, print a message
@@ -162,28 +162,37 @@ def main(_surface):
             print(f"Settlement on the position {i + 1} has been placed")
             clicked_positions.append((btn.rect.x, btn.rect.y))
 
-            # Add the clicked position rect to the dirty rects list
+            # This finds the TileInfo object for the clicked position
+            clicked_tile_info = None
+            for tile_info in tile_info_list:
+                if tile_info.position == i:
+                    clicked_tile_info = tile_info
+                    break
+            # Appends the necessary information to the settlements list
+            if clicked_tile_info is not None:
+                settlements.append(
+                    (clicked_tile_info.position, clicked_tile_info.resource, clicked_tile_info.tile_number))
+                print(settlements)
+                # Outputs a list containing the chosen index, vertex number, tile number, and resource where the user
+                # has placed a settlement
+
+            # Adds the clicked position rect to the dirty rects list
             dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, small_settle.get_width(), small_settle.get_height()))
 
-        # Update the previous click state
+        # Updates the previous click state
         was_clicked[i] = clicked
 
-        # Blit the clicked image at the stored positions
+        # Blits the clicked image at the stored positions
         for position in clicked_positions:
             _surface.blit(small_settle, position)
             dirty_rect = pygame.Rect(position[0], position[1], small_settle.get_width(), small_settle.get_height())
             dirty_rects.append(dirty_rect)
 
-    # Update only the dirty rects on the screen
+    # Updates only the dirty rects on the screen
     pygame.display.update(dirty_rects)
 
-    # Clear the dirty rects list for the next frame
+    # Clears the dirty rects list for the next frame
     dirty_rects.clear()
-
-
-    #drawButtonMidPoints(_surface) # Zombie code
-
-
 
 class crosshair(pygame.sprite.Sprite):
     def __init__(self, picture_path, alt_picture_path):
