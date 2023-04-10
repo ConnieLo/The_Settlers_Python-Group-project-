@@ -40,7 +40,7 @@ def neighbor_of(x, y, n):
 
 class GridBasic:
     def __init__(self):
-        self._grid = dict()
+        self._grid : dict = dict()
 
     def get(self, x, y, default=None):
         print(self._grid.keys())
@@ -48,6 +48,9 @@ class GridBasic:
 
     def set(self, x, y, val):
         self._grid[(x, y)] = val
+
+    def get_all(self):
+        return self._grid.values()
 
     # Returns true if a NONE NULL object exists at the given point, otherwise false
     def exists(self, x, y):
@@ -75,29 +78,10 @@ class GridStruct(GridBasic):
         elif f == "e":
             pass
 
-    # This is really gross I don't like it...
-    # because of how Python handles unpacking args with * I just have to TRUST that c[2] is val
-    def set(self, *c, f=None):
-        # Setting a tile
-        if f is None:
-            pass
-        # Setting a vertex
-        elif f == "v":
-            pass
-        # setting a vertex
-        elif f == "e":
-            pass
+    def get_tile(self, x, y):
+        return super().get(x, y)
 
-    # returns the tile at (x, y) or creates a new, empty one if there is nothing there
-    def _touch(self, x, y):
-        if not super().exists(x, y):
-            tile = _TileWrapper()
-            super().set(x, y, tile)
-        else:
-            tile = super().get(x, y)
-        return tile
-
-    def _get_vertex(self, x, y, z):
+    def get_vertex(self, x, y, z):
         # This function uses recursive logic, the base case being when z is either 0 or 1
 
         # VERTICES
@@ -122,7 +106,27 @@ class GridStruct(GridBasic):
         elif z == 5:
             return self._get_vertex(*neighbor_of(x, y, 4), 1)
 
-    def _set_vertex(self, x, y, z, val):
+    def get_edge(self, x, y, z):
+        # EDGES
+        # z = 3 -> e0 of n3
+        # z = 4 -> e1 of n4
+        # z = 5 -> e2 of n5
+        if z <= 2:
+            tile = super().get(x, y)
+
+            # If tile is none, there's nothing there
+            if tile is None:
+                return None
+
+            return tile.e[z]
+        elif z <= 5:
+            return self._get_edge(*neighbor_of(x, y, z), z - 3)
+
+    def set_tile(self, x, y, val):
+        tile = self._touch(x, y)
+        tile.val = val
+
+    def set_vertex(self, x, y, z, val):
         # VERTICES
         # z = 2 -> v 0 of neighbor 2
         # z = 3 -> v 1 of neighbor 3
@@ -141,23 +145,7 @@ class GridStruct(GridBasic):
         elif z == 5:
             self._set_vertex(*neighbor_of(x, y, 4), 1, val)
 
-    def _get_edge(self, x, y, z):
-        # EDGES
-        # z = 3 -> e0 of n3
-        # z = 4 -> e1 of n4
-        # z = 5 -> e2 of n5
-        if z <= 2:
-            tile = super().get(x, y)
-
-            # If tile is none, there's nothing there
-            if tile is None:
-                return None
-
-            return tile.e[z]
-        elif z <= 5:
-            return self._get_edge(*neighbor_of(x, y, z), z-3)
-
-    def _set_edge(self, x, y, z, val):
+    def set_edge(self, x, y, z, val):
         # EDGES
         # z = 3 -> e0 of n3
         # z = 4 -> e1 of n4
@@ -167,7 +155,30 @@ class GridStruct(GridBasic):
             tile = self._touch(x, y)
             tile.e[z] = val
         elif z <= 5:
-            self._set_edge(*neighbor_of(x, y, z), z-3)
+            self._set_edge(*neighbor_of(x, y, z), z - 3)
+
+    # Returns all the not none vertexes
+    def get_all_verticies(self):
+        v_list = []
+
+        for tile in super().get_all():
+            for vertex in tile.v:
+                if vertex is not None:
+                    v_list.append(vertex)
+
+        return v_list
+
+
+    # returns the tile at (x, y) or creates a new, empty one if there is nothing there
+    def _touch(self, x, y):
+        if not super().exists(x, y):
+            tile = _TileWrapper()
+            super().set(x, y, tile)
+        else:
+            tile = super().get(x, y)
+        return tile
+
+
 
 
 class _TileWrapper:

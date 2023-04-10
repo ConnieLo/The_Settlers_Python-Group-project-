@@ -2,12 +2,15 @@ import random as rnd
 import itertools as itt
 import pygame
 from tools import hugo_hex
+from tools.grid import GridStruct, CONSTANT_COORDS
+
 #from classes.ui import (SCREEN_WIDTH, SCREEN_HEIGHT) #  File "C:\PycharmProjects\The_Settlers_Python\classes\board.py", line 5, in <module> from classes.ui import hex_grid, hex_radius
 # ImportError: cannot import name 'hex_grid' from partially initialized module 'classes.ui' (most likely due to a circular import) (C:\Users\maruf\PycharmProjects\The_Settlers_Python\classes\ui.py)
 # I cannot import stuff we should make another class maybe called constants.py where we would store all variables such as SCREEN_WIDTH, SCREEN_HEIGHT, etc..
 class Board:
     def __init__(self):
         self.tiles = self.generate_tiles()
+        self.grid = GridStruct()
         self.foo = "bar"
 
     def generate_tiles(self):
@@ -36,6 +39,9 @@ class Board:
         new_tiles.insert(rnd.randint(0, 18), (0, "desert"))
 
         return new_tiles
+
+    def get_settlements(self):
+        return self.grid.get_all_verticies()
 
     # returns the tile number, resource, and position number for a given position
     def get_tile_info(self, position):
