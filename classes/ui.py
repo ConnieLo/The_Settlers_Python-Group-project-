@@ -112,6 +112,7 @@ for co in co_ords:
 # create a surface with a white circle and a transparent center
 circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
 pygame.draw.circle(circle_surface, (255, 255, 255, 200), (10, 10), 10)
+
 # Create a list to store the buttons
 buttons = []
 
@@ -153,15 +154,16 @@ def main(_surface, game_master):
     # Draws the buttons and check for clicks
     for i, btn in enumerate(buttons):
         btn.draw(_surface)
-        dirty_rects.append(btn.rect)  # Add button rect to the dirty rects list
+        dirty_rects.append(btn.rect)  # Adds button rect to the dirty rects list
 
         # Checks if the button is clicked
         clicked = btn.is_clicked()
 
-        # If the button was not clicked in the previous frame and is clicked now, print a message
+        # If the button was not clicked in the previous frame and is clicked now
         if not was_clicked[i] and clicked:
-            #print(f"Settlement on the position {i + 1} has been placed")
+            #print(f"Settlement on the position {i + 1} has been placed") # Print a message
             clicked_positions.append((btn.rect.x, btn.rect.y))
+
 
             # This finds the TileInfo object for the clicked position
             clicked_tile_info = None
@@ -185,10 +187,10 @@ def main(_surface, game_master):
         was_clicked[i] = clicked
 
         # Blits the clicked image at the stored positions
-        for position in clicked_positions:
-            _surface.blit(small_settle, position)
-            dirty_rect = pygame.Rect(position[0], position[1], small_settle.get_width(), small_settle.get_height())
-            dirty_rects.append(dirty_rect)
+    for position in clicked_positions:
+        _surface.blit(small_settle, position)
+        dirty_rect = pygame.Rect(position[0], position[1], small_settle.get_width(), small_settle.get_height())
+        dirty_rects.append(dirty_rect)
 
     # Updates only the dirty rects on the screen
     pygame.display.update(dirty_rects)
