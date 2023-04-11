@@ -63,12 +63,8 @@ road_cards = pygame.image.load('resources/cards/road_cards.jpg').convert_alpha()
 settlement = pygame.image.load('resources/cards/settlement.jpg').convert_alpha()
 victory_points = pygame.image.load('resources/cards/victory_points.jpg').convert_alpha()
 
-
-
 # aj work for the bank
 bank = pygame.image.load('resources/Bank/bank.jpg').convert_alpha()
-
-
 
 # Making the images smaller size
 clay = pygame.transform.scale(Clay, (60, 100))
@@ -76,9 +72,6 @@ sheep = pygame.transform.scale(Sheep, (60, 100))
 ore = pygame.transform.scale(Ore, (60, 100))
 wood = pygame.transform.scale(Wood, (60, 100))
 wheat = pygame.transform.scale(Wheat, (60, 100))
-
-
-
 
 # aj work of scaling the images
 
@@ -92,10 +85,8 @@ victory_points = pygame.transform.scale(victory_points, (60, 40))
 # for the bank
 bank = pygame.transform.scale(bank, (60, 40))
 
-
 # Mapping
 resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
-
 
 icon_images = {
     "cards_cards": cards_cards,
@@ -133,6 +124,8 @@ trade_button_normal_small = pygame.transform.scale(trade_button_normal, (120, 80
 trade_button_hover_small = pygame.transform.scale(trade_button_hover, (120, 80))
 # Create an instance of the Button class
 trade_button = Button(700, 655, trade_button_normal_small, trade_button_hover_small)
+
+
 ######################## Game Stage END #######################################################
 
 #################### Game Stage Function ######################################################
@@ -177,23 +170,15 @@ def game():
         ui.main(screen, game_master)
 
         # Display the player's name and details
-        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images, icon_images)
+        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
 
-        # Display the bots' names and their details
-        # game_master.turn_queue[1].display_for_bots(screen, font, SCREEN_WIDTH - 375, 20, resource_images)
-        # game_master.turn_queue[2].display_for_bots(screen, font, SCREEN_WIDTH - 375, 240, resource_images)
-        # game_master.turn_queue[3].display_for_bots(screen, font, SCREEN_WIDTH - 375, 460, resource_images)
-
-
-# aj work
-      #  game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 300, 20, icon_images)
-     #   game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 300, 320, icon_images)
-      #  game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 300, 460, icon_images)
+        # aj work
+        #  game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 300, 20, icon_images)
+        #   game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 300, 320, icon_images)
+        #  game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 300, 460, icon_images)
         game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 220, 20, icon_images)
         game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 400, 250, icon_images)
         game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 220, 350, icon_images)
-
-
 
         # bank dis[play by aj
 
@@ -201,11 +186,11 @@ def game():
 
         #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
-        if end_turn_button.draw(screen): # If the user clicks on the end_turn_button then...
+        if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
             print('Ending the turn...')
             game_master.next_turn()
 
-        if trade_button.draw(screen):# If the user clicks on the trade_button then...
+        if trade_button.draw(screen):  # If the user clicks on the trade_button then...
             print('Trading...')
 
         # crosshair
@@ -239,4 +224,3 @@ while running:
     pygame.display.update()
 # Quit Pygame
 pygame.quit()
-

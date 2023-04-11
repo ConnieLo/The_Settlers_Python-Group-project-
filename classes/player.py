@@ -4,7 +4,6 @@ import pygame
 
 from classes import cards, settlement, trade
 
-
 class Player:
     def __init__(self, name, color, bot_number=None):
         self.name = name
@@ -15,6 +14,7 @@ class Player:
         self.development_cards = {"Knights": 0, "Road Building": 0, "Year of Plenty": 0, "Monopoly": 0, "University": 0,
                                   "Market": 0, "Great Hall": 0, "Chapel": 0, "Library": 0, }
         self.number_of_roads = 0
+        self.number_of_settlements = 0
         self.number_of_cities = 0
         self.number_of_cards = 0
 
@@ -28,7 +28,7 @@ class Player:
         else:
             return False
 
-    # def reset_resources(self): #redundant at the momemnt
+    # def reset_resources(self): # Redundant at the momemnt
     #    self.resources = {"wood": 0, "brick": 0, "sheep": 0, "wheat": 0, "ore": 0}
 
     def add_development_cards(self, development_cards, quantity):
@@ -41,16 +41,16 @@ class Player:
         else:
             return False
 
-    #def new_settlement(self, vertex):# not sure if needeed
+    #def new_settlement(self, vertex): # Not sure if needeed
     #    vertex.new_settlement(self)
 
-    def add_city(self, vertex):
+    #def add_city(self, vertex): # Not sure if needeed
         # This method upgrades an existing settlement to a city at a given vertex.
-        vertex.add_city(self)
+    #    vertex.add_city(self)
 
-    def build_road(self, edge):
+    #def build_road(self, edge): # Not sure if needeed
         # This method builds a new road at a given edge on the game board.
-        edge.build_road(self)
+    #    edge.build_road(self)
 
     def get_longest_road_length(self):
         # This method calculates the length of the longest road the player currently has on the game board.
@@ -78,7 +78,7 @@ class Player:
             return True
         return False
 
-    def play_development_card(self, card):
+    def play_development_card(self, card): # Maybe in the wrong class
         # This method allows the player to play a development card from their hand.
         # if self.development_cards[card] > 0:
         pass
@@ -173,7 +173,7 @@ class Player:
     def prompt_builds(self):
         pass
 
-    def display(self, surface, font, x, y, resource_images, icon_images):
+    def display(self, surface, font, x, y, resource_images):
         text = font.render(f"{self.name}'s Victory Points: {self.score}", True, self.color)
         surface.blit(text, (x, y))
 
@@ -193,102 +193,15 @@ class Player:
         #text3 = font.render(f"Development Cards: {self.development_cards}", True, self.color)
         #surface.blit(text3, (x, y + resource_y_offset + image.get_height() + 50))
 
+        text5 = font.render(f"Number of Settlements: {self.number_of_settlements}", True, self.color)
+        surface.blit(text5, (x, y + resource_y_offset + image.get_height() +60))
+
         text4 = font.render(f"Number of Roads: {self.number_of_roads}", True, self.color)
-        surface.blit(text4, (x, y + resource_y_offset + image.get_height() +60))
+        surface.blit(text4, (x, y + resource_y_offset + image.get_height() +100))
 
         text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
-        surface.blit(text5, (x, y + resource_y_offset + image.get_height() +100))
+        surface.blit(text5, (x, y + resource_y_offset + image.get_height() +140))
 
-
-
-    # def display_for_bots(self, surface, font, x, y, resource_images): # This needs more working to do
-    #     text = font.render(f"{self.name}'s Victory Points: {self.score}", True, self.color)
-    #     surface.blit(text, (x, y))
-    #
-    #     resource_y_offset = 0 # For it is set to 0 will change once I add images
-    #
-    #     total_resources = sum(self.resources.values())
-    #     text2 = font.render(f"Number of Resource Cards: {total_resources}", True, self.color)
-    #     surface.blit(text2, (x, y + resource_y_offset + 20))
-    #
-    #     total_development_cards = sum(self.development_cards.values())
-    #     text3 = font.render(f"Number of Development Cards: {total_development_cards}", True, self.color)
-    #     surface.blit(text3, (x, y + resource_y_offset + 40))
-    #
-    #     text4 = font.render(f"Number of Roads: {self.number_of_roads}", True, self.color)
-    #     surface.blit(text4, (x, y + resource_y_offset + 60))
-    #
-    #     text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
-    #     surface.blit(text5, (x, y + resource_y_offset + 80))
-    #
-    #     text6 = font.render(f"Number of Cards: {self.number_of_cards}", True, self.color)
-    #     surface.blit(text6, (x, y + resource_y_offset + 100))
-
-
-# aj work
-#     def display_for_bots(self, surface, x, y, icon_images):
-#         icon_y_offset = 0
-#         icon_x_offset = 0
-#
-#         info = [
-#             {"text": f"{self.name}'s Victory Points: {self.score}", "icon": "victory_points"},
-#             {"text": f"Number of Resource Cards: {sum(self.resources.values())}", "icon": "resource_cards"},
-#             {"text": f"Number of Development Cards: {sum(self.development_cards.values())}",
-#              "icon": "development_cards"},
-#             {"text": f"Number of Roads: {self.number_of_roads}", "icon": "road_cards"},
-#             {"text": f"Number of Cities: {self.number_of_cities}", "icon": "cities_cards"},
-#             {"text": f"Number of Cards: {self.number_of_cards}", "icon": "cards_cards"},
-#         ]
-#
-#         font = pygame.font.Font(None, 24)
-#
-#         for item in info:
-#             icon = icon_images[item["icon"]]
-#             surface.blit(icon, (x + icon_x_offset, y + icon_y_offset))
-#
-#             text = font.render(item["text"], True, self.color)
-#             text_width, _ = text.get_size()
-#             count_x_offset = (icon.get_width() - text_width) // 2
-#             vertical_offset = 10
-#
-#             surface.blit(text,
-#                          (x + icon_x_offset + count_x_offset, y + icon_y_offset + icon.get_height() + vertical_offset))
-#             icon_y_offset += icon.get_height() + vertical_offset + text.get_height()
-
-
-
-
-
-
-# # this behavior to draw icons horizontally
-#     def display_for_bots(self, surface, x, y, icon_images):
-#         icon_y_offset = 0
-#         icon_x_offset = 0
-#
-#         info = [
-#             {"text": f"{self.name}'s Victory Points: {self.score}", "icon": "victory_points"},
-#             {"text": f"Number of Resource Cards: {sum(self.resources.values())}", "icon": "resource_cards"},
-#             {"text": f"Number of Development Cards: {sum(self.development_cards.values())}",
-#              "icon": "development_cards"},
-#             {"text": f"Number of Roads: {self.number_of_roads}", "icon": "road_cards"},
-#             {"text": f"Number of Cities: {self.number_of_cities}", "icon": "cities_cards"},
-#             {"text": f"Number of Cards: {self.number_of_cards}", "icon": "cards_cards"},
-#         ]
-#
-#         font = pygame.font.Font(None, 24)
-#
-#         for item in info:
-#             icon = icon_images[item["icon"]]
-#             surface.blit(icon, (x + icon_x_offset, y + icon_y_offset))
-#
-#             text = font.render(item["text"], True, self.color)
-#             text_width, _ = text.get_size()
-#             count_x_offset = (icon.get_width() - text_width) // 2
-#             vertical_offset = 10
-#
-#             surface.blit(text,
-#                          (x + icon_x_offset + count_x_offset, y + icon_y_offset + icon.get_height() + vertical_offset))
-#             icon_x_offset += icon.get_width() + 10  # Change this line to update the horizontal offset instead of the vertical offset
     def display_for_bots(self, surface, x, y, icon_images):
         icon_y_offset = 0
         extra_spacing = 770  # Increase this value to add more space between players
@@ -322,10 +235,4 @@ class Player:
                 icon_y_offset += text_height + 5
 
         icon_y_offset += extra_spacing
-
-
-
-
-
-
 

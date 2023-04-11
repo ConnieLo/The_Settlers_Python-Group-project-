@@ -175,7 +175,7 @@ def main(_surface, game_master):
                     break
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
-                settlement_info = (clicked_tile_info.resource, clicked_tile_info.tile_number)
+                settlement_info = [(clicked_tile_info.tile_number, clicked_tile_info.resource)]
                 game_master.new_settlement(settlement_info)
                 # Outputs a list containing the chosen index, vertex number, tile number, and resource where the user
 
