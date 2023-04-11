@@ -152,7 +152,6 @@ def main(_surface, game_master):
     #################### BUTTON EDGES' MIDPOINTS - ROAD #################################
 
 
-
     #################### BUTTON EDGES - SETTLEMENT/CITIES #################################
     # Draws the buttons and check for clicks
     for i, btn in enumerate(buttons):
