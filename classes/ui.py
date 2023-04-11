@@ -83,27 +83,22 @@ def draw_error_message(screen, message, x, y, duration=1500, font_size=30, font_
     pygame.display.update()
     pygame.time.delay(duration)
 
-
-#def drawButtonMidPoints(_surface): #Zombie Code
-    # create a surface with a white circle and a transparent center
-#    circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
-#    pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
-
-    # Create a list to store the buttons
-#    buttons = []
-
-    # Drawing the hexagons
-#    for co in co_ords:
-#        points = hex_grid.get_hex_vertices(*co)
-#        pygame.draw.polygon(_surface, (0, 0, 0,), points, width=5)
-
-        # Create a button at the midpoint of each pair of adjacent vertices
-#        for i in range(len(points)):
-#            p1 = points[i]
-#            p2 = points[(i + 1) % len(points)]
-#            mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
-#            btn = button_points(mid[0], mid[1], circle_surface)
-#            buttons.append(btn)
+#################### BUTTON EDGES' MIDPOINTS - ROAD #################################
+# create a surface with a white circle and a transparent center
+circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
+# Create a list to store the buttons
+buttons_for_roads = []
+# Drawing the hexagons
+for co in co_ords:
+    points = hex_grid.get_hex_vertices(*co)
+    # Create a button at the midpoint of each pair of adjacent vertices
+    for i in range(len(points)):
+        p1 = points[i]
+        p2 = points[(i + 1) % len(points)]
+        mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
+        btn_rd = button_points(mid[0], mid[1], circle_surface)
+        buttons_for_roads.append(btn_rd)
 
     # Draw buttons and check for clicks
 #    for btn in buttons:
@@ -112,11 +107,6 @@ def draw_error_message(screen, message, x, y, duration=1500, font_size=30, font_
         # Check if this button was clicked
 #        if btn.clicked:
 #            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
-
-#################### BUTTON EDGES' MIDPOINTS - ROAD #################################
-    # create a surface with a white circle and a transparent center
-circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
-pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
 
 #################### BUTTON EDGES - SETTLEMENT #################################
 # create a surface with a white circle and a transparent center
@@ -142,7 +132,6 @@ clicked_positions = []
 
 # List to store dirty rects
 dirty_rects = []
-
 ################################################################################
 numberImages = {2: TWO, 3: THREE, 4: FOUR, 5: FIVE, 6: SIX, 8: EIGHT, 9: NINE, 10: TEN, 11: ELEVEN, 12: TWELVE}
 
@@ -171,7 +160,7 @@ def main(_surface, game_master):
 
         # If the button was not clicked in the previous frame and is clicked now, print a message
         if not was_clicked[i] and clicked:
-            print(f"Settlement on the position {i + 1} has been placed")
+            #print(f"Settlement on the position {i + 1} has been placed")
             clicked_positions.append((btn.rect.x, btn.rect.y))
 
             # This finds the TileInfo object for the clicked position

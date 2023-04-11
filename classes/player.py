@@ -46,17 +46,6 @@ class Player:
         else:
             return False
 
-    # def new_settlement(self, vertex): # Not sure if needeed
-    #    vertex.new_settlement(self)
-
-    # def add_city(self, vertex): # Not sure if needeed
-    # This method upgrades an existing settlement to a city at a given vertex.
-    #    vertex.add_city(self)
-
-    # def build_road(self, edge): # Not sure if needeed
-    # This method builds a new road at a given edge on the game board.
-    #    edge.build_road(self)
-
     def get_longest_road_length(self):
         # This method calculates the length of the longest road the player currently has on the game board.
         # we may use depth first search here

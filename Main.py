@@ -1,6 +1,6 @@
 import pygame
 from classes.button import Button
-from classes import ui, player, dice
+from classes import ui, dice
 from classes.game_master import GameMaster
 
 # Initialize Pygame
@@ -54,7 +54,6 @@ Wood = pygame.image.load('resources/cards/lumber.jpg').convert_alpha()
 Wheat = pygame.image.load('resources/cards/wheat.jpg').convert_alpha()
 
 # aj work loading images
-
 cards_cards = pygame.image.load('resources/cards/cards_cards.jpg').convert_alpha()
 cities_cards = pygame.image.load('resources/cards/cities_cards.jpg').convert_alpha()
 development_cards = pygame.image.load('resources/cards/development_cards.jpg').convert_alpha()
@@ -187,7 +186,6 @@ def game():
         #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            print('Ending the turn...')
             game_master.next_turn()
 
         if trade_button.draw(screen):  # If the user clicks on the trade_button then...
