@@ -3,7 +3,7 @@ from classes import player
 class Settlement():
 
     def __init__(self, owner, settlement_info):
-        self.owner: player = owner  #player instance
+        self.owner: player.Player = owner  #player instance
         self.is_city = False #boolean
         # Array of tuples (i, r) where i is a number and r is a string representation of a resource
         self.settlement_info = settlement_info
