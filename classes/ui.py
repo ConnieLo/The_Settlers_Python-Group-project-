@@ -186,7 +186,7 @@ def main(_surface, game_master):
         # Updates the previous click state
         was_clicked[i] = clicked
 
-        # Blits the clicked image at the stored positions
+    # Blits the clicked image at the stored positions
     for position in clicked_positions:
         _surface.blit(small_settle, position)
         dirty_rect = pygame.Rect(position[0], position[1], small_settle.get_width(), small_settle.get_height())
