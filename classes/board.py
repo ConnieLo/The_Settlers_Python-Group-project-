@@ -98,7 +98,6 @@ co_ords += [(i, -2) for i in range(0, 3)]
 b = Board()
 print(b.tiles)
 
-
 # The class TileInfor extracts the vertex number, tile number, and resource information from the Board object
 # and stores it in instances of the TileInfo class. Then, it will print out the index,
 # vertex number, tile number, and resource for each TileInfo object in the tile_info_list.

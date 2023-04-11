@@ -2,13 +2,14 @@ import random
 
 import pygame
 
-from classes import cards, settlement, trade
+from classes import DevelopmentCard, settlement, trade
+
 
 class Player:
     def __init__(self, name, color, bot_number=None):
         self.name = name
         self.color = color
-        self.bot_number = bot_number # add by aj
+        self.bot_number = bot_number  # add by aj
         self.score = 0
         self.resources = {"wood": 0, "brick": 0, "sheep": 0, "wheat": 0, "ore": 0}
         self.development_cards = {"Knights": 0, "Road Building": 0, "Year of Plenty": 0, "Monopoly": 0, "University": 0,
@@ -18,10 +19,11 @@ class Player:
         self.number_of_cities = 0
         self.number_of_cards = 0
 
-    def add_resources(self, resource, quantity):
-        self.resources[resource] += quantity
+    def add_resource(self, resource_type):
+        if resource_type in self.resources:
+            self.resources[resource_type] += 1
 
-    def remove_resources(self, resource, quantity):
+    def remove_resources(self, resource, quantity=1):
         if self.resources[resource] >= quantity:
             self.resources[resource] -= quantity
             return True
@@ -41,15 +43,15 @@ class Player:
         else:
             return False
 
-    #def new_settlement(self, vertex): # Not sure if needeed
+    # def new_settlement(self, vertex): # Not sure if needeed
     #    vertex.new_settlement(self)
 
-    #def add_city(self, vertex): # Not sure if needeed
-        # This method upgrades an existing settlement to a city at a given vertex.
+    # def add_city(self, vertex): # Not sure if needeed
+    # This method upgrades an existing settlement to a city at a given vertex.
     #    vertex.add_city(self)
 
-    #def build_road(self, edge): # Not sure if needeed
-        # This method builds a new road at a given edge on the game board.
+    # def build_road(self, edge): # Not sure if needeed
+    # This method builds a new road at a given edge on the game board.
     #    edge.build_road(self)
 
     def get_longest_road_length(self):
@@ -78,7 +80,7 @@ class Player:
             return True
         return False
 
-    def play_development_card(self, card): # Maybe in the wrong class
+    def play_development_card(self, card):  # Maybe in the wrong class
         # This method allows the player to play a development card from their hand.
         # if self.development_cards[card] > 0:
         pass
@@ -153,7 +155,7 @@ class Player:
     def get_victory_points_from_development_cards(self):
         # This method calculates the number of victory points the player has from their development cards.
         return self.development_cards["University"] + self.development_cards["Great Hall"] + \
-               self.development_cards["Chapel"] + self.development_cards["Library"]
+            self.development_cards["Chapel"] + self.development_cards["Library"]
 
     def get_victory_points_from_other_sources(self):
         # This method calculates the number of victory points the player has from other sources, such as having the longest road or largest army.
@@ -179,28 +181,29 @@ class Player:
 
         resource_y_offset = 50
         resource_x_offset = 0
-        for resource, image in resource_images.items(): # Extraction of resource_images list
-            surface.blit(image, (x + resource_x_offset, y + resource_y_offset)) # Blits the images
+        for resource, image in resource_images.items():  # Extraction of resource_images list
+            surface.blit(image, (x + resource_x_offset, y + resource_y_offset))  # Blits the images
             count_text = font.render(str(self.resources[resource]), True, self.color)
             text_width, _ = count_text.get_size()
-            count_x_offset = (image.get_width() - text_width) // 2 # This value is used to move the numbers to the center of the corresponding image
+            count_x_offset = (
+                                         image.get_width() - text_width) // 2  # This value is used to move the numbers to the center of the corresponding image
             vertical_offset = 10  # This value is used to move the numbers further down
             # Adds up all the offsets for the numbers text
             surface.blit(count_text, (
-            x + resource_x_offset + count_x_offset, y + resource_y_offset + image.get_height() + vertical_offset))
+                x + resource_x_offset + count_x_offset, y + resource_y_offset + image.get_height() + vertical_offset))
             resource_x_offset += image.get_width() + 20
 
-        #text3 = font.render(f"Development Cards: {self.development_cards}", True, self.color)
-        #surface.blit(text3, (x, y + resource_y_offset + image.get_height() + 50))
+        # text3 = font.render(f"Development Cards: {self.development_cards}", True, self.color)
+        # surface.blit(text3, (x, y + resource_y_offset + image.get_height() + 50))
 
         text5 = font.render(f"Number of Settlements: {self.number_of_settlements}", True, self.color)
-        surface.blit(text5, (x, y + resource_y_offset + image.get_height() +60))
+        surface.blit(text5, (x, y + resource_y_offset + image.get_height() + 60))
 
         text4 = font.render(f"Number of Roads: {self.number_of_roads}", True, self.color)
-        surface.blit(text4, (x, y + resource_y_offset + image.get_height() +100))
+        surface.blit(text4, (x, y + resource_y_offset + image.get_height() + 100))
 
         text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
-        surface.blit(text5, (x, y + resource_y_offset + image.get_height() +140))
+        surface.blit(text5, (x, y + resource_y_offset + image.get_height() + 140))
 
     def display_for_bots(self, surface, x, y, icon_images):
         icon_y_offset = 0
@@ -235,4 +238,3 @@ class Player:
                 icon_y_offset += text_height + 5
 
         icon_y_offset += extra_spacing
-
