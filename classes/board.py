@@ -5,6 +5,13 @@ from tools import hugo_hex
 from tools.grid import GridStruct, CONSTANT_COORDS
 from classes.settlement import Settlement
 
+# TESTING INFO
+# generate_tiles() should create a randomly generated array of tuples (number, resource) according to the rules of
+# Cataan
+# new_settlement() should create a new object of the settlement class, which should contain information about which
+# tiles are adjacent to the settlement and which player owns it
+# get_settlements() should return a list of all the settlements
+
 #from classes.ui import (SCREEN_WIDTH, SCREEN_HEIGHT) #  File "C:\PycharmProjects\The_Settlers_Python\classes\board.py", line 5, in <module> from classes.ui import hex_grid, hex_radius
 # ImportError: cannot import name 'hex_grid' from partially initialized module 'classes.ui' (most likely due to a circular import) (C:\Users\maruf\PycharmProjects\The_Settlers_Python\classes\ui.py)
 # I cannot import stuff we should make another class maybe called constants.py where we would store all variables such as SCREEN_WIDTH, SCREEN_HEIGHT, etc..
