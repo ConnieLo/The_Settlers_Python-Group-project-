@@ -14,4 +14,4 @@ class Tile:
         return self.coords
     
     def get_number(self):
-        return
+        return self.number
