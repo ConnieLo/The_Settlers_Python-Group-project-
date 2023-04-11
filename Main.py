@@ -52,6 +52,24 @@ Sheep = pygame.image.load('resources/cards/wool.jpg').convert_alpha()
 Ore = pygame.image.load('resources/cards/ore.jpg').convert_alpha()
 Wood = pygame.image.load('resources/cards/lumber.jpg').convert_alpha()
 Wheat = pygame.image.load('resources/cards/wheat.jpg').convert_alpha()
+
+# aj work loading images
+
+cards_cards = pygame.image.load('resources/cards/cards_cards.jpg').convert_alpha()
+cities_cards = pygame.image.load('resources/cards/cities_cards.jpg').convert_alpha()
+development_cards = pygame.image.load('resources/cards/development_cards.jpg').convert_alpha()
+resource_cards = pygame.image.load('resources/cards/resource_cards.jpg').convert_alpha()
+road_cards = pygame.image.load('resources/cards/road_cards.jpg').convert_alpha()
+settlement = pygame.image.load('resources/cards/settlement.jpg').convert_alpha()
+victory_points = pygame.image.load('resources/cards/victory_points.jpg').convert_alpha()
+
+
+
+# aj work for the bank
+bank = pygame.image.load('resources/Bank/bank.jpg').convert_alpha()
+
+
+
 # Making the images smaller size
 clay = pygame.transform.scale(Clay, (60, 100))
 sheep = pygame.transform.scale(Sheep, (60, 100))
@@ -59,8 +77,35 @@ ore = pygame.transform.scale(Ore, (60, 100))
 wood = pygame.transform.scale(Wood, (60, 100))
 wheat = pygame.transform.scale(Wheat, (60, 100))
 
+
+
+
+# aj work of scaling the images
+
+cards_cards = pygame.transform.scale(cards_cards, (60, 40))
+cities_cards = pygame.transform.scale(cities_cards, (60, 40))
+development_cards = pygame.transform.scale(development_cards, (60, 40))
+resource_cards = pygame.transform.scale(resource_cards, (60, 40))
+road_cards = pygame.transform.scale(road_cards, (60, 40))
+settlement = pygame.transform.scale(settlement, (60, 40))
+victory_points = pygame.transform.scale(victory_points, (60, 40))
+# for the bank
+bank = pygame.transform.scale(bank, (60, 40))
+
+
 # Mapping
 resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
+
+
+icon_images = {
+    "cards_cards": cards_cards,
+    "cities_cards": cities_cards,
+    "development_cards": development_cards,
+    "resource_cards": resource_cards,
+    "road_cards": road_cards,
+    "settlement": settlement,
+    "victory_points": victory_points,
+}
 
 # Font for player instances
 # Set the font size
@@ -132,13 +177,29 @@ def game():
         ui.main(screen, game_master)
 
         # Display the player's name and details
-        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
+        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images, icon_images)
 
         # Display the bots' names and their details
-        game_master.turn_queue[1].display_for_bots(screen, font, SCREEN_WIDTH - 375, 20, resource_images)
-        game_master.turn_queue[2].display_for_bots(screen, font, SCREEN_WIDTH - 375, 240, resource_images)
-        game_master.turn_queue[3].display_for_bots(screen, font, SCREEN_WIDTH - 375, 460, resource_images)
+        # game_master.turn_queue[1].display_for_bots(screen, font, SCREEN_WIDTH - 375, 20, resource_images)
+        # game_master.turn_queue[2].display_for_bots(screen, font, SCREEN_WIDTH - 375, 240, resource_images)
+        # game_master.turn_queue[3].display_for_bots(screen, font, SCREEN_WIDTH - 375, 460, resource_images)
 
+
+# aj work
+      #  game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 300, 20, icon_images)
+     #   game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 300, 320, icon_images)
+      #  game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 300, 460, icon_images)
+        game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 220, 20, icon_images)
+        game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 400, 250, icon_images)
+        game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 220, 350, icon_images)
+
+
+
+        # bank dis[play by aj
+
+        game_master.display_bank_image(screen, 100, 200, bank)
+
+        #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
         if end_turn_button.draw(screen): # If the user clicks on the end_turn_button then...
             print('Ending the turn...')

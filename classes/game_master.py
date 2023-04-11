@@ -1,3 +1,5 @@
+import pygame
+
 from classes.turn import Turn
 from classes.player import Player
 from classes.board import Board
@@ -35,3 +37,44 @@ class GameMaster:
     def pass_resources(self, roll):
         for s in self.board.get_settlements():
             s.grant_resources(roll)
+
+    # def display_bank(self, surface, x, y, icon_images, resource_images):              #  by aj here i was trying to add a bank in UI
+    #     bank_info = [
+    #         {"text": f"Resources", "icon": None},
+    #         {"text": f"Brick: {self.bank['brick']}", "icon": "brick"},
+    #         {"text": f"Ore: {self.bank['ore']}", "icon": "ore"},
+    #         {"text": f"Wheat: {self.bank['wheat']}", "icon": "wheat"},
+    #         {"text": f"Wood: {self.bank['wood']}", "icon": "wood"},
+    #         {"text": f"Sheep: {self.bank['sheep']}", "icon": "sheep"},
+    #         {"text": f"Development Cards", "icon": None},
+    #         {"text": f"Knight: {self.bank['knight']}", "icon": "knight"},
+    #         {"text": f"Victory Point: {self.bank['victory_point']}", "icon": "victory_point"},
+    #         {"text": f"Road Building: {self.bank['road_building']}", "icon": "road_building"},
+    #         {"text": f"Monopoly: {self.bank['monopoly']}", "icon": "monopoly"},
+    #         {"text": f"Year of Plenty: {self.bank['year_of_plenty']}", "icon": "year_of_plenty"},
+    #     ]
+    #
+    #     font = pygame.font.Font(None, 24)
+    #     icon_y_offset = 0
+    #
+    #     for item in bank_info:
+    #         if item["icon"]:
+    #             icon = resource_images[item["icon"]]
+    #             surface.blit(icon, (x, y + icon_y_offset))
+    #
+    #         text = font.render(item["text"], True, (255, 255, 255))
+    #         text_width, text_height = text.get_size()
+    #         text_x_offset = (icon.get_width() if item["icon"] else 0) + 5
+    #
+    #         surface.blit(text, (x + text_x_offset, y + icon_y_offset))
+    #
+    #         if item["icon"]:
+    #             icon_y_offset += max(icon.get_height(), text_height) + 5
+    #         else:
+    #             icon_y_offset += text_height + 5
+
+
+        # for the bank
+
+    def display_bank_image(self, surface, x, y, bank):
+        surface.blit(bank, (x, y))
