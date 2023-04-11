@@ -4,6 +4,14 @@ from classes.turn import Turn
 from classes.player import Player
 from classes.board import Board
 
+
+# TESTING INFO
+# next_turn() should create and activate a new instance of the turn class. The active player of this turn should
+# cycle through the 4 different players in the turn queue
+# new_settlement() should instance a new settlement belonging to whichever player is the active player on the
+# current turn. this settlement should be added to the board
+
+
 PLAYER_COLOURS = [
     (255, 0, 0),  # RED
     (50, 100, 255),  # BLUE
