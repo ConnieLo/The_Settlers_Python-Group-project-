@@ -200,12 +200,11 @@ def game():
         game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 220, 350, icon_images)
 
         # bank display by aj
-
-        game_master.display_bank_image(screen, 100, 200, bank)
-
-
+        #game_master.display_bank_image(screen, 100, 200, bank)
 
         #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
+
+        #draw(game_master)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
             if game_master.current_turn.active_player.check_if_over_ten():
