@@ -2,9 +2,6 @@ import random
 
 import pygame
 
-import pygame_gui
-from classes import DevelopmentCard, settlement, trade
-
 
 class Player:
     def __init__(self, name, color, bot_number=None):
@@ -41,8 +38,9 @@ class Player:
         self.development_cards[development_cards] += quantity
 
     def remove_development_cards(self, development_cards, quantity):
-        if self.resources[development_cards] >= quantity:
-            self.resources[development_cards] -= quantity
+        # changed this from self.resources to self.development cards
+        if self.development_cards[development_cards] >= quantity:
+            self.development_cards[development_cards] -= quantity
             return True
         else:
             return False
