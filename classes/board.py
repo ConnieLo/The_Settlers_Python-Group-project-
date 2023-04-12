@@ -45,7 +45,7 @@ class Board:
         return new_tiles
 
     def new_settlement(self, owner, settlement_info, position):
-        owner.increment_victory_points()
+        print(settlement_info)
         for existing_settlement in self.settlements:
             if existing_settlement.position == position:
                 return False

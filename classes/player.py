@@ -18,6 +18,7 @@ class Player:
         self.number_of_cards = 0
 
     def add_resource(self, resource_type):
+        print("Adding {} to {}".format(resource_type, self.name))
         if resource_type in self.resources:
             self.resources[resource_type] += 1
 

@@ -16,6 +16,7 @@ class Turn:
         self.turn_no = turn_no
         self.active_player = which_player
         self.roll = [randint(1, 6), randint(1, 6)]
+        print("New roll: " + str(self.roll))
 
     def take_turn(self):
         # Hand out resources among players
