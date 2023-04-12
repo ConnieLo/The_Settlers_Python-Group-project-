@@ -18,6 +18,7 @@ class Turn:
         self.active_player = which_player
         # self.roll = roll_from_the_dice
         self.roll = []
+        self.rolled = False #to prevent dice being rolled twice in turn
 
     def take_turn(self):
         # Hand out resources among players
@@ -33,4 +34,6 @@ class Turn:
         self.master.new_settlement(settlement_info)
     
     def set_roll(self, nums):
-        self.roll = nums
+        if not self.rolled:
+            self.roll = nums
+            self.rolled = True
