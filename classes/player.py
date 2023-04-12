@@ -160,7 +160,7 @@ class Player:
         return self.score
     
     def check_if_over_ten(self):
-        if self.score <= 10:
+        if self.score >= 10:
             return True
         else:
             return False
