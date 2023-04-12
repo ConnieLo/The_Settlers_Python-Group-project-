@@ -172,10 +172,9 @@ def game():
             elif event.type == dice.EVENT:
                 if dRollCount == 10:  # num of seconds for animation x10
                     dRoll = dice.roll(screen)  # gets value of roll
-                    value = dRoll[0] + dRoll[1]  # adds up both of the dice values
+                    game_master.current_turn.set_roll(dRoll) #gives dice roll to turn class
                     pygame.time.set_timer(dice.EVENT, 0)
                     diceRolling = False
-                    print(value)  # prints out the values of the two dice
                 else:
                     dice.roll(screen)  # temp display of dice while rolling
                     dRollCount += 1

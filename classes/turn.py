@@ -17,8 +17,7 @@ class Turn:
         self.turn_no = turn_no
         self.active_player = which_player
         # self.roll = roll_from_the_dice
-        self.roll = [randint(1, 6), randint(1, 6)]  # Change this please
-        print("New roll: " + str(self.roll))
+        self.roll = []
 
     def take_turn(self):
         # Hand out resources among players
@@ -32,3 +31,6 @@ class Turn:
 
     def new_settlement(self, settlement_info):
         self.master.new_settlement(settlement_info)
+    
+    def set_roll(self, nums):
+        self.roll = nums
