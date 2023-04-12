@@ -52,7 +52,6 @@ class Board:
 
         new: Settlement = Settlement(owner, settlement_info, position)
         self.settlements.append(new)
-        owner.increment_victory_points()
         return True
 
     def get_settlements(self):
@@ -89,7 +88,6 @@ class Board:
                     hex_surface.blit(image, (-30, -20))
                     surface_rect = hex_surface.get_rect(center=center)
                     _surface.blit(hex_surface, surface_rect)
-
 
 
 #################  UI ###########################

@@ -100,15 +100,13 @@ longest_road = pygame.transform.scale(longest_road, (100, 70))
 bank = pygame.transform.scale(bank, (60, 40))
 
 # Mapping
+#special_images = {
+#    'largest_army': largest_army,
+#    'longest_road': longest_road
+#}
 
 
-special_images = {
-    'largest_army': largest_army,
-    'longest_road': longest_road
-}
-
-
-resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
+resource_images = {"clay": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
 
 icon_images = {
     "cards_cards": cards_cards,
@@ -192,7 +190,7 @@ def game():
         ui.main(screen, game_master)
 
         # Display the player's name and details
-        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images, special_images, game_master.turn_queue)
+        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
 
         # aj work
         #  game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 300, 20, icon_images)
@@ -223,7 +221,6 @@ def game():
         # FPS
         clock.tick(60)
         pygame.display.flip()
-
 
 ############################# Main Game Loop #################################################
 running = True

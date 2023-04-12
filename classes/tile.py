@@ -5,7 +5,7 @@ class Tile:
         self.resource = resource
         self.number = number
 
-    
+
     #unsure if these getters are needed; can get rid of them in future
     def get_resource(self):
         return self.resource

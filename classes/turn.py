@@ -1,6 +1,7 @@
 from classes.player import Player
 from random import randint
 
+
 # TESTING INFO
 # take_turn() this is basicly 'the big red button that says go'. Once this function is called it should signal the
 # player to do whatever (build settlements/roads, buy cards etc.) and should not return until that player has
@@ -15,7 +16,8 @@ class Turn:
         self.master = master
         self.turn_no = turn_no
         self.active_player = which_player
-        self.roll = [randint(1, 6), randint(1, 6)]
+        # self.roll = roll_from_the_dice
+        self.roll = [randint(1, 6), randint(1, 6)]  # Change this please
         print("New roll: " + str(self.roll))
 
     def take_turn(self):
@@ -30,5 +32,3 @@ class Turn:
 
     def new_settlement(self, settlement_info):
         self.master.new_settlement(settlement_info)
-
-

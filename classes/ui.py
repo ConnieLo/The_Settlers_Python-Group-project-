@@ -7,7 +7,6 @@ from tools import hugo_hex
 from classes.button_points import button_points
 import pygame.sprite
 from classes.board import b, Board, tile_info_list
-import pygame
 
 pygame.init()
 SCREEN_WIDTH = 1366
@@ -63,7 +62,7 @@ def getCoordsOfEdges():  # prints out the coordinates of each vertex of the hexa
         points = hex_grid.get_hex_vertices(*co)
         for point in points:
             print(point)
-# print(getCoordsOfEdges())
+#print(getCoordsOfEdges())
 
 def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of adjacent vertices
     for co in co_ords:
@@ -76,12 +75,15 @@ def getCoordsOfEdgesMidpoints():  # prints out the midpoint between each pair of
                 print(mid)
 # print(getCoordsOfEdgesMidpoints())
 
-def draw_error_message(screen, message, x, y, duration=1500, font_size=30, font_color=(0, 0, 0)):
+def draw_error_message(screen, message, x, y, duration=1000, font_size=30, font_color=(0, 0, 0)):
     font = pygame.font.Font(None, font_size)
     text_surface = font.render(message, True, font_color)
     screen.blit(text_surface, (x, y))
     pygame.display.update()
     pygame.time.delay(duration)
+
+def intersection_points():
+    pass
 
 #################### BUTTON EDGES' MIDPOINTS - ROAD #################################
 # create a surface with a white circle and a transparent center
@@ -164,7 +166,6 @@ def main(_surface, game_master):
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
             clicked_positions.append((btn.rect.x, btn.rect.y))
 
-
             # This finds the TileInfo object for the clicked position
             clicked_tile_info = None
             for tile_info in tile_info_list:
@@ -178,7 +179,7 @@ def main(_surface, game_master):
                                                      settlement_info, clicked_tile_info.position)
                 if not success:
                     draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
-                    draw_error_message(screen, "As It is already in use.", x=10, y=250)
+                    draw_error_message(screen, "As it is already in use.", x=10, y=250)
 
             # Adds the clicked position rect to the dirty rects list
             dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, small_settle.get_width(), small_settle.get_height()))
@@ -197,6 +198,7 @@ def main(_surface, game_master):
 
     # Clears the dirty rects list for the next frame
     dirty_rects.clear()
+    #################### BUTTON EDGES - SETTLEMENT/CITIES - END #################################
 
 class crosshair(pygame.sprite.Sprite):
     def __init__(self, picture_path, alt_picture_path):
