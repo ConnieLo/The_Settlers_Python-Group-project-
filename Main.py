@@ -210,7 +210,8 @@ def game():
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
             if game_master.current_turn.active_player.check_if_over_ten():
-                pass
+                print("The winner is "+game_master.current_turn.active_player.name)
+                pygame.quit()
             else:
                 game_master.next_turn()
 
