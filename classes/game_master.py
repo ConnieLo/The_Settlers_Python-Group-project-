@@ -3,7 +3,8 @@ import pygame
 from classes.turn import Turn
 from classes.player import Player
 from classes.board import Board
-
+from classes.settlement import Settlement
+from typing import List
 
 # TESTING INFO
 # next_turn() should create and activate a new instance of the turn class. The active player of this turn should
@@ -20,71 +21,52 @@ PLAYER_COLOURS = [
 ]
 
 class GameMaster:
-    turn_queue: list[Turn]
-    current_turn: Turn
-
-    def __init__(self, ):
-        # Instancing an array of 4 players with unique names and colours
-        self.turn_queue = [
+    def __init__(self):
+        self.turn_queue: List[Turn] = [
             Player("player {}".format(i), PLAYER_COLOURS[i]) for i in range(4)
         ]
-        self.current_turn = 0
+        self.current_turn: int = 0
         self.board = Board()
 
-    # Generates and starts the next turn
-    def next_turn(self):
+    def next_turn(self) -> Turn:
         player = self.turn_queue[self.current_turn % 4]
         turn = Turn(self, player, self.current_turn)
         turn.take_turn()
+        self.current_turn += 1
         return turn
 
-    def new_settlement(self, owner, settlement_info, position):
+    def new_settlement(self, owner: Player, settlement_type: str, position: tuple) -> Settlement:
         active_player = self.turn_queue[self.current_turn % 4]
+        return self.board.new_settlement(owner, settlement_type, position)
 
-        return self.board.new_settlement(owner, settlement_info, position)
-
-    # AT the start of each turn, goes through every settlement and assigns the relevant resorces to the player
-    def pass_resources(self, roll):
+    def pass_resources(self, roll: int) -> None:
         for s in self.board.get_settlements():
             s.grant_resources(roll)
 
-    # def display_bank(self, surface, x, y, icon_images, resource_images):              #  by aj here i was trying to add a bank in UI
-    #     bank_info = [
-    #         {"text": f"Resources", "icon": None},
-    #         {"text": f"Brick: {self.bank['brick']}", "icon": "brick"},
-    #         {"text": f"Ore: {self.bank['ore']}", "icon": "ore"},
-    #         {"text": f"Wheat: {self.bank['wheat']}", "icon": "wheat"},
-    #         {"text": f"Wood: {self.bank['wood']}", "icon": "wood"},
-    #         {"text": f"Sheep: {self.bank['sheep']}", "icon": "sheep"},
-    #         {"text": f"Development Cards", "icon": None},
-    #         {"text": f"Knight: {self.bank['knight']}", "icon": "knight"},
-    #         {"text": f"Victory Point: {self.bank['victory_point']}", "icon": "victory_point"},
-    #         {"text": f"Road Building: {self.bank['road_building']}", "icon": "road_building"},
-    #         {"text": f"Monopoly: {self.bank['monopoly']}", "icon": "monopoly"},
-    #         {"text": f"Year of Plenty: {self.bank['year_of_plenty']}", "icon": "year_of_plenty"},
-    #     ]
-    #
-    #     font = pygame.font.Font(None, 24)
-    #     icon_y_offset = 0
-    #
-    #     for item in bank_info:
-    #         if item["icon"]:
-    #             icon = resource_images[item["icon"]]
-    #             surface.blit(icon, (x, y + icon_y_offset))
-    #
-    #         text = font.render(item["text"], True, (255, 255, 255))
-    #         text_width, text_height = text.get_size()
-    #         text_x_offset = (icon.get_width() if item["icon"] else 0) + 5
-    #
-    #         surface.blit(text, (x + text_x_offset, y + icon_y_offset))
-    #
-    #         if item["icon"]:
-    #             icon_y_offset += max(icon.get_height(), text_height) + 5
-    #         else:
-    #             icon_y_offset += text_height + 5
+
+""" DO NOT TOUCH PLS - IN PROGRESS - UI
+# Define the font
+font = pygame.font.Font(None, 36)
+    # A helper method used in draw()
+    def draw_text(screen, text, x, y, color=(255, 255, 255), font=None):
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (x, y)
+        screen.blit(text_surface, text_rect)
 
 
-        # for the bank
+    # Displays the current player's turn.
+    def draw(game_master: GameMaster, screen):
+        # Clear the screen
+        screen.fill((0, 0, 0))
 
-    def display_bank_image(self, surface, x, y, bank):
-        surface.blit(bank, (x, y))
+        # Get the current player
+        current_player = game_master.turn_queue[game_master.current_turn % 4]
+
+        # Display the current player's turn
+        draw_text(f"Current Turn: {game_master.current_turn}", 10, 10)
+        draw_text(f"Current Player: {current_player.name} ({current_player.color})", 10, 50)
+
+        # Update the screen
+        pygame.display.flip()
+"""
