@@ -2,6 +2,7 @@ import random
 
 import pygame
 
+import pygame_gui
 from classes import DevelopmentCard, settlement, trade
 
 
@@ -167,7 +168,7 @@ class Player:
     def prompt_builds(self):
         pass
 
-    def display(self, surface, font, x, y, resource_images):
+    def display(self, surface, font, x, y, resource_images, special_images, players):
         text = font.render(f"{self.name}'s Victory Points: {self.score}", True, self.color)
         surface.blit(text, (x, y))
 
@@ -196,6 +197,24 @@ class Player:
 
         text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
         surface.blit(text5, (x, y + resource_y_offset + image.get_height() + 140))
+
+        largest_army = special_images['largest_army']
+        longest_road = special_images['longest_road']
+
+        largest_army_pos = (750, 20)
+        longest_road_pos = (400 + largest_army.get_width() + 20, 20)
+
+        if self.has_largest_army(players):
+            surface.blit(largest_army, largest_army_pos)
+        else:
+            surface.blit(largest_army, largest_army_pos)  # Display image regardless of condition
+
+        if self.has_longest_road(players):
+            surface.blit(longest_road, longest_road_pos)
+        else:
+            surface.blit(longest_road, longest_road_pos)  # Display image regardless of condition
+
+
 
     def display_for_bots(self, surface, x, y, icon_images):
         icon_y_offset = 0
@@ -230,3 +249,24 @@ class Player:
                 icon_y_offset += text_height + 5
 
         icon_y_offset += extra_spacing
+
+    def has_largest_army(self, players):
+        if self.development_cards['Knights'] >= 3:
+            for player in players:
+                if player != self and player.development_cards['Knights'] >= self.development_cards['Knights']:
+                    return False
+            return True
+        return False
+
+    def has_longest_road(self, players):
+        longest_road_length = self.get_longest_road_length()
+
+        if longest_road_length is None or longest_road_length < 5:
+            return False
+
+        for player in players:
+            if player != self and player.get_longest_road_length() >= longest_road_length:
+                return False
+
+        return True
+

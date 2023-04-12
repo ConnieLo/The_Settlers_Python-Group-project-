@@ -1,7 +1,10 @@
 import pygame
+
 from classes.button import Button
 from classes import ui, dice
 from classes.game_master import GameMaster
+
+
 
 # Initialize Pygame
 pygame.init()
@@ -62,6 +65,12 @@ road_cards = pygame.image.load('resources/cards/road_cards.jpg').convert_alpha()
 settlement = pygame.image.load('resources/cards/settlement.jpg').convert_alpha()
 victory_points = pygame.image.load('resources/cards/victory_points.jpg').convert_alpha()
 
+
+# loading army and road
+largest_army = pygame.image.load('resources/Top/largest_army.jpg').convert_alpha()
+longest_road = pygame.image.load('resources/Top/longest_road.jpg').convert_alpha()
+
+
 # aj work for the bank
 bank = pygame.image.load('resources/Bank/bank.jpg').convert_alpha()
 
@@ -81,10 +90,24 @@ resource_cards = pygame.transform.scale(resource_cards, (60, 40))
 road_cards = pygame.transform.scale(road_cards, (60, 40))
 settlement = pygame.transform.scale(settlement, (60, 40))
 victory_points = pygame.transform.scale(victory_points, (60, 40))
+
+# for Top scaling
+largest_army = pygame.transform.scale(largest_army, (100, 70))
+longest_road = pygame.transform.scale(longest_road, (100, 70))
+
+
 # for the bank
 bank = pygame.transform.scale(bank, (60, 40))
 
 # Mapping
+
+
+special_images = {
+    'largest_army': largest_army,
+    'longest_road': longest_road
+}
+
+
 resource_images = {"brick": clay, "sheep": sheep, "ore": ore, "wood": wood, "wheat": wheat}
 
 icon_images = {
@@ -169,7 +192,7 @@ def game():
         ui.main(screen, game_master)
 
         # Display the player's name and details
-        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
+        game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images, special_images, game_master.turn_queue)
 
         # aj work
         #  game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 300, 20, icon_images)
@@ -179,9 +202,11 @@ def game():
         game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 400, 250, icon_images)
         game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 220, 350, icon_images)
 
-        # bank dis[play by aj
+        # bank display by aj
 
         game_master.display_bank_image(screen, 100, 200, bank)
+
+
 
         #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
