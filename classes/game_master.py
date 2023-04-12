@@ -36,6 +36,7 @@ class GameMaster:
         player = self.turn_queue[self.current_turn % 4]
         turn = Turn(self, player, self.current_turn)
         turn.take_turn()
+        return turn
 
     def new_settlement(self, owner, settlement_info, position):
         active_player = self.turn_queue[self.current_turn % 4]
