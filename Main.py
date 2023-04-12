@@ -209,7 +209,10 @@ def game():
         #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            game_master.next_turn()
+            if game_master.current_turn.active_player.check_if_over_ten():
+                pass
+            else:
+                game_master.next_turn()
 
         if trade_button.draw(screen):  # If the user clicks on the trade_button then...
             print('Trading...')

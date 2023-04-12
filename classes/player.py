@@ -158,6 +158,12 @@ class Player:
         self.score += self.get_victory_points_from_settlements_and_cities() + \
                       self.get_victory_points_from_development_cards() + self.get_victory_points_from_other_sources()
         return self.score
+    
+    def check_if_over_ten(self):
+        if self.score <= 10:
+            return True
+        else:
+            return False
 
     # TODO
     def prompt_trade(self):
