@@ -20,20 +20,11 @@ class Turn:
         self.roll = []
         self.rolled = False #to prevent dice being rolled twice in turn
 
-    def take_turn(self):
-        # Hand out resources among players
-        self.master.pass_resources(sum(self.roll))
-
-        # Prompt the player to do any trades, we shouldn't need to save the return value of this function
-        self.active_player.prompt_trade()
-
-        # Prompt the player to purchase/build new items. Pass any new roads or settlments to the game master
-        new_builds = self.active_player.prompt_builds()
-
     def new_settlement(self, settlement_info):
         self.master.new_settlement(settlement_info)
     
     def set_roll(self, nums):
         if not self.rolled:
             self.roll = nums
+            print(nums)
             self.rolled = True

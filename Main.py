@@ -163,7 +163,8 @@ def game():
             ################################### THE DICE ANIMATION ##########################################
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouseX, mouseY = pygame.mouse.get_pos()
-                if (dice.d1X <= mouseX <= dice.d2X + dice.dimens) and (dice.d1Y <= mouseY <= dice.d1Y + dice.dimens):
+                if (dice.d1X <= mouseX <= dice.d2X + dice.dimens) and (dice.d1Y <= mouseY <= dice.d1Y + dice.dimens)\
+                    and not game_master.turn_inst.rolled:
                     if diceRolling == False:
                         pygame.time.set_timer(dice.EVENT, 100)
                         diceRolling = True  # so you can't retrigger dice roll when its already rolling
@@ -172,7 +173,7 @@ def game():
             elif event.type == dice.EVENT:
                 if dRollCount == 10:  # num of seconds for animation x10
                     dRoll = dice.roll(screen)  # gets value of roll
-                    #game_master.current_turn.set_roll(dRoll) #gives dice roll to turn class
+                    game_master.turn_inst.set_roll(dRoll) #gives dice roll to turn class
                     pygame.time.set_timer(dice.EVENT, 0)
                     diceRolling = False
                 else:

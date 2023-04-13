@@ -25,17 +25,19 @@ class GameMaster:
         self.turn_queue: List[Turn] = [
             Player("player {}".format(i), PLAYER_COLOURS[i]) for i in range(4)
         ]
-        self.current_turn: int = 0
+        self.current_turn: int = -1 #initialised as -1 so that first turn instance will advance it to player 0
+        self.turn_inst = None
+        self.next_turn()
         self.board = Board()
         self.saved_tuples = []
         self.tuple_count = {}
         self.last_checked_tuple = None
+
     def next_turn(self) -> Turn:
-        player = self.turn_queue[self.current_turn % 4]
-        turn = Turn(self, player, self.current_turn)
-        turn.take_turn()
         self.current_turn += 1
-        return turn
+        player = self.turn_queue[self.current_turn % 4]
+        print("next turn")
+        self.turn_inst = Turn(self, player, self.current_turn)
 
     def check_three_same_tuples(self, positions: list) -> bool:
         for position in positions:

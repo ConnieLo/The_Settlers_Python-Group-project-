@@ -163,7 +163,8 @@ def main(_surface, game_master):
         clicked = btn.is_clicked()
 
         # If the button was not clicked in the previous frame and is clicked now
-        if not was_clicked[i] and clicked:
+        if not was_clicked[i] and clicked and game_master.turn_inst.rolled:
+            print(game_master.turn_inst.rolled)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
             clicked_positions.append((btn.rect.x, btn.rect.y))
 
