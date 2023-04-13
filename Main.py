@@ -172,7 +172,7 @@ def game():
             elif event.type == dice.EVENT:
                 if dRollCount == 10:  # num of seconds for animation x10
                     dRoll = dice.roll(screen)  # gets value of roll
-                    game_master.current_turn.set_roll(dRoll) #gives dice roll to turn class
+                    #game_master.current_turn.set_roll(dRoll) #gives dice roll to turn class
                     pygame.time.set_timer(dice.EVENT, 0)
                     diceRolling = False
                 else:
@@ -207,10 +207,10 @@ def game():
         #draw(game_master)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            game_master.next_turn()
             for i in four:
                 if game_master.turn_queue[i].check_if_over_ten():
                     running = False
+            game_master.next_turn() #made more sense to me to put this after the win check
 
         if trade_button.draw(screen):  # If the user clicks on the trade_button then...
             print('Trading...')
