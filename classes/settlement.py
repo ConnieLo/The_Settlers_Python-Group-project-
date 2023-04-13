@@ -13,4 +13,3 @@ class Settlement():
             if num == i:
                 self.owner.add_resource(res)
 
-
