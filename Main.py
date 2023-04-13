@@ -174,6 +174,7 @@ def game():
                 if dRollCount == 10:  # num of seconds for animation x10
                     dRoll = dice.roll(screen)  # gets value of roll
                     game_master.turn_inst.set_roll(dRoll) #gives dice roll to turn class
+                    game_master.pass_resources(sum(dRoll)) #doing this here might make above line redundant?
                     pygame.time.set_timer(dice.EVENT, 0)
                     diceRolling = False
                 else:
