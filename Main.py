@@ -210,10 +210,11 @@ def game():
         draw(game_master, screen)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            for i in four:
-                if game_master.turn_queue[i].check_if_over_ten():
-                    running = False
-            game_master.next_turn() #made more sense to me to put this after the win check
+            if game_master.turn_inst.rolled:
+                for i in four:
+                    if game_master.turn_queue[i].check_if_over_ten():
+                        running = False
+                game_master.next_turn() #made more sense to me to put this after the win check
 
         if trade_button.draw(screen):  # If the user clicks on the trade_button then...
             print('Trading...')

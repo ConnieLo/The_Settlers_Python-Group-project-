@@ -32,6 +32,7 @@ class GameMaster:
         self.saved_tuples = []
         self.tuple_count = {}
         self.last_checked_tuple = None
+        self.initialised = False    #does nothing yet, going to use this for the start of the game when each player must place 2 settlements and roads
 
     def next_turn(self) -> Turn:
         self.current_turn += 1
