@@ -43,8 +43,9 @@ class Player:
         self.development_cards[development_cards] += quantity
 
     def remove_development_cards(self, development_cards, quantity):
-        if self.resources[development_cards] >= quantity:
-            self.resources[development_cards] -= quantity
+        # changed self.resources to self.development_cards
+        if self.development_cards[development_cards] >= quantity:
+            self.development_cards[development_cards] -= quantity
             return True
         else:
             return False
