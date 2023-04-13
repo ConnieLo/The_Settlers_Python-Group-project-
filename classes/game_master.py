@@ -67,7 +67,7 @@ class GameMaster:
 # UI to display the number of turns so far and the current player's turn
 pygame.font.init()
 font = pygame.font.Font(None, 36)
-# A helper method used in draw()
+# A helper method used in draw method
 def draw_text(screen, text, x, y, color=(255, 255, 255), font=None):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
