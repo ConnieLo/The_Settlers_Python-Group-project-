@@ -15,8 +15,6 @@ SCREEN_HEIGHT = 768
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # Load the image to be blitted
 # Using convert_alpha() method to increase the FPS rates of the game
-settle = pygame.image.load("resources/settleRed.png").convert_alpha()
-small_settle = pygame.transform.scale(settle, (30, 30))
 #################### Numbers images ###############################
 TWO = pygame.image.load('resources/numbers/Number_2.png')
 THREE = pygame.image.load('resources/numbers/Number_3.png').convert_alpha()
@@ -37,6 +35,25 @@ WHEAT = pygame.image.load('resources/hexType/wheatHex.png').convert_alpha()
 WOOD = pygame.image.load('resources/hexType/woodHex.png').convert_alpha()
 DESERT = pygame.image.load('resources/hexType/desertHex.png').convert_alpha()
 
+################# Settlements images ##############################
+# Loading settlement images
+RedSettle = pygame.image.load("resources/settlements/settleRed.png").convert_alpha()
+BlueSettle = pygame.image.load("resources/settlements/settleBlue.png").convert_alpha()
+YellowSettle = pygame.image.load("resources/settlements/settleYellow.png").convert_alpha()
+GreenSettle = pygame.image.load("resources/settlements/settleGreen.png").convert_alpha()
+
+# Mapping
+settlements = {
+    "red": pygame.transform.scale(RedSettle, (30, 30)),
+    "blue": pygame.transform.scale(BlueSettle, (30, 30)),
+    "yellow": pygame.transform.scale(YellowSettle, (30, 30)),
+    "green": pygame.transform.scale(GreenSettle, (30, 30)),
+}
+
+# Gets the color based on the current turn
+def get_color(turn):
+    colors = ["red", "blue", "green", "yellow"]
+    return colors[turn % 4]
 
 # Grid co-ordinates
 co_ords = []
@@ -154,6 +171,10 @@ def main(_surface, game_master):
 
 
     #################### BUTTON EDGES - SETTLEMENT/CITIES #################################
+    # Initialize small_settle with a default value
+    current_color = get_color(game_master.current_turn)
+    small_settle = settlements[current_color]
+
     # Draws the buttons and check for clicks
     for i, btn in enumerate(buttons):
         btn.draw(_surface)
@@ -165,8 +186,9 @@ def main(_surface, game_master):
         # If the button was not clicked in the previous frame and is clicked now
         if not was_clicked[i] and clicked and game_master.turn_inst.rolled:
             print(game_master.turn_inst.rolled)
+            current_color = get_color(game_master.current_turn)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
-            clicked_positions.append((btn.rect.x, btn.rect.y))
+            clicked_positions.append((btn.rect.x, btn.rect.y, current_color))
 
             # This finds the TileInfo object for the clicked position
             clicked_tile_info = None
@@ -185,15 +207,17 @@ def main(_surface, game_master):
                     draw_error_message(screen, "As it is already in use.", x=10, y=250)
 
             # Adds the clicked position rect to the dirty rects list
+            small_settle = settlements[current_color]
             dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, small_settle.get_width(), small_settle.get_height()))
 
         # Updates the previous click state
         was_clicked[i] = clicked
 
     # Blits the clicked image at the stored positions
-    for position in clicked_positions:
-        _surface.blit(small_settle, position)
-        dirty_rect = pygame.Rect(position[0], position[1], small_settle.get_width(), small_settle.get_height())
+    for x, y, color in clicked_positions:
+        small_settle = settlements[color]
+        _surface.blit(small_settle, (x, y))
+        dirty_rect = pygame.Rect(x, y, small_settle.get_width(), small_settle.get_height())
         dirty_rects.append(dirty_rect)
 
     # Updates only the dirty rects on the screen
