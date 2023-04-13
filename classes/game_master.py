@@ -64,30 +64,21 @@ class GameMaster:
             s.grant_resources(roll)
 
 
-""" DO NOT TOUCH PLS - IN PROGRESS - UI
-# Define the font
+# UI to display the number of turns so far and the current player's turn
+pygame.font.init()
 font = pygame.font.Font(None, 36)
-    # A helper method used in draw()
-    def draw_text(screen, text, x, y, color=(255, 255, 255), font=None):
-        text_surface = font.render(text, True, color)
-        text_rect = text_surface.get_rect()
-        text_rect.topleft = (x, y)
-        screen.blit(text_surface, text_rect)
+# A helper method used in draw()
+def draw_text(screen, text, x, y, color=(255, 255, 255), font=None):
+    text_surface = font.render(text, True, color)
+    text_rect = text_surface.get_rect()
+    text_rect.topleft = (x, y)
+    screen.blit(text_surface, text_rect)
 
-
-    # Displays the current player's turn.
-    def draw(game_master: GameMaster, screen):
-        # Clear the screen
-        screen.fill((0, 0, 0))
-
-        # Get the current player
-        current_player = game_master.turn_queue[game_master.current_turn % 4]
-
-        # Display the current player's turn
-        draw_text(f"Current Turn: {game_master.current_turn}", 10, 10)
-        draw_text(f"Current Player: {current_player.name} ({current_player.color})", 10, 50)
-
-        # Update the screen
-        pygame.display.flip()
-        
-"""
+def draw(game_master: GameMaster, screen):
+    # Get the current player
+    current_player = game_master.turn_queue[game_master.current_turn % 4]
+    # Display the current player's turn
+    draw_text(screen, f"Number of turns: {game_master.current_turn}", 10, 150, font=font)
+    draw_text(screen, f"Current Player: {current_player.name}", 10, 200, font=font)
+    # Update the screen
+    pygame.display.flip()

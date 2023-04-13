@@ -2,7 +2,7 @@ import pygame
 
 from classes.button import Button
 from classes import ui, dice
-from classes.game_master import GameMaster
+from classes.game_master import GameMaster, draw
 
 
 
@@ -205,7 +205,7 @@ def game():
 
         #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
-        #draw(game_master)
+        draw(game_master, screen)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
             for i in four:
