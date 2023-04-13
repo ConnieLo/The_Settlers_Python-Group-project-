@@ -204,8 +204,9 @@ def game():
         # bank display by aj
         #game_master.display_bank_image(screen, 100, 200, bank)
 
-        #        game_master.display_bank(screen, 10, 20, icon_images, resource_images)
+        #ame_master.display_bank(screen, 10, 20, icon_images, resource_images)
 
+        # displays the number of turns so far and the current player's turn
         draw(game_master, screen)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
