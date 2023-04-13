@@ -176,9 +176,9 @@ def main(_surface, game_master):
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
                 settlement_info = [(clicked_tile_info.tile_number, clicked_tile_info.resource)]
-                print(settlement_info)
                 success = game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4],
-                                                     settlement_info, clicked_tile_info.position)
+                                                     settlement_info, clicked_positions)
+                print(clicked_positions)
                 if not success:
                     draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
                     draw_error_message(screen, "As it is already in use.", x=10, y=250)

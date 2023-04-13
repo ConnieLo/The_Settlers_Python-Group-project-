@@ -8,3 +8,4 @@ For the backend coders:
 make it so when the user places a settlement it will increment the "player's victory point" by !!!!!!!one!!!!!!!.
 make it so after the user places a settlement it will increment it's resource type by one according to the dice's output
 and the user's settlement placement. --  done
+

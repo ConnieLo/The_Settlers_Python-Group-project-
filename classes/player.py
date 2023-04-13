@@ -33,6 +33,9 @@ class Player:
     def increment_victory_points(self, points=1):
         self.score += points
 
+    def increment_number_of_settlements(self):
+        self.number_of_settlements += 1
+
     # def reset_resources(self): # Redundant at the momemnt
     #    self.resources = {"wood": 0, "brick": 0, "sheep": 0, "wheat": 0, "ore": 0}
 

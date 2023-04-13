@@ -44,13 +44,8 @@ class Board:
 
         return new_tiles
 
-    def new_settlement(self, owner, settlement_info, position):
-        print(settlement_info)
-        for existing_settlement in self.settlements:
-            if existing_settlement.position == position:
-                return False
-
-        new: Settlement = Settlement(owner, settlement_info, position)
+    def new_settlement(self, owner, settlement_info):
+        new: Settlement = Settlement(owner, settlement_info)
         self.settlements.append(new)
         return True
 

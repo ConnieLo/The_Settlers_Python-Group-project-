@@ -147,7 +147,7 @@ trade_button = Button(700, 655, trade_button_normal_small, trade_button_hover_sm
 
 
 ######################## Game Stage END #######################################################
-
+four = [0,1,2,3]
 #################### Game Stage Function ######################################################
 def game():
     clock = pygame.time.Clock()
@@ -207,11 +207,10 @@ def game():
         #draw(game_master)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            if game_master.current_turn.active_player.check_if_over_ten():
-                print("The winner is "+game_master.current_turn.active_player.name)
-                pygame.quit()
-            else:
-                game_master.next_turn()
+            game_master.next_turn()
+            for i in four:
+                if game_master.turn_queue[i].check_if_over_ten():
+                    print("The winner is you")
 
         if trade_button.draw(screen):  # If the user clicks on the trade_button then...
             print('Trading...')

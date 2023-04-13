@@ -27,7 +27,9 @@ class GameMaster:
         ]
         self.current_turn: int = 0
         self.board = Board()
-
+        self.saved_tuples = []
+        self.tuple_count = {}
+        self.last_checked_tuple = None
     def next_turn(self) -> Turn:
         player = self.turn_queue[self.current_turn % 4]
         turn = Turn(self, player, self.current_turn)
@@ -35,9 +37,25 @@ class GameMaster:
         self.current_turn += 1
         return turn
 
+    def check_three_same_tuples(self, positions: list) -> bool:
+        for position in positions:
+            if position != self.last_checked_tuple:
+                self.saved_tuples.append(position)
+                self.last_checked_tuple = position
+                if position in self.tuple_count:
+                    self.tuple_count[position] += 1
+                else:
+                    self.tuple_count[position] = 1
+                if self.tuple_count[position] == 3:
+                    return True
+        return False
+
     def new_settlement(self, owner: Player, settlement_type: str, position: tuple) -> Settlement:
         active_player = self.turn_queue[self.current_turn % 4]
-        return self.board.new_settlement(owner, settlement_type, position)
+        if self.check_three_same_tuples(position):
+            owner.increment_victory_points()
+            owner.increment_number_of_settlements()
+        return self.board.new_settlement(owner, settlement_type)
 
     def pass_resources(self, roll: int) -> None:
         for s in self.board.get_settlements():
