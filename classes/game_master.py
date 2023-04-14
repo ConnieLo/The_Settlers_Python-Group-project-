@@ -58,7 +58,8 @@ class GameMaster:
         if self.check_three_same_tuples(position):
             owner.increment_victory_points()
             owner.increment_number_of_settlements()
-        return self.board.new_settlement(owner, settlement_type)
+            self.board.new_settlement(owner, settlement_type)
+        return True
     
     def new_road(self, owner, position):
         return self.board.new_road(owner, position)

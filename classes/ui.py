@@ -216,9 +216,9 @@ def main(_surface, game_master):
                 success = game_master.new_road(game_master.turn_queue[game_master.current_turn % 4],
                                                      road_info[0])
                 print(clicked_positions)
-                if not success:
-                    draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
-                    draw_error_message(screen, "As it is already in use.", x=10, y=250)
+                #if not success:
+                    #draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
+                    #draw_error_message(screen, "As it is already in use.", x=10, y=250)
 
             # Adds the clicked position rect to the dirty rects list
             if road_inf[i][1] == 0:
