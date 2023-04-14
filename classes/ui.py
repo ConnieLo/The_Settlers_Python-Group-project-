@@ -42,6 +42,13 @@ BlueSettle = pygame.image.load("resources/settlements/settleBlue.png").convert_a
 YellowSettle = pygame.image.load("resources/settlements/settleYellow.png").convert_alpha()
 GreenSettle = pygame.image.load("resources/settlements/settleGreen.png").convert_alpha()
 
+################ Road images #####################
+#for all three possible rotations of a road
+RedRoad0 = pygame.transform.rotate(pygame.image.load("resources/roads/roadRed.png").convert_alpha(), -60.0) 
+RedRoad1 = pygame.image.load("resources/roads/roadRed.png").convert_alpha()
+RedRoad2 = pygame.transform.rotate(pygame.image.load("resources/roads/roadRed.png").convert_alpha(), 60.0)
+
+
 # Mapping
 settlements = {
     "red": pygame.transform.scale(RedSettle, (30, 30)),
@@ -108,7 +115,9 @@ def intersection_points():
 circle_surface = pygame.Surface((20, 20), pygame.SRCALPHA)
 pygame.draw.circle(circle_surface, (255, 204, 203, 200), (10, 10), 10)
 # Create a list to store the buttons
-buttons_for_roads = []
+buttons_roads = []
+# Create a list to store road info
+road_inf = []
 # Drawing the hexagons
 for co in co_ords:
     points = hex_grid.get_hex_vertices(*co)
@@ -118,7 +127,20 @@ for co in co_ords:
         p2 = points[(i + 1) % len(points)]
         mid = ((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2)
         btn_rd = button_points(mid[0], mid[1], circle_surface)
-        buttons_for_roads.append(btn_rd)
+        buttons_roads.append(btn_rd)
+        if i==0 or i==3:       #stores the two ends and int to later determine the rotation of road image, accessible by index
+            road_inf.append(((p1, p2), 0))
+        elif i==1 or i==4:
+            road_inf.append(((p1, p2), 1))
+        elif i==2 or i==5:
+            road_inf.append(((p1, p2), 2))
+
+#Variable to store previous click state
+was_clicked_roads = [False] * len(buttons_roads)
+
+#An empty list to store the position of clicked buttons
+clicked_positions_roads = []
+
 
     # Draw buttons and check for clicks
 #    for btn in buttons:
@@ -126,7 +148,7 @@ for co in co_ords:
 
         # Check if this button was clicked
 #        if btn.clicked:
-#            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")
+#            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")'''
 
 #################### BUTTON EDGES - SETTLEMENT #################################
 # create a surface with a white circle and a transparent center
@@ -168,6 +190,50 @@ def main(_surface, game_master):
 
     b.draw_board(_surface, hex_images, numberImages)
     #################### BUTTON EDGES' MIDPOINTS - ROAD #################################
+    for i, btn in enumerate(buttons_roads):
+        btn.draw(_surface)
+        dirty_rects.append(btn.rect) #adds button to dirty rect list
+
+        #checks if road was clicked
+        clicked_road = btn.is_clicked()
+
+        # If the button was not clicked in the previous frame and is clicked now
+        if not was_clicked_roads[i] and clicked_road and game_master.turn_inst.rolled:
+            print(game_master.turn_inst.rolled)
+            current_color = get_color(game_master.current_turn)
+            #print(f"Settlement on the position {i + 1} has been placed") # Print a message
+            clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color))
+
+            # This finds the TileInfo object for the clicked position
+            clicked_tile_info = None
+            for tile_info in tile_info_list:
+                if tile_info.position == i:
+                    clicked_tile_info = tile_info
+                    break
+            # Appends the necessary information to the new_settlement() method in the game_master object
+            if clicked_tile_info is not None:
+                road_info = road_inf[i]
+                success = game_master.new_road(game_master.turn_queue[game_master.current_turn % 4],
+                                                     road_info[0])
+                print(clicked_positions)
+                if not success:
+                    draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
+                    draw_error_message(screen, "As it is already in use.", x=10, y=250)
+
+            # Adds the clicked position rect to the dirty rects list
+            if road_inf[i][1] == 0:
+                road = RedRoad0
+            elif road_inf[i][1] == 1:
+                road = RedRoad1
+            elif road_inf[i][1] == 2:
+                road = RedRoad2
+
+            dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, road.get_width(), road.get_height()))
+
+        # Updates the previous click state
+        was_clicked_roads[i] = clicked_road
+
+    
 
 
     #################### BUTTON EDGES - SETTLEMENT/CITIES #################################
@@ -219,6 +285,8 @@ def main(_surface, game_master):
         _surface.blit(small_settle, (x, y))
         dirty_rect = pygame.Rect(x, y, small_settle.get_width(), small_settle.get_height())
         dirty_rects.append(dirty_rect)
+    
+
 
     # Updates only the dirty rects on the screen
     pygame.display.update(dirty_rects)

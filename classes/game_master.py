@@ -59,6 +59,9 @@ class GameMaster:
             owner.increment_victory_points()
             owner.increment_number_of_settlements()
         return self.board.new_settlement(owner, settlement_type)
+    
+    def new_road(self, owner, position):
+        return self.board.new_road(owner, position)
 
     def pass_resources(self, roll: int) -> None:
         for s in self.board.get_settlements():
@@ -82,4 +85,3 @@ def draw(game_master: GameMaster, screen):
     draw_text(screen, f"Number of turns: {game_master.current_turn}", 10, 150, font=font)
     draw_text(screen, f"Current Player: {current_player.name}", 10, 200, font=font)
     # Update the screen
-    pygame.display.flip()

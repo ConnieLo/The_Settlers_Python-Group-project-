@@ -168,7 +168,7 @@ def game():
                     if diceRolling == False:
                         pygame.time.set_timer(dice.EVENT, 100)
                         diceRolling = True  # so you can't retrigger dice roll when its already rolling
-                        dRollCount = 0  # counting for animation of dice roll
+                        dRollCount = 0  # counting for an imation of dice roll
 
             elif event.type == dice.EVENT:
                 if dRollCount == 10:  # num of seconds for animation x10

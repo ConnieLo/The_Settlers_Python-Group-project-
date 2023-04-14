@@ -3,6 +3,7 @@ import pygame
 from tools import hugo_hex
 from tools.grid import GridStruct
 from classes.settlement import Settlement
+from classes.road import Road
 
 # TESTING INFO
 # generate_tiles() should create a randomly generated array of tuples (number, resource) according to the rules of
@@ -48,6 +49,9 @@ class Board:
         new: Settlement = Settlement(owner, settlement_info)
         self.settlements.append(new)
         return True
+    
+    def new_road(self, owner, position):
+        new = Road(owner, position)
 
     def get_settlements(self):
         return self.settlements
