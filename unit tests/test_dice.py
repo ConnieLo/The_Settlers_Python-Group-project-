@@ -33,6 +33,9 @@ class TestDice(unittest.TestCase):
         self.assertTrue(1 <= nums[0] <= 6)
         self.assertTrue(1 <= nums[1] <= 6)
 
+
+if __name__ == '__main__':
+    unittest.main()
 #
 # class TestDice(TestCase):
 #     def test_num(self):
@@ -83,9 +86,6 @@ class TestDice(unittest.TestCase):
 #         self.assertEqual(scaled_image.get_width(), self.dice.size)
 #         self.assertEqual(scaled_image.get_height(), self.dice.size)
 #
-# if __name__ == '__main__':
-#     unittest.main()
-
 
 
 ##################this is how i feel the Dice class can be #######################
