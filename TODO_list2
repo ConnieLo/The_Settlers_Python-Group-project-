@@ -1,10 +1,11 @@
-Make a use of the method and then store it in that GameMaster object, -- done
-main - make a button end turn -- done
-Add trade button - done
-make edges' midpoints buttons for roads- when clicked on --
-make bot player class UI -- Still working on it -- just need to put prettier pictures
+1.  make trading work, have a look at the class "Trade" and see if it is in anyway useful
+2.  create a draw() for blitting 2 cards; the largest army and longest road, and hopefully assigning appropriately to that player
+3.  start looking on implementation of AI bots, just take random steps
 
-For the backend coders:
-make it so when the user places a settlement it will increment the "player's victory point" by !!!!!!!one!!!!!!!.
-make it so after the user places a settlement it will increment it's resource type by one according to the dice's output
-and the user's settlement placement. --  done
+If you have time:
+1.  change the images for the bots to prettier images
+2.  write the steps that the user has to take on the UI, e.g., 1. first place a settlement
+                                                               2. place a road
+                                                               3. roll the dice
+                                                               4. click on end turn button,
+                                                               5. etc...
