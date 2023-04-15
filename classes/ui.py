@@ -220,9 +220,9 @@ def main(_surface, game_master):
                 success = game_master.new_road(game_master.turn_queue[game_master.current_turn % 4],
                                                      road_info[0])
                 print(clicked_positions)
-                #if not success:
-                    #draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
-                    #draw_error_message(screen, "As it is already in use.", x=10, y=250)
+                if not success:
+                    draw_error_message(screen, "Road cannot be placed there.", x=10, y=220)
+                    draw_error_message(screen, "As it is already in use.", x=10, y=250)
 
             # Adds the clicked position rect to the dirty rects list
             road = roads[current_color][road_inf[i][1]]
@@ -262,12 +262,15 @@ def main(_surface, game_master):
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
                 settlement_info = [(clicked_tile_info.tile_number, clicked_tile_info.resource)]
-                success = game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4],
-                                                     settlement_info, clicked_positions)
+                success = True
+                for settle in game_master.board.get_settlements():
+                    if settle.settlement_info == settlement_info:
+                        success = False
                 print(clicked_positions)
-                if not success:
+                if not success and game_master.check_three_same_tuples(clicked_positions):
                     draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
-                    draw_error_message(screen, "As it is already in use.", x=10, y=250)
+                else:
+                    game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info, clicked_positions)
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]
@@ -293,7 +296,7 @@ def main(_surface, game_master):
 
 
     # Updates only the dirty rects on the screen
-    pygame.display.update(dirty_rects)
+    #pygame.display.update(dirty_rects)
 
     # Clears the dirty rects list for the next frame
     dirty_rects.clear()

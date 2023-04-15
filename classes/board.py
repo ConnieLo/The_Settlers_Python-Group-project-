@@ -17,6 +17,7 @@ class Board:
         self.tiles = self.generate_tiles()
         self.grid = GridStruct()
         self.settlements = []
+        print("board initialised")
 
     def generate_tiles(self):
         new_tiles = []
