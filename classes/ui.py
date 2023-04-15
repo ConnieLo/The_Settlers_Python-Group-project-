@@ -218,10 +218,20 @@ def main(_surface, game_master):
 
         # If the button was not clicked in the previous frame and is clicked now
         if not was_clicked_roads[i] and clicked_road and game_master.turn_inst.rolled:
+            road_info = road_inf[i]
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
-            #print(f"Settlement on the position {i + 1} has been placed") # Print a message
-            clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_inf[i][1]))
+            dup_count = 0 #variable to check if the settlement is already in position
+            new_road = False 
+            for pos in clicked_positions_roads:
+                    if pos == (btn.rect.x, btn.rect.y, current_color, road_info[1]):
+                        dup_count += 1
+                    if dup_count == 1:
+                        break
+            if dup_count == 0:
+                new_road = True
+                clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
+                
 
             # This finds the TileInfo object for the clicked position
             clicked_tile_info = None
@@ -231,14 +241,10 @@ def main(_surface, game_master):
                     break
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
-                road_info = road_inf[i]
-                success = game_master.new_road(game_master.turn_queue[game_master.current_turn % 4],
-                                                     road_info[0])
                 print(clicked_positions)
-                if not success:
-                    draw_error_message(screen, "Road cannot be placed there.", x=10, y=220)
-                    draw_error_message(screen, "As it is already in use.", x=10, y=250)
-
+                if new_road:
+                    game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
+                
             # Adds the clicked position rect to the dirty rects list
             road = roads[current_color][road_inf[i][1]]
 
@@ -267,11 +273,9 @@ def main(_surface, game_master):
             current_color = get_color(game_master.current_turn)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
             dup_count = 0 #variable to check if the settlement is already in position
-            count = 0
             for pos in clicked_positions:
                     if pos == (btn.rect.x, btn.rect.y, current_color):
                         dup_count += 1
-                        count += 1
                     if dup_count == 3:
                         break
             if not (dup_count >= 3):
