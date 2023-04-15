@@ -177,6 +177,9 @@ was_clicked = [False] * len(buttons)
 # An empty list to store the positions of clicked buttons
 clicked_positions = []
 
+#an empty list to store positions to be blitted
+blitting_positions = []
+
 # List to store dirty rects
 dirty_rects = []
 ################################################################################
@@ -251,11 +254,12 @@ def main(_surface, game_master):
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
-            but_tup = (btn.rect.x, btn.rect.y, current_color)
             dup_count = 0 #variable to check if the settlement is already in position
+            count = 0
             for pos in clicked_positions:
-                    if pos == but_tup:
+                    if pos == (btn.rect.x, btn.rect.y, current_color):
                         dup_count += 1
+                        count += 1
                     if dup_count == 3:
                         break
             if not (dup_count >= 3):
@@ -274,6 +278,7 @@ def main(_surface, game_master):
                     draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
                 elif dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
                     game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
+                    blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]
@@ -283,7 +288,7 @@ def main(_surface, game_master):
         was_clicked[i] = clicked
 
     # Blits the clicked image at the stored positions
-    for x, y, color in clicked_positions:
+    for x, y, color in blitting_positions:
         small_settle = settlements[color]
         _surface.blit(small_settle, (x, y))
         dirty_rect = pygame.Rect(x, y, small_settle.get_width(), small_settle.get_height())
