@@ -269,6 +269,7 @@ def main(_surface, game_master):
     current_color = get_color(game_master.current_turn)
     small_settle = settlements[current_color]
 
+    tile_infos = [] #should reset every frame?
     # Draws the buttons and check for clicks
     for i, btn in enumerate(buttons):
         btn.draw(_surface)
@@ -281,7 +282,14 @@ def main(_surface, game_master):
         if not was_clicked[i] and clicked and (game_master.turn_inst.rolled or not game_master.initialised):
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
-            #print(f"Settlement on the position {i + 1} has been placed") # Print a message
+
+            # This finds the TileInfo object for the clicked position
+            clicked_tile_info = None
+            for tile_info in tile_info_list:
+                if tile_info.position == i:
+                    clicked_tile_info = tile_info
+                    break
+
             dup_count = 0 #variable to check if the settlement is already in position
             for pos in clicked_positions:
                     if (pos[0], pos[1]) == (btn.rect.x, btn.rect.y):
@@ -290,16 +298,11 @@ def main(_surface, game_master):
                         break
             if not (dup_count >= 3):
                 clicked_positions.append((btn.rect.x, btn.rect.y, current_color))
-
-            # This finds the TileInfo object for the clicked position
-            clicked_tile_info = None
-            for tile_info in tile_info_list:
-                if tile_info.position == i:
-                    clicked_tile_info = tile_info
-                    break
+                tile_infos.append((clicked_tile_info.tile_number, clicked_tile_info.resource))
+            
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
-                settlement_info = [(clicked_tile_info.tile_number, clicked_tile_info.resource)]
+                settlement_info = tile_infos
                 #if dup_count >= 3: #does not place settlement if 3 copies are present
                    # draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
                 if dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
@@ -310,6 +313,7 @@ def main(_surface, game_master):
                         or ((game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 1 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)):
                         game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
                         blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
+                    tile_nums = [] #resets variable for next placed settlement
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]

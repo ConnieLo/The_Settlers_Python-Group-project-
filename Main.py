@@ -210,7 +210,7 @@ def game():
         draw(game_master, screen)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            if game_master.turn_inst.rolled or not game_master.initialised:
+            if game_master.turn_inst.rolled and game_master.initialised:
                 for i in four:
                     if game_master.turn_queue[i].check_if_over_ten():
                         running = False

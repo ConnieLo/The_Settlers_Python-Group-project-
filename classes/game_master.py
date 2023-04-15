@@ -65,6 +65,7 @@ class GameMaster:
         return True
 
     def pass_resources(self, roll: int) -> None:
+        print("passing resources")
         for s in self.board.get_settlements():
             s.grant_resources(roll)
     
