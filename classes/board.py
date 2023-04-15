@@ -17,6 +17,7 @@ class Board:
         self.tiles = self.generate_tiles()
         self.grid = GridStruct()
         self.settlements = []
+        self.roads = []
         print("board initialised")
 
     def generate_tiles(self):
@@ -53,6 +54,7 @@ class Board:
     
     def new_road(self, owner, position):
         new = Road(owner, position)
+        self.roads.append(new)
 
     def get_settlements(self):
         return self.settlements
