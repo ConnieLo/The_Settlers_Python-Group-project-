@@ -291,9 +291,9 @@ def main(_surface, game_master):
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
                 settlement_info = [(clicked_tile_info.tile_number, clicked_tile_info.resource)]
-                if dup_count >= 3: #does not place settlement if 3 copies are present
-                    draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
-                elif dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
+                #if dup_count >= 3: #does not place settlement if 3 copies are present
+                   # draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
+                if dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
                     game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
                     blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
 
