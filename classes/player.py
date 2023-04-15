@@ -18,6 +18,7 @@ class Player:
         self.number_of_settlements = 0
         self.number_of_cities = 0
         self.number_of_cards = 0
+        self.initialised = False #to check if player has placed first 2 settlements and roads
 
     def add_resource(self, resource_type):
         if resource_type in self.resources:
@@ -35,6 +36,9 @@ class Player:
 
     def increment_number_of_settlements(self):
         self.number_of_settlements += 1
+    
+    def increment_number_of_roads(self):
+        self.number_of_roads += 1
 
     # def reset_resources(self): # Redundant at the momemnt
     #    self.resources = {"wood": 0, "brick": 0, "sheep": 0, "wheat": 0, "ore": 0}

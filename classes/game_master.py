@@ -61,6 +61,7 @@ class GameMaster:
     
     def new_road(self, owner, position):
         self.board.new_road(owner, position)
+        owner.increment_number_of_roads()
         return True
 
     def pass_resources(self, roll: int) -> None:

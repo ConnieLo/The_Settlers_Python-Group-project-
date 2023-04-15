@@ -54,8 +54,8 @@ YellowRoad1 = pygame.image.load("resources/roads/road_yellow.png").convert_alpha
 YellowRoad0 = pygame.transform.rotate(YellowRoad1, -60.0)
 YellowRoad2 = pygame.transform.rotate(YellowRoad1, 60.0)
 GreenRoad1 = pygame.image.load("resources/roads/road_green.png").convert_alpha()
-GreenRoad0 = pygame.transform.rotate(YellowRoad1, -60.0)
-GreenRoad2 = pygame.transform.rotate(YellowRoad1, 60.0)
+GreenRoad0 = pygame.transform.rotate(GreenRoad1, -60.0)
+GreenRoad2 = pygame.transform.rotate(GreenRoad1, 60.0)
 
 
 # Mapping
@@ -225,13 +225,11 @@ def main(_surface, game_master):
             dup_count = 0 #variable to check if the settlement is already in position
             new_road = False 
             for pos in clicked_positions_roads:
-                    if pos == (btn.rect.x, btn.rect.y, current_color, road_info[1]):
+                    if (pos[0], pos[1]) == (btn.rect.x, btn.rect.y):
                         dup_count += 1
-                    if dup_count == 1:
                         break
             if dup_count == 0:
                 new_road = True
-                clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
                 
 
             # This finds the TileInfo object for the clicked position
@@ -244,8 +242,19 @@ def main(_surface, game_master):
             if clicked_tile_info is not None:
                 print(clicked_positions)
                 if new_road:
-                    game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
-                
+                    if game_master.initialised:
+                        game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
+                        clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
+                    elif (game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 0 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)\
+                        or (game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 1 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 2):
+                        game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
+                        clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
+                        if game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 2 == game_master.turn_queue[game_master.current_turn % 4].number_of_roads:
+                            game_master.turn_queue[game_master.current_turn % 4].initialised = True
+                            if game_master.current_turn == 3:
+                                game_master.initialised = True
+                            game_master.next_turn()
+
             # Adds the clicked position rect to the dirty rects list
             road = roads[current_color][road_inf[i][1]]
 
@@ -275,7 +284,7 @@ def main(_surface, game_master):
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
             dup_count = 0 #variable to check if the settlement is already in position
             for pos in clicked_positions:
-                    if pos == (btn.rect.x, btn.rect.y, current_color):
+                    if (pos[0], pos[1]) == (btn.rect.x, btn.rect.y):
                         dup_count += 1
                     if dup_count == 3:
                         break
@@ -294,8 +303,13 @@ def main(_surface, game_master):
                 #if dup_count >= 3: #does not place settlement if 3 copies are present
                    # draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
                 if dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
-                    game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
-                    blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
+                    if game_master.initialised:
+                        game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
+                        blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
+                    elif game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 0 \
+                        or ((game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 1 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)):
+                        game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
+                        blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]
