@@ -164,7 +164,7 @@ def game():
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouseX, mouseY = pygame.mouse.get_pos()
                 if (dice.d1X <= mouseX <= dice.d2X + dice.dimens) and (dice.d1Y <= mouseY <= dice.d1Y + dice.dimens)\
-                    and not game_master.turn_inst.rolled:
+                    and not game_master.turn_inst.rolled and game_master.initialised:
                     if diceRolling == False:
                         pygame.time.set_timer(dice.EVENT, 100)
                         diceRolling = True  # so you can't retrigger dice roll when its already rolling
@@ -210,7 +210,7 @@ def game():
         draw(game_master, screen)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
-            if game_master.turn_inst.rolled:
+            if game_master.turn_inst.rolled or not game_master.initialised:
                 for i in four:
                     if game_master.turn_queue[i].check_if_over_ten():
                         running = False

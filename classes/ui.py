@@ -218,7 +218,7 @@ def main(_surface, game_master):
         clicked_road = btn.is_clicked()
 
         # If the button was not clicked in the previous frame and is clicked now
-        if not was_clicked_roads[i] and clicked_road and game_master.turn_inst.rolled:
+        if not was_clicked_roads[i] and clicked_road and (game_master.turn_inst.rolled or not game_master.initialised):
             road_info = road_inf[i]
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
@@ -278,7 +278,7 @@ def main(_surface, game_master):
         clicked = btn.is_clicked()
 
         # If the button was not clicked in the previous frame and is clicked now
-        if not was_clicked[i] and clicked and game_master.turn_inst.rolled:
+        if not was_clicked[i] and clicked and (game_master.turn_inst.rolled or not game_master.initialised):
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
