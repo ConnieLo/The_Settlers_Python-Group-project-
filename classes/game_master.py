@@ -54,7 +54,7 @@ class GameMaster:
         return False
 
     def new_settlement(self, owner: Player, settlement_type: str, position: tuple) -> Settlement:
-        active_player = self.turn_queue[self.current_turn % 4]
+
         if self.check_three_same_tuples(position):
             owner.increment_victory_points()
             owner.increment_number_of_settlements()
@@ -62,11 +62,15 @@ class GameMaster:
         return True
     
     def new_road(self, owner, position):
-        return self.board.new_road(owner, position)
+        self.board.new_road(owner, position)
+        return True
 
     def pass_resources(self, roll: int) -> None:
         for s in self.board.get_settlements():
             s.grant_resources(roll)
+    
+    def get_board(self):
+        return self.board
 
 
 # UI to display the number of turns so far and the current player's turn
