@@ -44,18 +44,18 @@ GreenSettle = pygame.image.load("resources/settlements/settleGreen.png").convert
 
 ################ Road images #####################
 # Load and rotate road images
-RedRoad1 = pygame.image.load("resources/roads/roadRed.png").convert_alpha()
+RedRoad1 = pygame.image.load("resources/roads/road_red.png").convert_alpha()
 RedRoad0 = pygame.transform.rotate(RedRoad1, -60.0)
 RedRoad2 = pygame.transform.rotate(RedRoad1, 60.0)
-BlueRoad1 = pygame.image.load("resources/roads/roadRed.png").convert_alpha()
-BlueRoad0 = pygame.transform.rotate(RedRoad1, -60.0)
-BlueRoad2 = pygame.transform.rotate(RedRoad1, 60.0)
-YellowRoad1 = pygame.image.load("resources/roads/roadRed.png").convert_alpha()
-YellowRoad0 = pygame.transform.rotate(RedRoad1, -60.0)
-YellowRoad2 = pygame.transform.rotate(RedRoad1, 60.0)
-GreenRoad1 = pygame.image.load("resources/roads/roadRed.png").convert_alpha()
-GreenRoad0 = pygame.transform.rotate(RedRoad1, -60.0)
-GreenRoad2 = pygame.transform.rotate(RedRoad1, 60.0)
+BlueRoad1 = pygame.image.load("resources/roads/road_blue.png").convert_alpha()
+BlueRoad0 = pygame.transform.rotate(BlueRoad1, -60.0)
+BlueRoad2 = pygame.transform.rotate(BlueRoad1, 60.0)
+YellowRoad1 = pygame.image.load("resources/roads/road_yellow.png").convert_alpha()
+YellowRoad0 = pygame.transform.rotate(YellowRoad1, -60.0)
+YellowRoad2 = pygame.transform.rotate(YellowRoad1, 60.0)
+GreenRoad1 = pygame.image.load("resources/roads/road_green.png").convert_alpha()
+GreenRoad0 = pygame.transform.rotate(YellowRoad1, -60.0)
+GreenRoad2 = pygame.transform.rotate(YellowRoad1, 60.0)
 
 
 # Mapping
@@ -68,9 +68,9 @@ settlements = {
 
 roads = {
     "red": (pygame.transform.scale(RedRoad0, (30,30)), pygame.transform.scale(RedRoad1, (30,30)), pygame.transform.scale(RedRoad2, (30,30))),
-    "blue": (pygame.transform.scale(RedRoad0, (30,30)), pygame.transform.scale(RedRoad1, (30,30)), pygame.transform.scale(RedRoad2, (30,30))),
-    "yellow": (pygame.transform.scale(RedRoad0, (30,30)), pygame.transform.scale(RedRoad1, (30,30)), pygame.transform.scale(RedRoad2, (30,30))),
-    "green": (pygame.transform.scale(RedRoad0, (30,30)), pygame.transform.scale(RedRoad1, (30,30)), pygame.transform.scale(RedRoad2, (30,30)))
+    "blue": (pygame.transform.scale(BlueRoad0, (30,30)), pygame.transform.scale(BlueRoad1, (30,30)), pygame.transform.scale(BlueRoad2, (30,30))),
+    "yellow": (pygame.transform.scale(YellowRoad0, (30,30)), pygame.transform.scale(YellowRoad1, (30,30)), pygame.transform.scale(YellowRoad2, (30,30))),
+    "green": (pygame.transform.scale(GreenRoad0, (30,30)), pygame.transform.scale(GreenRoad1, (30,30)), pygame.transform.scale(GreenRoad2, (30,30)))
 }
 
 # Gets the color based on the current turn
@@ -209,6 +209,7 @@ def main(_surface, game_master):
 
     b.draw_board(_surface, hex_images, numberImages)
     #################### BUTTON EDGES' MIDPOINTS - ROAD #################################
+    current_color = get_color(game_master.current_turn)
     for i, btn in enumerate(buttons_roads):
         btn.draw(_surface)
         dirty_rects.append(btn.rect) #adds button to dirty rect list
