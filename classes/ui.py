@@ -43,10 +43,10 @@ YellowSettle = pygame.image.load("resources/settlements/settleYellow.png").conve
 GreenSettle = pygame.image.load("resources/settlements/settleGreen.png").convert_alpha()
 
 ################ Road images #####################
-#for all three possible rotations of a road
-RedRoad0 = pygame.transform.rotate(pygame.image.load("resources/roads/roadRed.png").convert_alpha(), -60.0) 
+# Load and rotate road images
 RedRoad1 = pygame.image.load("resources/roads/roadRed.png").convert_alpha()
-RedRoad2 = pygame.transform.rotate(pygame.image.load("resources/roads/roadRed.png").convert_alpha(), 60.0)
+RedRoad0 = pygame.transform.rotate(RedRoad1, -60.0)
+RedRoad2 = pygame.transform.rotate(RedRoad1, 60.0)
 
 
 # Mapping
@@ -55,6 +55,10 @@ settlements = {
     "blue": pygame.transform.scale(BlueSettle, (30, 30)),
     "yellow": pygame.transform.scale(YellowSettle, (30, 30)),
     "green": pygame.transform.scale(GreenSettle, (30, 30)),
+}
+
+roads = {
+    "red": (pygame.transform.scale(RedRoad0, (30,30)), pygame.transform.scale(RedRoad1, (30,30)), pygame.transform.scale(RedRoad2, (30,30)))
 }
 
 # Gets the color based on the current turn
@@ -202,7 +206,7 @@ def main(_surface, game_master):
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
-            clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color))
+            clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_inf[i][1]))
 
             # This finds the TileInfo object for the clicked position
             clicked_tile_info = None
@@ -221,19 +225,12 @@ def main(_surface, game_master):
                     #draw_error_message(screen, "As it is already in use.", x=10, y=250)
 
             # Adds the clicked position rect to the dirty rects list
-            if road_inf[i][1] == 0:
-                road = RedRoad0
-            elif road_inf[i][1] == 1:
-                road = RedRoad1
-            elif road_inf[i][1] == 2:
-                road = RedRoad2
+            road = roads[current_color][road_inf[i][1]]
 
             dirty_rects.append(pygame.Rect(btn.rect.x, btn.rect.y, road.get_width(), road.get_height()))
 
         # Updates the previous click state
         was_clicked_roads[i] = clicked_road
-
-    
 
 
     #################### BUTTON EDGES - SETTLEMENT/CITIES #################################
@@ -284,6 +281,13 @@ def main(_surface, game_master):
         small_settle = settlements[color]
         _surface.blit(small_settle, (x, y))
         dirty_rect = pygame.Rect(x, y, small_settle.get_width(), small_settle.get_height())
+        dirty_rects.append(dirty_rect)
+    
+    #blits the clicked roads
+    for x, y, colour, rot in clicked_positions_roads:
+        road = roads[colour][rot]
+        _surface.blit(road, (x, y))
+        dirty_rect = pygame.Rect(x, y, road.get_width(), road.get_height())
         dirty_rects.append(dirty_rect)
     
 
