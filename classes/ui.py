@@ -251,7 +251,15 @@ def main(_surface, game_master):
             print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
             #print(f"Settlement on the position {i + 1} has been placed") # Print a message
-            clicked_positions.append((btn.rect.x, btn.rect.y, current_color))
+            but_tup = (btn.rect.x, btn.rect.y, current_color)
+            dup_count = 0 #variable to check if the settlement is already in position
+            for pos in clicked_positions:
+                    if pos == but_tup:
+                        dup_count += 1
+                    if dup_count == 3:
+                        break
+            if not (dup_count >= 3):
+                clicked_positions.append((btn.rect.x, btn.rect.y, current_color))
 
             # This finds the TileInfo object for the clicked position
             clicked_tile_info = None
@@ -262,15 +270,10 @@ def main(_surface, game_master):
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
                 settlement_info = [(clicked_tile_info.tile_number, clicked_tile_info.resource)]
-                success = True
-                for settle in game_master.board.get_settlements():
-                    if settle.settlement_info == settlement_info:
-                        success = False
-                print(clicked_positions)
-                if not success and game_master.check_three_same_tuples(clicked_positions):
+                if dup_count >= 3: #does not place settlement if 3 copies are present
                     draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
-                else:
-                    game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info, clicked_positions)
+                elif dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
+                    game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]
