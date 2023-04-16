@@ -313,7 +313,6 @@ def main(_surface, game_master):
                         or ((game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 1 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)):
                         game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
                         blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
-                    tile_nums = [] #resets variable for next placed settlement
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]
