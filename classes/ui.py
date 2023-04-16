@@ -220,7 +220,6 @@ def main(_surface, game_master):
         # If the button was not clicked in the previous frame and is clicked now
         if not was_clicked_roads[i] and clicked_road and (game_master.turn_inst.rolled or not game_master.initialised):
             road_info = road_inf[i]
-            print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
             dup_count = 0 #variable to check if the settlement is already in position
             new_road = False 
@@ -240,9 +239,9 @@ def main(_surface, game_master):
                     break
             # Appends the necessary information to the new_settlement() method in the game_master object
             if clicked_tile_info is not None:
-                print(clicked_positions)
                 if new_road:
-                    if game_master.initialised:
+                    if game_master.initialised and game_master.turn_queue[game_master.current_turn % 4].check_enough_res_road():
+                        game_master.turn_queue[game_master.current_turn % 4].purchase_road()
                         game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
                         clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
                     elif (game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 0 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)\
@@ -280,7 +279,6 @@ def main(_surface, game_master):
 
         # If the button was not clicked in the previous frame and is clicked now
         if not was_clicked[i] and clicked and (game_master.turn_inst.rolled or not game_master.initialised):
-            print(game_master.turn_inst.rolled)
             current_color = get_color(game_master.current_turn)
 
             # This finds the TileInfo object for the clicked position
@@ -306,7 +304,8 @@ def main(_surface, game_master):
                 #if dup_count >= 3: #does not place settlement if 3 copies are present
                    # draw_error_message(screen, "Settlement cannot be placed there.", x=10, y=220)
                 if dup_count == 2: #only places if 2 other copies are present; won't place on outer vertices
-                    if game_master.initialised:
+                    if game_master.initialised and game_master.turn_queue[game_master.current_turn % 4].check_enough_res_settle():
+                        game_master.turn_queue[game_master.current_turn % 4].purchase_settle()
                         game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
                         blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
                     elif game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 0 \
