@@ -53,6 +53,18 @@ class Player:
             return True
         else:
             return False
+        
+    def check_enough_res_settle(self): #checks if rich enough to build settlement
+        if self.resources["wood"] >= 1 and self.resouces["clay"] >= 1 and self.resources["sheep"] >= 1 and self.resources["wheat"] >= 1:
+            return True
+        else:
+            return False
+        
+    def check_enough_res_road(self): #checks if rich enough to build road
+        if self.resources["clay"] >= 1 and self.resources["wood"] >= 1:
+            return True
+        else:
+            return False
 
     def get_longest_road_length(self):
         # This method calculates the length of the longest road the player currently has on the game board.
