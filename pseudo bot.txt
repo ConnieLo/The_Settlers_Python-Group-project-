@@ -1,0 +1,40 @@
+SETTING UP
+    INPUTS
+    let candidates be an array of all possible settlement locations
+
+    ALGORITHM
+    resources_wanted = ['wood', 'clay', 'wheat', 'sheep' 'ore']
+    s1 = random from candidates
+    local_resources = resources in tiles adjacent to settlement
+
+    // Bot doesn't want a settlement with a desert tile
+    while desert in local_resources:
+        remove s1 from candidates
+        s1 = random from candidates
+        local_resources = resources in tiles adjacent to s1
+
+    place settlement at s1
+    remove s1 from candidates
+    remove adjacent settlements from candidates
+
+    place road in random direction from settlement
+
+    remove all local_resources from resources
+
+    // Now time for the second settlement
+    // Go through every settlement left: if we find one that gives us access to the remaining resources, take it!
+    // if this leaves us with only one left, the bot is stuck with that one
+    s2 = empty
+    for c in candidates:
+        s2 = c
+        local_resources = resources in tiles adjacent to s2
+
+        if all resources_wanted in local_resources:
+            break and return
+
+    place settlement at s2
+    place road in random direction from settlement
+    end turn
+
+EACH TURN
+    do something random idk
