@@ -17,7 +17,6 @@ class Player:
         self.number_of_roads = 0
         self.number_of_settlements = 0
         self.number_of_cities = 0
-        self.number_of_cards = 0
         self.initialised = False #to check if player has placed first 2 settlements and roads
 
     def add_resource(self, resource_type):
@@ -39,9 +38,6 @@ class Player:
     
     def increment_number_of_roads(self):
         self.number_of_roads += 1
-
-    # def reset_resources(self): # Redundant at the momemnt
-    #    self.resources = {"wood": 0, "brick": 0, "sheep": 0, "wheat": 0, "ore": 0}
 
     def add_development_cards(self, development_cards, quantity):
         self.development_cards[development_cards] += quantity
@@ -76,15 +72,6 @@ class Player:
         settle_cost = [("wood", 1), ("clay", 1), ("sheep", 1), ("wheat", 1)]
         for res, quan in settle_cost:
             self.remove_resources(res, quan)
-
-    def get_longest_road_length(self):
-        # This method calculates the length of the longest road the player currently has on the game board.
-        # we may use depth first search here
-        pass
-
-    def get_largest_army_size(self):
-        # This method calculates the size of the largest army the player currently has on the game board.
-        pass
 
     def can_afford_cost(self, cost):
         # This method checks if the player has enough resources to pay a given cost.
@@ -241,11 +228,10 @@ class Player:
         info = [
             {"text": f"{self.name}", "icon": None},
             {"text": f"VP: {self.score}", "icon": "victory_points"},
-            {"text": f"RC: {sum(self.resources.values())}", "icon": "resource_cards"},
-            {"text": f"DC: {sum(self.development_cards.values())}", "icon": "development_cards"},
+            {"text": f"Cards: {sum(self.resources.values())}", "icon": "resource_cards"},
+            {"text": f"Dev Cards: {sum(self.development_cards.values())}", "icon": "development_cards"},
             {"text": f"Roads: {self.number_of_roads}", "icon": "road_cards"},
             {"text": f"Cities: {self.number_of_cities}", "icon": "cities_cards"},
-            {"text": f"Cards: {self.number_of_cards}", "icon": "cards_cards"},
         ]
 
         font = pygame.font.Font(None, 24)
