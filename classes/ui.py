@@ -324,11 +324,6 @@ def main(_surface, game_master):
         _surface.blit(road, (x, y))
         dirty_rect = pygame.Rect(x, y, road.get_width(), road.get_height())
         dirty_rects.append(dirty_rect)
-    
-
-
-    # Updates only the dirty rects on the screen
-    #pygame.display.update(dirty_rects)
 
     # Clears the dirty rects list for the next frame
     dirty_rects.clear()
