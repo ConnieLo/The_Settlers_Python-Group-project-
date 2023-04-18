@@ -155,16 +155,7 @@ for co in co_ords:
 was_clicked_roads = [False] * len(buttons_roads)
 
 #An empty list to store the position of clicked buttons
-clicked_positions_roads = []
-
-
-    # Draw buttons and check for clicks
-#    for btn in buttons:
-#        btn.draw(_surface)
-
-        # Check if this button was clicked
-#        if btn.clicked:
-#            print(f"Button clicked at ({btn.rect.x}, {btn.rect.y})")'''
+blitting_positions_roads = []
 
 #################### BUTTON EDGES - SETTLEMENT #################################
 # create a surface with a white circle and a transparent center
@@ -190,7 +181,7 @@ was_clicked = [False] * len(buttons)
 clicked_positions = []
 
 #an empty list to store positions to be blitted
-blitting_positions = []
+blitting_position_settlements = []
 
 # List to store dirty rects
 dirty_rects = []
@@ -223,7 +214,7 @@ def main(_surface, game_master):
             current_color = get_color(game_master.current_turn)
             dup_count = 0 #variable to check if the settlement is already in position
             new_road = False 
-            for pos in clicked_positions_roads:
+            for pos in blitting_positions_roads:
                     if (pos[0], pos[1]) == (btn.rect.x, btn.rect.y):
                         dup_count += 1
                         break
@@ -243,11 +234,11 @@ def main(_surface, game_master):
                     if game_master.initialised and game_master.turn_queue[game_master.current_turn % 4].check_enough_res_road():
                         game_master.turn_queue[game_master.current_turn % 4].purchase_road()
                         game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
-                        clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
+                        blitting_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
                     elif (game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 0 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)\
                         or (game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 1 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 2):
                         game_master.new_road(game_master.turn_queue[game_master.current_turn % 4], road_info[0])
-                        clicked_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
+                        blitting_positions_roads.append((btn.rect.x, btn.rect.y, current_color, road_info[1]))
                         if game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 2 == game_master.turn_queue[game_master.current_turn % 4].number_of_roads:
                             game_master.turn_queue[game_master.current_turn % 4].initialised = True
                             if game_master.current_turn == 3:
@@ -307,11 +298,11 @@ def main(_surface, game_master):
                     if game_master.initialised and game_master.turn_queue[game_master.current_turn % 4].check_enough_res_settle():
                         game_master.turn_queue[game_master.current_turn % 4].purchase_settle()
                         game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
-                        blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
+                        blitting_position_settlements.append((btn.rect.x, btn.rect.y, current_color))
                     elif game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 0 \
                         or ((game_master.turn_queue[game_master.current_turn % 4].number_of_roads == 1 and game_master.turn_queue[game_master.current_turn % 4].number_of_settlements == 1)):
                         game_master.new_settlement(game_master.turn_queue[game_master.current_turn % 4], settlement_info)
-                        blitting_positions.append((btn.rect.x, btn.rect.y, current_color))
+                        blitting_position_settlements.append((btn.rect.x, btn.rect.y, current_color))
 
             # Adds the clicked position rect to the dirty rects list
             small_settle = settlements[current_color]
@@ -321,14 +312,14 @@ def main(_surface, game_master):
         was_clicked[i] = clicked
 
     # Blits the clicked image at the stored positions
-    for x, y, color in blitting_positions:
+    for x, y, color in blitting_position_settlements:
         small_settle = settlements[color]
         _surface.blit(small_settle, (x, y))
         dirty_rect = pygame.Rect(x, y, small_settle.get_width(), small_settle.get_height())
         dirty_rects.append(dirty_rect)
     
     #blits the clicked roads
-    for x, y, colour, rot in clicked_positions_roads:
+    for x, y, colour, rot in blitting_positions_roads:
         road = roads[colour][rot]
         _surface.blit(road, (x, y))
         dirty_rect = pygame.Rect(x, y, road.get_width(), road.get_height())
