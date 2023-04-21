@@ -13,6 +13,25 @@ from classes.road import Road
 # get_settlements() should return a list of all the settlements
 
 class Board:
+    """
+    The class responsible for storing tiles, settlements, roads, and their positions (or, more accurately, abstractions
+    of their positions so that the rest of the game can function).
+
+    ATTRIBUTES
+
+    tiles: list
+        A list of tiles in the board, where each tile in the board is represented by a tuple in the format
+        (dice_no: in, resource: str)
+
+    grid: GridStruct
+        The grid structure used for storage
+
+    settlements: list
+        A list of the Settlements in the board
+
+    roads: list
+        A list of the Roads in the board
+    """
     def __init__(self):
         self.tiles = self.generate_tiles()
         self.grid = GridStruct()
@@ -21,6 +40,11 @@ class Board:
         print("board initialised")
 
     def generate_tiles(self):
+        """
+        Generates 19 tiles in random positions according to the rules of The Settlers
+        :return:
+            The list of tiles
+        """
         new_tiles = []
 
         # The resource pool
@@ -48,19 +72,46 @@ class Board:
         return new_tiles
 
     def new_settlement(self, owner, settlement_info):
+        """
+        Instances and stores a new settlement
+        :param owner: Player
+            The Player to whom the new settlement belongs
+        :param settlement_info:
+            Infor on the new settlement
+        :return:
+            True if the settlement has been successfully created
+        """
         new: Settlement = Settlement(owner, settlement_info)
         self.settlements.append(new)
         return True
     
     def new_road(self, owner, position):
+        """
+        Instances and stores a new road
+        :param owner: Player
+            The Player to whom the new road belongs
+        :param position:
+            The position of the new road
+        """
         new = Road(owner, position)
         self.roads.append(new)
 
     def get_settlements(self):
+        """
+        Gets every settlement stored
+        :return:
+            A list of the settlements
+        """
         return self.settlements
 
-    # returns the tile number, resource, and position number for a given position
     def get_tile_info(self, position):
+        """
+        returns the tile number, resource, and position number for a given position
+        :param position:
+            The positions
+        :return:
+            Position, resource, number
+        """
         if 0 <= position < len(self.tiles):
             number, resource = self.tiles[position]
             return position, resource, number
@@ -68,6 +119,16 @@ class Board:
             return None
 
     def draw_board(self, _surface, hex_images, number_images):
+        """
+        Renders the board to the screen
+
+        :param _surface: Pygame.Surface
+            The surface on which to draw the board
+        :param hex_images:
+            The images to use for the resources
+        :param number_images:
+             The images to use for the numbers
+        """
         for i, (number, resource) in enumerate(self.tiles):
             # Draw the hexagon
             center = hex_grid.offset(*co_ords[i])
