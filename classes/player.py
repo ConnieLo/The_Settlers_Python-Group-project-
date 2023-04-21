@@ -8,16 +8,38 @@ from classes import DevelopmentCard, settlement, trade
 class Player:
     def __init__(self, name, color, bot_number=None):
         self.name = name
+        """A string representing the name of this player"""
+
         self.color = color
+        """The colour this player is represented by on-screen, 
+        stored as a standard RBG value in a 3-element collection."""
+
         self.bot_number = bot_number  # add by aj
         self.score = 0
+        """The number of victory points this player has"""
+
         self.resources = {"wood": 0, "clay": 0, "sheep": 0, "wheat": 0, "ore": 0}
+        """The number of resource cards of each type this player has, 
+        stored as a map where the key is the name of the resource as a string e.g. “clay”. 
+        By convention, these names are lower case"""
+
         self.development_cards = {"Knights": 0, "Road Building": 0, "Year of Plenty": 0, "Monopoly": 0, "University": 0,
                                   "Market": 0, "Great Hall": 0, "Chapel": 0, "Library": 0, }
+        """The number of development cards the player has available to them. 
+        Stored as a map where the key is the name of the card as a string e.g. “Year of Plenty”. 
+        By convention, these names are title case."""
+
         self.number_of_roads = 0
+        """The number of roads this player has"""
+
         self.number_of_settlements = 0
+        """The number of settlements this player has"""
+
         self.number_of_cities = 0
-        self.initialised = False #to check if player has placed first 2 settlements and roads
+        """The number of cities this player has"""
+
+        self.initialised = False
+        """To check if player has placed first 2 settlements and roads"""
 
     def add_resource(self, resource_type):
         if resource_type in self.resources:
