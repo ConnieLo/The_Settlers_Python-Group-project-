@@ -8,59 +8,74 @@ from classes import DevelopmentCard, settlement, trade
 class Player:
     """
     A player object exists for every player in the game, whether human or bot controlled.
+
+    ATTRIBUTES
+
+    name: str
+        A string representing the name of this player
+
+    colour: collection
+        The colour this player is represented by on-screen,
+        stored as a standard RBG value in a 3-element collection.
+
+    score: int
+        The number of victory points this player has
+
+    resources: dict
+        The number of resource cards of each type this player has,
+        stored as a map where the key is the name of the resource as a string e.g. “clay”.
+        By convention, these names are lower case
+
+    development_cards: dict
+        The number of development cards the player has available to them.
+        Stored as a map where the key is the name of the card as a string e.g. “Year of Plenty”.
+        By convention, these names are title case.
+
+    number_of_roads: int
+        The number of roads this player has
+
+    number_of_settlements: int
+        The number of settlements this player has
+
+    number_of_cities: int
+        The number of cities this player has
+
+    initialised: bool
+        To check if player has placed their first 2 settlements and roads
     """
 
     def __init__(self, name, color, bot_number=None):
         self.name = name
-        """A string representing the name of this player"""
-
         self.color = color
-        """
-        The colour this player is represented by on-screen, 
-        stored as a standard RBG value in a 3-element collection.
-        """
-
         self.bot_number = bot_number  # add by aj
         self.score = 0
-        """The number of victory points this player has"""
-
         self.resources = {"wood": 0, "clay": 0, "sheep": 0, "wheat": 0, "ore": 0}
-        """
-        The number of resource cards of each type this player has, 
-        stored as a map where the key is the name of the resource as a string e.g. “clay”. 
-        By convention, these names are lower case
-        """
-
         self.development_cards = {"Knights": 0, "Road Building": 0, "Year of Plenty": 0, "Monopoly": 0, "University": 0,
                                   "Market": 0, "Great Hall": 0, "Chapel": 0, "Library": 0, }
-        """
-        The number of development cards the player has available to them. 
-        Stored as a map where the key is the name of the card as a string e.g. “Year of Plenty”. 
-        By convention, these names are title case.
-        """
-
         self.number_of_roads = 0
-        """The number of roads this player has"""
-
         self.number_of_settlements = 0
-        """The number of settlements this player has"""
-
         self.number_of_cities = 0
-        """The number of cities this player has"""
-
         self.initialised = False
-        """To check if player has placed their first 2 settlements and roads"""
 
     def add_resource(self, resource_type: str):
-        """Increments the resource of the given type by 1"""
+        """
+        Increments the resource of the given type by 1
+        :param resource_type: str
+            the type of resource
+        """
         if resource_type in self.resources:
             self.resources[resource_type] += 1
 
     def remove_resources(self, resource: str, quantity: int =1) -> bool:
         """
         Removes the given number of the given resource, if the player has them, and returns true.
-        If the player does not have enough, or any, of the given resource, nothing is changed, and this function
-        return false.
+        If the player does not have enough, or any, of the given resource, nothing is changed
+
+        :param resource: str
+            The type of resource
+        :param quantity:
+            The amount
+        :return: True if any resources taken
         """
         if self.resources[resource] >= quantity:
             self.resources[resource] -= quantity
@@ -69,7 +84,11 @@ class Player:
             return False
 
     def increment_victory_points(self, points=1):
-        """Increments the victory points 1, or the given number"""
+        """
+        Increments the victory points 1, or the given number
+        :param points: int, optional
+            The number of points. Default 1
+        """
         self.score += points
 
     def increment_number_of_settlements(self):
@@ -81,11 +100,23 @@ class Player:
         self.number_of_roads += 1
 
     def add_development_cards(self, development_cards, quantity=1):
-        """Grants a single (or multiple, if specified) development card of the given type"""
+        """
+        Grants a single (or multiple, if specified) development card of the given type
+        :param development_cards: str
+            The type of development card
+        :param quantity: int, optional
+            The amount. Default 1
+        """
         self.development_cards[development_cards] += quantity
 
     def remove_development_cards(self, development_cards, quantity=1):
-        """Discards a single (or multiple, if specified) development card of the given type"""
+        """
+        Discards a single (or multiple, if specified) development card of the given type
+        :param development_cards: str
+            The type of development card
+        :param quantity: int, optional
+            The amount. Default 1
+        """
         # changed self.resources to self.development_cards
         if self.development_cards[development_cards] >= quantity:
             self.development_cards[development_cards] -= quantity
@@ -94,7 +125,10 @@ class Player:
             return False
 
     def check_enough_res_settle(self) -> bool:
-        """checks if the player has enough resources to build a settlement"""
+        """
+        checks if the player has enough resources to build a settlement
+        :return True if they have enough
+        """
         if self.resources["wood"] >= 1 and self.resources["clay"] >= 1 and self.resources["sheep"] >= 1 and \
                 self.resources["wheat"] >= 1:
             return True
@@ -102,7 +136,10 @@ class Player:
             return False
 
     def check_enough_res_road(self) -> bool:
-        """checks if the player has enough resources to build a road"""
+        """
+        checks if the player has enough resources to build a road
+        :return True if they have enough
+        """
         print("allo")
         if self.resources["clay"] >= 1 and self.resources["wood"] >= 1:
             return True
@@ -124,7 +161,8 @@ class Player:
     def can_afford_cost(self, cost):
         """
         checks if the player has enough resources to pay a given cost.
-        Cost is given as a {resource, amount} dictionary
+        :param cost: dict
+            Given as {resource: amount} pairs
         """
         for resource, quantity in cost.items():
             if self.resources[resource] < quantity:
@@ -132,7 +170,11 @@ class Player:
         return True
 
     def buy_development_card(self, deck):
-        """This method allows the player to purchase a development card from a given deck"""
+        """
+        Allows the player to purchase a development card from a given deck
+        :param deck: Deck
+            The deck from which to draw
+        """
         card = deck.draw()
         if card and self.can_afford_cost(card.cost):
             self.development_cards[card.name] += 1
@@ -145,12 +187,21 @@ class Player:
         """
         UNIMPLEMENTEDED
         This method allows the player to play a development card from their hand.
+
+        :param card: DevelopmentCard
+            The card to play
         """
         # if self.development_cards[card] > 0:
         pass
 
     def trade_resources_with_bank(self, give, receive):
-        """Allows the player to trade a specified amount of resources with the bank"""
+        """
+        Allows the player to trade a specified amount of resources with the bank
+        :param give: str
+            The outgoing resource
+        :param receive: str
+            The incoming resource
+        """
         trade_ratios = {"wood": 4, "brick": 4, "sheep": 4, "wheat": 4, "ore": 4}
         if self.resources[give] >= trade_ratios[give]:
             self.resources[give] -= trade_ratios[give]
@@ -160,7 +211,15 @@ class Player:
             return False  # Player does not have enough resources to make the trade
 
     def trade_resources_with_player(self, other_player, give, receive):
-        """Allows the player to trade a specified amount of resources with another player"""
+        """
+        Allows the player to trade a specified amount of resources with another player
+        :param other_player
+            The other party in the trade
+        :param give: str
+            The outgoing resource
+        :param receive: str
+            The incoming resource
+        """
         trade = Trade(self, other_player, give, receive)
         return trade.execute()
 
@@ -193,14 +252,20 @@ class Player:
                 return True  # Player has successfully discarded resources
 
     def get_total_resources(self) -> int:
-        """Returns the number of resource cards in the players hand"""
+        """
+        Returns the number of resource cards in the players hand
+        :return The number of resources
+        """
         total = 0
         for resource, quantity in self.resources.items():
             total += quantity
         return total
 
     def get_total_development_cards(self):
-        """Returns the number of development cards in the players hand"""
+        """
+        Returns the number of development cards in the players hand
+        :return The number of development cards
+        """
         total = 0
         for card, quantity in self.development_cards.items():
             total += quantity
@@ -222,13 +287,19 @@ class Player:
         # this needs data structure in order for this method to be implemented
         pass
 
-    def get_victory_points_from_settlements_and_cities(self):
-        """Calculates the number of victory points the player has from their settlements and cities"""
+    def get_victory_points_from_settlements_and_cities(self) -> int:
+        """
+        Calculates the number of victory points the player has from their settlements and cities
+        :return The amount of victory points
+        """
         settlements_and_cities = self.get_settlements_or_cities_on_vertex()
         return settlements_and_cities.count("Settlement") + 2 * settlements_and_cities.count("City")
 
     def get_victory_points_from_development_cards(self):
-        """Calculates the number of victory points the player has from their development cards"""
+        """
+        Calculates the number of victory points the player has from their development cards
+        :return The amount of victory points
+        """
         return self.development_cards["University"] + self.development_cards["Great Hall"] + \
                self.development_cards["Chapel"] + self.development_cards["Library"]
 
@@ -236,11 +307,15 @@ class Player:
         """
         Calculates the number of victory points the player has from other sources,
         such as having the longest road or largest army
+        :return The amount of victory points
         """
         return self.get_longest_road_length() + self.get_largest_army_size()
 
     def get_total_victory_points(self):
-        """Calculates the total number of victory points the player has"""
+        """
+        Calculates the total number of victory points the player has
+        :return The amount of victory points
+        """
         self.score += self.get_victory_points_from_settlements_and_cities() + \
                       self.get_victory_points_from_development_cards() + self.get_victory_points_from_other_sources()
         return self.score
