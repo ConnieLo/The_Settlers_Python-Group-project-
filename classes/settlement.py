@@ -32,4 +32,3 @@ class Settlement():
         for (num, res) in self.settlement_info:
             if num == i:
                 self.owner.add_resource(res)
-
