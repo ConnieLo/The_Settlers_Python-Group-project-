@@ -3,6 +3,7 @@ import random
 import pygame
 
 from classes import DevelopmentCard, settlement, trade
+from classes.trade import Trade
 
 
 class Player:
@@ -271,22 +272,6 @@ class Player:
             total += quantity
         return total
 
-    def has_settlements_or_cities_on_vertex(self, vertex):
-        """
-        UNIMPLEMENTED
-        This method checks if the player has any settlements or cities on a given vertex.
-        """
-        # this needs data structure in order for this method to be implemented
-        pass
-
-    def get_settlements_or_cities_on_vertex(self, vertex):
-        """
-        UNIMPLEMENTED
-        This method returns the settlement or city on a given vertex.
-        """
-        # this needs data structure in order for this method to be implemented
-        pass
-
     def get_victory_points_from_settlements_and_cities(self) -> int:
         """
         Calculates the number of victory points the player has from their settlements and cities
@@ -386,7 +371,6 @@ class Player:
         text5 = font.render(f"Number of Cities: {self.number_of_cities}", True, self.color)
         surface.blit(text5, (x, y + resource_y_offset + image.get_height() + 140))
 
-    def display_for_bots(self, surface, x, y, icon_images):
         """
         Intended for players controlled by bots or humans other than the user.
 
@@ -399,13 +383,15 @@ class Player:
         :param y: Y co-ordinate at which to draw the display
         :param icon_images: #TODO
         """
+
+    def display_for_bots(self, surface, x, y, icon_images, resource_images):
         icon_y_offset = 0
         extra_spacing = 770  # Increase this value to add more space between players
 
         info = [
             {"text": f"{self.name}", "icon": None},
             {"text": f"VP: {self.score}", "icon": "victory_points"},
-            {"text": f"Cards: {sum(self.resources.values())}", "icon": "resource_cards"},
+            {"text": None, "icon": None, "display_resources": True},
             {"text": f"Dev Cards: {sum(self.development_cards.values())}", "icon": "development_cards"},
             {"text": f"Roads: {self.number_of_roads}", "icon": "road_cards"},
             {"text": f"Cities: {self.number_of_cities}", "icon": "cities_cards"},
@@ -418,13 +404,32 @@ class Player:
                 icon = icon_images[item["icon"]]
                 surface.blit(icon, (x, y + icon_y_offset))
 
-            text = font.render(item["text"], True, self.color)
-            text_width, text_height = text.get_size()
-            text_x_offset = (icon.get_width() if item["icon"] else 0) + 5
+            if item["text"]:
+                text = font.render(item["text"], True, self.color)
+                text_width, text_height = text.get_size()
+                text_x_offset = (icon.get_width() if item["icon"] else 0) + 5
 
-            surface.blit(text, (x + text_x_offset, y + icon_y_offset))
+                surface.blit(text, (x + text_x_offset, y + icon_y_offset))
 
-            if item["icon"]:
+            if item.get("display_resources"):
+                resource_y_offset = icon_y_offset
+                resource_x_offset = 0
+                for resource, image in resource_images.items():  # Extraction of resource_images list
+                    # Scaling down the images
+                    scaled_image = pygame.transform.scale(image, (image.get_width() // 2, image.get_height() // 2))
+
+                    surface.blit(scaled_image, (x + resource_x_offset, y + resource_y_offset))  # Blits the images
+                    count_text = font.render(str(self.resources[resource]), True, self.color)
+                    text_width, _ = count_text.get_size()
+                    count_x_offset = (
+                        scaled_image.get_width() - text_width) // 2  # This value is used to move the numbers to the center of the corresponding image
+                    vertical_offset = 10  # This value is used to move the numbers further down
+                    # Adds up all the offsets for the numbers text
+                    surface.blit(count_text, (
+                        x + resource_x_offset + count_x_offset, y + resource_y_offset + scaled_image.get_height() + vertical_offset))
+                    resource_x_offset += scaled_image.get_width() + 20
+                icon_y_offset += scaled_image.get_height() + 40  # Increased space between icons and card images
+            elif item["icon"]:
                 icon_y_offset += max(icon.get_height(), text_height) + 5
             else:
                 icon_y_offset += text_height + 5

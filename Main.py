@@ -11,7 +11,7 @@ from classes.ui import hex_grid
 
 pygame.init()
 # Set screen size and title
-SCREEN_WIDTH = 1366
+SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 768
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Catan")
@@ -239,9 +239,9 @@ def game():
         game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
 
         # Display UI for other players
-        game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 170, 20, icon_images)
-        game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 340, 250, icon_images)
-        game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 170, 350, icon_images)
+        game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 270, 20, icon_images, resource_images)
+        game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 500, 270, icon_images, resource_images)
+        game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 270, 450, icon_images, resource_images)
 
         # Draw ship images on the screen
         for ship_image, pos in ships:

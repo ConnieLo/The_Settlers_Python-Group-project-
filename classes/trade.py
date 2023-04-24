@@ -1,4 +1,4 @@
-class Trade: # Not finished!
+class Trade:
     def __init__(self, giver, receiver, give, receive):
         self.giver = giver
         self.receiver = receiver
@@ -14,3 +14,4 @@ class Trade: # Not finished!
                 self.giver.add_resources(res, qty)
             return True
         return False
+
