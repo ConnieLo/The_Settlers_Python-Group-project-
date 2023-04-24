@@ -17,6 +17,15 @@ def init(master: game_master.GameMaster):
 
 
 def play_card(card_player: player.Player, card: str):
+    """
+    Triggers a different sequence of actions depending on which card has been played
+
+    :param card_player:
+        The Player who originaly played this card
+    :param card:
+        The name of the card being played, by convention in 'Title Case'
+    :return:
+    """
     # Can only run if initialised
     if not _INIT_:
         return

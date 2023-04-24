@@ -430,3 +430,11 @@ class Player:
                 icon_y_offset += text_height + 5
 
         icon_y_offset += extra_spacing
+
+    def monopoly_select_resource(self):
+        """
+        TODO Should prompt either the bot or ui to select a resource
+        as it exists now, just gets one from the command line
+        :return: a resource
+        """
+        return input("DEBUG >> ")
