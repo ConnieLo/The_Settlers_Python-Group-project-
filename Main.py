@@ -145,9 +145,18 @@ trade_button_hover_small = pygame.transform.scale(trade_button_hover, (120, 80))
 # Create an instance of the Button class
 trade_button = Button(700, 655, trade_button_normal_small, trade_button_hover_small)
 
+# Load the images for the ships
+ship_rock = pygame.image.load('resources/ships/ship_rock.png').convert_alpha()
+ship_sheep = pygame.image.load('resources/ships/ship_sheep.png').convert_alpha()
+ship_wheat = pygame.image.load('resources/ships/ship_wheat.png').convert_alpha()
+ship_wood = pygame.image.load('resources/ships/ship_wood.png').convert_alpha()
+ship_brick = pygame.image.load('resources/ships/ship_brick.png').convert_alpha()
+ship_questionmark = pygame.image.load('resources/ships/ship_questionmark.png').convert_alpha()
 
-######################## Game Stage END #######################################################
+# Number of players
 four = [0,1,2,3]
+######################## Game Stage END #######################################################
+
 #################### Game Stage Function ######################################################
 def game():
     clock = pygame.time.Clock()

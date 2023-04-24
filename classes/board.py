@@ -52,8 +52,8 @@ class Board:
         resources.extend(["sheep" for i in range(4)])
         resources.extend(["wheat" for i in range(4)])
         resources.extend(["wood" for i in range(4)])
-        resources.extend(["ore" for i in range(4)])
-        resources.extend(["clay" for i in range(4)])
+        resources.extend(["ore" for i in range(3)])
+        resources.extend(["clay" for i in range(3)])
         rnd.shuffle(resources)
 
         # The number tokens pool
