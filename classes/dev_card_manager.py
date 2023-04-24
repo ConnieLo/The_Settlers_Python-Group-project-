@@ -30,22 +30,20 @@ def play_card(card_player: player.Player, card: str):
     if not _INIT_:
         return
 
-    match card:
-        case "Monopoly":
-            resource = card_player.monopoly_select_resource()
-            pool = 0
+    if card == "Monopoly":
+        resource = card_player.monopoly_select_resource()
+        pool = 0
 
-            for p in _MASTER_.turn_queue:
-                # Skip the player who called the card
-                if p == card_player:
-                    continue
+        for p in _MASTER_.turn_queue:
+            # Skip the player who called the card
+            if p == card_player:
+                continue
 
-                # Add to the resource pot
-                pool += p.resources[resource]
+            # Add to the resource pot
+            pool += p.resources[resource]
 
-                # Force this player to discard all of this resource
-                p.resources[resource] = 0
+            # Force this player to discard all of this resource
+            p.resources[resource] = 0
 
-            # Grant the original player all the resources pooled
-            card_player.resources[resource] += pool
-            return
+        # Grant the original player all the resources pooled
+        card_player.resources[resource] += pool
