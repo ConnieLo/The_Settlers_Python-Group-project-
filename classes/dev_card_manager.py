@@ -1,7 +1,7 @@
 from classes import player, game_master
 
 
-_MASTER_: game_master.GameMaster =  None
+_MASTER_: game_master.GameMaster = None
 _INIT_ = False
 
 
@@ -14,6 +14,32 @@ def init(master: game_master.GameMaster):
     global _MASTER_, _INIT_
     _MASTER_ = master
     _INIT_ = True
+
+
+def year_of_plenty(card_player, resource):
+    """
+    Adds two of a selected resource to the player
+    :param card_player: Player
+    :param resource: str
+    """
+    resource = card_player.card_select_resource()
+    card_player.resources[resource] += 2
+
+
+def monopoly(card_player, resource):
+    pool = 0
+    for p in _MASTER_.turn_queue:
+        # Skip the player who called the card
+        if p == card_player:
+            continue
+
+        # Add to the resource pot
+        pool += p.resources[resource]
+
+        # Force this player to discard all of this resource
+        p.resources[resource] = 0
+    # Grant the original player all the resources pooled
+    card_player.resources[resource] += pool
 
 
 def play_card(card_player: player.Player, card: str):
@@ -31,19 +57,8 @@ def play_card(card_player: player.Player, card: str):
         return
 
     if card == "Monopoly":
-        resource = card_player.monopoly_select_resource()
-        pool = 0
-
-        for p in _MASTER_.turn_queue:
-            # Skip the player who called the card
-            if p == card_player:
-                continue
-
-            # Add to the resource pot
-            pool += p.resources[resource]
-
-            # Force this player to discard all of this resource
-            p.resources[resource] = 0
-
-        # Grant the original player all the resources pooled
-        card_player.resources[resource] += pool
+        resource = card_player.card_select_resource()
+        monopoly(card_player, resource)
+    elif card == "Year of Plenty":
+        resource = card_player.card_select_resource()
+        year_of_plenty(card_player, resource)

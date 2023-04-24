@@ -431,9 +431,9 @@ class Player:
 
         icon_y_offset += extra_spacing
 
-    def monopoly_select_resource(self):
+    def card_select_resource(self):
         """
-        TODO Should prompt either the bot or ui to select a resource
+        TODO Should prompt either the bot or ui to select a resource for a development card action
         as it exists now, just returns wood
         :return: a resource
         """

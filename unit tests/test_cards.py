@@ -11,11 +11,17 @@ class TestCards(unittest.TestCase):
         dev_card_manager.init(self.master)
 
     def test_monopoly(self):
-        # Give each player wood (grow up)
-        for player in self.players:
-            player.resources["wood"] += 1
+        for r in ("wood", "sheep", "wheat", "clay", "ore"):
+            # Give each player one of that resource
+            for p in self.players:
+                p.resources[r] = 1
 
-        # Play the card
-        dev_card_manager.play_card(self.card_player, "Monopoly")
+            # Play the card
+            dev_card_manager.monopoly(self.card_player, r)
+            self.assertEqual(self.card_player.resources[r], 4)
 
-        self.assertEqual(self.card_player.resources["wood"], 4)
+    def test_yop(self):
+        for r in ("wood", "sheep", "wheat", "clay", "ore"):
+            # Play the card
+            dev_card_manager.year_of_plenty(self.card_player, r)
+            self.assertEqual(self.card_player.resources[r], 2)
