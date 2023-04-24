@@ -7,6 +7,8 @@ from classes.game_master import GameMaster, draw
 
 
 # Initialize Pygame
+from classes.ui import hex_grid
+
 pygame.init()
 # Set screen size and title
 SCREEN_WIDTH = 1366
@@ -134,7 +136,7 @@ end_turn_button_hover = pygame.image.load('resources/end_turn_button_hover.png')
 end_turn_button_normal_small = pygame.transform.scale(end_turn_button_normal, (120, 80))
 end_turn_button_hover_small = pygame.transform.scale(end_turn_button_hover, (120, 80))
 # Create an instance of the Button class
-end_turn_button = Button(890, 655, end_turn_button_normal_small, end_turn_button_hover_small)
+end_turn_button = Button(890, 675, end_turn_button_normal_small, end_turn_button_hover_small)
 
 # Load the images for the trade button
 trade_button_normal = pygame.image.load('resources/trade_normal.png').convert_alpha()
@@ -143,15 +145,52 @@ trade_button_hover = pygame.image.load('resources/trade_button_hover.png').conve
 trade_button_normal_small = pygame.transform.scale(trade_button_normal, (120, 80))
 trade_button_hover_small = pygame.transform.scale(trade_button_hover, (120, 80))
 # Create an instance of the Button class
-trade_button = Button(700, 655, trade_button_normal_small, trade_button_hover_small)
+trade_button = Button(700, 675, trade_button_normal_small, trade_button_hover_small)
 
-# Load the images for the ships
+# Set the new dimensions for the ship images
+new_width, new_height = 64, 64
+
+# Load and scale the ship images
 ship_rock = pygame.image.load('resources/ships/ship_rock.png').convert_alpha()
+ship_rock = pygame.transform.scale(ship_rock, (new_width, new_height))
+
 ship_sheep = pygame.image.load('resources/ships/ship_sheep.png').convert_alpha()
+ship_sheep = pygame.transform.scale(ship_sheep, (new_width, new_height))
+
 ship_wheat = pygame.image.load('resources/ships/ship_wheat.png').convert_alpha()
+ship_wheat = pygame.transform.scale(ship_wheat, (new_width, new_height))
+
 ship_wood = pygame.image.load('resources/ships/ship_wood.png').convert_alpha()
+ship_wood = pygame.transform.scale(ship_wood, (new_width, new_height))
+
 ship_brick = pygame.image.load('resources/ships/ship_brick.png').convert_alpha()
+ship_brick = pygame.transform.scale(ship_brick, (new_width, new_height))
+
 ship_questionmark = pygame.image.load('resources/ships/ship_questionmark.png').convert_alpha()
+ship_questionmark = pygame.transform.scale(ship_questionmark, (new_width, new_height))
+
+# Define ship locations based on Catan board setup
+ship_locations = [
+    ((-3, 2.3), ship_rock),
+    ((-3.2, 0.45), ship_sheep),
+    ((-2.2, -1.65), ship_questionmark),
+    ((-1, 2.2), ship_questionmark),
+    ((1, 1.2), ship_questionmark),
+    ((2.6, -0.6), ship_wood),
+    ((2.6, -2.4), ship_brick),
+    ((-0.2, -3.6), ship_wheat),
+    ((1.5, -3.6), ship_questionmark),
+]
+
+# Load and position the ship images
+ships = []
+for location, image in ship_locations:
+    x, y = hex_grid.absolute_offset(*location)
+    image_width, image_height = image.get_size()
+    hex_width, hex_height = hex_grid.hex_size
+    adjusted_x = x - (image_width - hex_width) / 2
+    adjusted_y = y - (image_height - hex_height) / 2
+    ships.append((image, (adjusted_x, adjusted_y)))
 
 # Number of players
 four = [0,1,2,3]
@@ -190,32 +229,28 @@ def game():
                     dice.roll(screen)  # temp display of dice while rolling
                     dRollCount += 1
         ##########################################################################################################
-        # display static dice when not rolling
+        # Display static dice when not rolling
         dice.display(screen)
 
         if quit_button2.draw(screen):
             running = False
 
-        # board
-        ui.main(screen, game_master)
-
-        # Display the player's name and details
+        # Display the main player's name and details
         game_master.turn_queue[0].display(screen, font, 10, SCREEN_HEIGHT - 320, resource_images)
 
-        # aj work
-        #  game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 300, 20, icon_images)
-        #   game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 300, 320, icon_images)
-        #  game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 300, 460, icon_images)
-        game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 220, 20, icon_images)
-        game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 400, 250, icon_images)
-        game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 220, 350, icon_images)
+        # Display UI for other players
+        game_master.turn_queue[1].display_for_bots(screen, SCREEN_WIDTH - 170, 20, icon_images)
+        game_master.turn_queue[2].display_for_bots(screen, SCREEN_WIDTH - 340, 250, icon_images)
+        game_master.turn_queue[3].display_for_bots(screen, SCREEN_WIDTH - 170, 350, icon_images)
 
-        # bank display by aj
-        #game_master.display_bank_image(screen, 100, 200, bank)
+        # Draw ship images on the screen
+        for ship_image, pos in ships:
+            screen.blit(ship_image, pos)
 
-        #ame_master.display_bank(screen, 10, 20, icon_images, resource_images)
+        # Board
+        ui.main(screen, game_master)
 
-        # displays the number of turns so far and the current player's turn
+        # Displays the number of turns so far and the current player's turn
         draw(game_master, screen)
 
         if end_turn_button.draw(screen):  # If the user clicks on the end_turn_button then...
@@ -223,10 +258,11 @@ def game():
                 for i in four:
                     if game_master.turn_queue[i].check_if_over_ten():
                         running = False
-                game_master.next_turn() #made more sense to me to put this after the win check
+                game_master.next_turn() # Made more sense to me to put this after the win check
 
         if trade_button.draw(screen):  # If the user clicks on the trade_button then...
             print('Trading...')
+
 
         # crosshair
         crosshair_group.draw(screen)
