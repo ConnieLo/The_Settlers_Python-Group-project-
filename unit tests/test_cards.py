@@ -31,3 +31,8 @@ class TestCards(unittest.TestCase):
             # Play the card
             dev_card_manager.year_of_plenty(self.card_player, r)
             self.assertEqual(self.card_player.resources[r], 2)
+
+        for r in ("wood", "sheep", "wheat", "clay", "ore"):
+            # Play the card
+            dev_card_manager.year_of_plenty(self.card_player, r)
+            self.assertEqual(self.card_player.resources[r], 4)
