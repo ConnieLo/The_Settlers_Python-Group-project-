@@ -18,7 +18,13 @@ class TestCards(unittest.TestCase):
 
             # Play the card
             dev_card_manager.monopoly(self.card_player, r)
+
+            # Check the card player has gained the resource
             self.assertEqual(self.card_player.resources[r], 4)
+
+            # check the other players have lost that resource
+            for p in self.players[1:]:
+                self.assertEqual(p.resources[r], 0)
 
     def test_yop(self):
         for r in ("wood", "sheep", "wheat", "clay", "ore"):
