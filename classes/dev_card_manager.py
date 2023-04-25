@@ -22,7 +22,6 @@ def year_of_plenty(card_player, resource):
     :param card_player: Player
     :param resource: str
     """
-    resource = card_player.card_select_resource()
     card_player.resources[resource] += 2
 
 
