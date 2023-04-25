@@ -37,4 +37,5 @@ SETTING UP
     end turn
 
 EACH TURN
+    // I'm assuming the dice rolling and resource passing is done all ready - if not do that first
     do something random idk

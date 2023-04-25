@@ -315,7 +315,7 @@ class Player:
     # TODO
     def prompt_trade(self):
         """
-        UNIMPLEMENTED
+        UNIMPLEMENTED TODO
         Notifies the player to make trade requests for that turn
         """
         pass
@@ -323,7 +323,7 @@ class Player:
     # TODO
     def prompt_builds(self):
         """
-        UNIMPLEMENTED
+        UNIMPLEMENTED TODO
         Notifies the player to build roads and settlements for that turn
         """
         pass
