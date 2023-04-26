@@ -9,9 +9,9 @@ class Trade:
         if all(self.giver.remove_resources(res, qty) for res, qty in self.give.items()) and \
            all(self.receiver.remove_resources(res, qty) for res, qty in self.receive.items()):
             for res, qty in self.give.items():
-                self.receiver.add_resources(res, qty)
+                self.receiver.add_resource(res, qty)
             for res, qty in self.receive.items():
-                self.giver.add_resources(res, qty)
+                self.giver.add_resource(res, qty)
             return True
         return False
 
