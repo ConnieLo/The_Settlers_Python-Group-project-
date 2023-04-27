@@ -166,7 +166,7 @@ class Player:
             Given as {resource: amount} pairs
         """
         for resource, quantity in cost.items():
-            if self.resources[resource] < quantity:
+            if self.resources.get(resource, 0) < quantity:
                 return False
         return True
 

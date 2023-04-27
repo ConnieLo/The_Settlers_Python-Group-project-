@@ -30,14 +30,21 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(0, rec_res["sheep"])
 
     def test_execute_unsuccessful(self):
-        # Save the initial resources
-        giver_res = self.giver.resources
-        rec_res = self.receiver.resources
+        impossible_trades = [
+            Trade(self.giver, self.receiver, {"wood": 2, "ore": 2}, {"sheep": 1}),  # G can't afford
+            Trade(self.giver, self.receiver, {"wood": 1, "ore": 1}, {"sheep": 2}),  # R can't afford
+            Trade(self.giver, self.receiver, {"wood": 2, "ore": 2}, {"sheep": 2}),  # Neither can afford
+            Trade(self.giver, self.receiver, {"wood": 1, "ore": 1, "pineapples": 1}, {"sheep": 1}) # Resources that don't exist
+        ]
+        for t in impossible_trades:
+            # Save the initial resources
+            giver_res = self.giver.resources
+            rec_res = self.receiver.resources
 
-        # try to execute an impossible trade
-        self.trade = Trade(self.giver, self.receiver, {"wood": 2, "ore": 2}, {"sheep": 1})
-        self.assertFalse(self.trade.execute())
+            # try to execute an impossible trade
+            self.trade = t
+            self.assertFalse(self.trade.execute())
 
-        # ensure no resources were transferred
-        self.assertEqual(giver_res, self.giver.resources)
-        self.assertEqual(rec_res, self.receiver.resources)
+            # ensure no resources were transferred
+            self.assertEqual(giver_res, self.giver.resources)
+            self.assertEqual(rec_res, self.receiver.resources)
