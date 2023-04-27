@@ -4,14 +4,16 @@ class Trade:
         self.receiver = receiver
         self.give = give
         self.receive = receive
-        
+
     def execute(self):
-        if all(self.giver.remove_resources(res, qty) for res, qty in self.give.items()) and \
-           all(self.receiver.remove_resources(res, qty) for res, qty in self.receive.items()):
+        if self.giver.can_afford_cost(self.give) \
+                and \
+                self.receiver.can_afford_cost(self.receive):
             for res, qty in self.give.items():
-                self.receiver.add_resource(res, qty)
+                self.giver.resources[res] -= qty
+                self.receiver.resources[res] += qty
             for res, qty in self.receive.items():
-                self.giver.add_resource(res, qty)
+                self.giver.resources[res] += qty
+                self.receiver.resources[res] -= qty
             return True
         return False
-
