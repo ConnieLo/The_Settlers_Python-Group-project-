@@ -6,7 +6,6 @@ Welcome to The Settlers - Python Edition! This project is a digital adaptation o
 
 - **True to the Original:** Experience the classic gameplay of Catan with all its trading, building, and resource management.
 - **Multiplayer Fun:** Compete against friends or AI in this turn-based strategy game.
-- **Customizable Settings:** Tailor the game rules to fit your preferences for a unique gameplay experience every time.
 - **Rich Graphics:** Enjoy a visually engaging board and components, designed to enhance your gaming experience.
 
 **Main Menu**
